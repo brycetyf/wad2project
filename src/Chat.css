@@ -1,6 +1,6 @@
 a {
-  text-decoration:none;
-  color:inherit;
+  text-decoration: none;
+  color: inherit;
 }
 .chat {
   display: flex;
@@ -20,7 +20,7 @@ a {
 }
 
 .chat__timestamp {
-    color:rgb(173, 143, 143);
+  color: lightgray;
 }
 
 .chat__image {
