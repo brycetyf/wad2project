@@ -14,7 +14,7 @@ function App() {
         <Switch>
           <Route path="/chats/:person">
             <Header backButton="/chats" />
-            <ChatScreen/>
+            <ChatScreen />
           </Route>
           <Route path="/chats">
             <Header backButton="/" />
@@ -23,7 +23,7 @@ function App() {
           <Route path="/">
             <Header />
             <TinderCards />
-            <SwipeButtons />
+            {/* <SwipeButtons /> */}
           </Route>
         </Switch>
       </Router>
@@ -32,22 +32,3 @@ function App() {
 }
 
 export default App;
-
-{
-  /* Header */
-}
-{
-  /* Tinder Cards */
-}
-
-{
-  /* Buttons below tinder cards */
-}
-
-{
-  /* Chat screen */
-}
-
-{
-  /* Individual chat screen */
-}

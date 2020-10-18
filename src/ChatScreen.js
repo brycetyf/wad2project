@@ -5,13 +5,14 @@ import "./ChatScreen.css";
 function ChatScreen() {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([
+    // this to be pulled from the db
     {
-      name: "Sarah",
+      name: "Name",
       image: "...",
       message: "Whats up",
     },
     {
-      name: "Sarah",
+      name: "Name",
       image: "...",
       message: "whats g fam up",
     },

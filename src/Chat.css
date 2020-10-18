@@ -20,7 +20,7 @@ a {
 }
 
 .chat__timestamp {
-    color:lightgray;
+    color:rgb(173, 143, 143);
 }
 
 .chat__image {
