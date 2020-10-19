@@ -53,6 +53,7 @@ const db = [
 // .then(data => {for(var user in data.users){
 //   db.push(data.users[user]);
 // }}); 
+// console.log(db);
 
 const alreadyRemoved = [];
 let charactersState = db;
