@@ -5,7 +5,7 @@ import Chats from "./Chats";
 import ChatScreen from "./ChatScreen";
 import Profile from "./Profile";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import "./App.css";
+import "./styles/App.css";
 
 function App() {
   return (

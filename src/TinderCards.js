@@ -4,8 +4,8 @@ import CloseIcon from "@material-ui/icons/Close";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import IconButton from "@material-ui/core/IconButton";
 import { Link } from "react-router-dom";
-import "./SwipeButtons.css";
-import "./TinderCards.css";
+import "./styles/SwipeButtons.css";
+import "./styles/TinderCards.css";
 
 const db = [
   {
