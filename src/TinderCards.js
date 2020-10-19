@@ -6,6 +6,7 @@ import IconButton from "@material-ui/core/IconButton";
 import { Link } from "react-router-dom";
 import "./styles/SwipeButtons.css";
 import "./styles/TinderCards.css";
+import axios from 'axios';
 
 const db = [
   {
@@ -15,6 +16,7 @@ const db = [
     age: "42",
     description: "People don't know what they want",
     ghost_rating: "0/5",
+    username: "steve123",
   },
   {
     name: "Bill Gates",
@@ -23,6 +25,7 @@ const db = [
     age: "55",
     description: "Lmao",
     ghost_rating: "5/5",
+    username: "bill123",
   },
   {
     name: "Elon Musk",
@@ -31,6 +34,7 @@ const db = [
     age: "32",
     description: "Taking TSLA private at 420.69",
     ghost_rating: "4.20/5",
+    username: "elon123",
   },
   {
     name: "Mark Zuckerberg",
@@ -39,8 +43,17 @@ const db = [
     age: "35",
     description: "I am a clown",
     ghost_rating: "3.62/5",
+    username: "mark123",
   },
 ];
+
+// var db = [];
+// fetch("http://localhost:5001/users")
+// .then(response =>response.json())
+// .then(data => {for(var user in data.users){
+//   db.push(data.users[user]);
+// }}); 
+
 const alreadyRemoved = [];
 let charactersState = db;
 
@@ -93,7 +106,7 @@ function TinderCards() {
             onSwipe={(dir) => swiped(dir, character.name)}
             onCardLeftScreen={() => outOfFrame(character.name)}
           >
-            <Link to={`/profile/${character.name}`}>
+            <Link to={`/profile/${character.username}`}>
               <div
                 style={{ backgroundImage: "url(" + character.url + ")" }}
                 className="card"
