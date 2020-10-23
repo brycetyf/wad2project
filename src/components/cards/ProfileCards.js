@@ -55,7 +55,6 @@ const TinderCards = ({ profiles }) => {
   };
 
   return (
-    
     <div>
       <div className="tinderCards__cardContainer">
         {characters.map((character, index) => (
@@ -72,11 +71,12 @@ const TinderCards = ({ profiles }) => {
                 className="card"
               >
                 <div>
-                  <p>
-                    {character.name}, {character.age}
-                  </p>
-                  <p>{character.description}</p>
-                  {character.ghost_rating}
+                  <div className="main__details">
+                    &nbsp;{character.name}, {character.age}
+                  </div>
+                  <div className="description">
+                    &nbsp;{character.description}
+                  </div>
                 </div>
               </div>
             </Link>

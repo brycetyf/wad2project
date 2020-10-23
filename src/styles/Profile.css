@@ -3,3 +3,22 @@
   height: 500px;
   object-fit: cover;
 }
+
+.profile__area {
+  text-align: left;
+  padding-top: 5px;
+  margin: auto;
+  width: 50%;
+}
+.profile__name {
+  font-weight: bolder;
+  color: rgb(43, 43, 43);
+  font-size: 30px;
+}
+
+.profile__details {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  margin-top: 8px;
+}

@@ -12,9 +12,16 @@
 
 .card > div {
   position: absolute;
+  left: 30%;
+  right: 30%;
   bottom: 10px;
-  color: grey;
   background-color: white;
+}
+
+.main__details {
+  font-weight: bolder;
+  color: rgb(43, 43, 43);
+  font-size: 25px;
 }
 
 .tinderCards__cardContainer {

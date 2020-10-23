@@ -6,7 +6,6 @@ import IconButton from "@material-ui/core/IconButton";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { Link, useHistory } from "react-router-dom";
 
-///* <IconButton onClick={() => history.replace(backButton + `?lastseen=${document.getElementsByClassName('profile')[0].getAttribute('id')}`)}> */
 function Header({ backButton }) {
   const history = useHistory();
   return (
@@ -14,7 +13,6 @@ function Header({ backButton }) {
     <div className="header">
       {backButton ? (
         <IconButton onClick={() => history.replace(backButton)}>
-
           <ArrowBackIosIcon fontSize="large" className="header__icon" />
         </IconButton>
       ) : (

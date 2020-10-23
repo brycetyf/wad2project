@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import "../styles/Profile.css";
 import axios from "axios";
-import Carousel from "react-bootstrap/Carousel";
-import Card from "react-bootstrap/Card";
+import SchoolIcon from "@material-ui/icons/School";
+import MoodBadIcon from "@material-ui/icons/MoodBad";
+import DescriptionIcon from "@material-ui/icons/Description";
+import { Carousel } from "react-bootstrap";
 
 class Profile extends Component {
   state = {
@@ -21,18 +22,42 @@ class Profile extends Component {
   render() {
     let obj = this.state.user;
     console.log(obj);
+
+    {
+      /* <Carousel controls={false} indicators={false}>
+          <Carousel.Item>
+            <img src={obj.url} alt={obj.name} className="sliderimg" />
+          </Carousel.Item>
+        </Carousel> */
+    }
     return (
       <div className="profile" id={obj.unique_id}>
-        <Carousel controls={false} indicators={false}>
+        <Carousel controls={true} indicators={true}>
+          <Carousel.Item>
+            <img src={obj.url} alt={obj.name} className="sliderimg" />
+          </Carousel.Item>
+          <Carousel.Item>
+            <img src={obj.url} alt={obj.name} className="sliderimg" />
+          </Carousel.Item>
           <Carousel.Item>
             <img src={obj.url} alt={obj.name} className="sliderimg" />
           </Carousel.Item>
         </Carousel>
-        <div class='container'>
-          {obj.name}
-          {obj.description}
-          {obj.ghostRating}
-          {obj.age}
+        <div className="profile__area">
+          <p className="profile__name">
+            {obj.name}, {obj.age}
+          </p>
+          <div className="profile__description">
+            <div className="profile__details">
+              <MoodBadIcon />: {obj.ghostRating}
+            </div>
+            <div className="profile__details">
+              <SchoolIcon />: National University of Singapore
+            </div>
+            <div className="profile__details">
+              <DescriptionIcon />: {obj.description}
+            </div>
+          </div>
         </div>
       </div>
     );
