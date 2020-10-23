@@ -4,9 +4,9 @@ import CloseIcon from "@material-ui/icons/Close";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import IconButton from "@material-ui/core/IconButton";
 import { Link } from "react-router-dom";
-import "./styles/SwipeButtons.css";
-import "./styles/TinderCards.css";
-import axios from 'axios';
+import "../../styles/SwipeButtons.css";
+import "../../styles/TinderCards.css";
+import axios from "axios";
 
 const db = [
   {
@@ -52,7 +52,7 @@ const db = [
 // .then(response =>response.json())
 // .then(data => {for(var user in data.users){
 //   db.push(data.users[user]);
-// }}); 
+// }});
 // console.log(db);
 
 const alreadyRemoved = [];

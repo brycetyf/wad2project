@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
-import "./styles/ChatScreen.css";
+import "../../styles/ChatScreen.css";
 
 function ChatScreen() {
   const partner_name = window.location.pathname.split("%")[0].split("/")[2];

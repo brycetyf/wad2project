@@ -1,5 +1,5 @@
 import React from "react";
-import "./styles/Header.css";
+import "../styles/Header.css";
 import PersonIcon from "@material-ui/icons/Person";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import IconButton from "@material-ui/core/IconButton";

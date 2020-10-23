@@ -1,38 +1,42 @@
-import React from "react";
-import Header from "./Header";
-import TinderCards from "./TinderCards";
-import Chats from "./Chats";
-import ChatScreen from "./ChatScreen";
-import Profile from "./Profile";
+import React, { Component } from "react";
+import Header from "./components/Header";
+import ProfileCards from "./components/cards/ProfileCards";
+import Chats from "./components/chat/Chats";
+import ChatScreen from "./components/chat/ChatScreen";
+import Profile from "./components/Profile";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./styles/App.css";
 
-function App() {
-  return (
-    <div className="App">
+class App extends Component {
+  render() {
+    return (
       <Router>
-        <Switch>
-          <Route path="/chats/:person">
-            <Header backButton="/chats" />
-            <ChatScreen />
-          </Route>
-          <Route path="/chats">
-            <Header backButton="/" />
-            <Chats />
-          </Route>
-          <Route path="/profile/:person">
-            <Header backButton="/" />
-            <Profile />
-          </Route>
+        <div className="App">
+          <Switch>
+            <Route path="/chats/:person">
+              <Header backButton="/chats" />
+              <ChatScreen />
+            </Route>
 
-          <Route path="/">
-            <Header />
-            <TinderCards />
-          </Route>
-        </Switch>
+            <Route path="/chats">
+              <Header backButton="/" />
+              <Chats />
+            </Route>
+
+            <Route path="/profile/:person">
+              <Header backButton="/" />
+              <Profile />
+            </Route>
+
+            <Route path="/">
+              <Header />
+              <ProfileCards />
+            </Route>
+          </Switch>
+        </div>
       </Router>
-    </div>
-  );
+    );
+  }
 }
 
 export default App;

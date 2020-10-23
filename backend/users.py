@@ -3,7 +3,9 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 
 application = Flask(__name__)
-application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/wad2project' # TO BE CHANGED
+# application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/wad2project' # TO BE CHANGED
+application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/wad2project' # FOR MAC USERS
+
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(application)
@@ -30,7 +32,6 @@ class User(db.Model):
 
     def json(self):
         return {"username": self.username, "name": self.name, "url": self.url, "age": self.age, "description": self.description, "ghostRating": self.ghostRating}
-
 
 @application.route("/users")
 def get_all():
