@@ -21,14 +21,14 @@ class App extends Component {
     cards: "",
   };
   componentDidMount() {
-    axios
-      .get(`http://127.0.0.1:5001/users`)
-      .then((res) => this.setState({ profiles: res.data }));
-    this.setState({ cards: <ProfileCards profiles={this.state.profiles} /> });
+    axios.get(`http://127.0.0.1:5001/users`).then((res) =>
+      this.setState({
+        profiles: res.data,
+        cards: <ProfileCards profiles={res.data.users} />,
+      })
+    );
   }
   render() {
-    console.log(this.state);
-    var cards = this.state.cards;
     return (
       <Router>
         <div className="App">
@@ -50,7 +50,7 @@ class App extends Component {
 
             <Route path="/">
               <Header />
-              {cards}
+              {this.state.cards}
             </Route>
           </Switch>
         </div>
