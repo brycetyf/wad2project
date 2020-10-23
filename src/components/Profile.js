@@ -23,13 +23,6 @@ class Profile extends Component {
     let obj = this.state.user;
     console.log(obj);
 
-    {
-      /* <Carousel controls={false} indicators={false}>
-          <Carousel.Item>
-            <img src={obj.url} alt={obj.name} className="sliderimg" />
-          </Carousel.Item>
-        </Carousel> */
-    }
     return (
       <div className="profile" id={obj.unique_id}>
         <Carousel controls={true} indicators={true}>

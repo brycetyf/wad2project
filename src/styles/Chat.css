@@ -1,20 +1,26 @@
-a {
+.chat__link {
   text-decoration: none;
   color: inherit;
 }
-.chat {
+
+.chat__box {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 20px;
-  height: 70px;
+  height: 45px;
   border-bottom: 1px solid #fafafa;
+  box-sizing: initial;
 }
 
 .chat__details {
+  padding-top: 22px;
+  color: black;
   flex: 1;
 }
-
+.chat__name {
+  font-size: 20px;
+}
 .chat__details > p {
   color: grey;
 }

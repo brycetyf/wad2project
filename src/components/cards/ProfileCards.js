@@ -65,7 +65,10 @@ const TinderCards = ({ profiles }) => {
             onSwipe={(dir) => swiped(dir, character.name)}
             onCardLeftScreen={() => outOfFrame(character.name)}
           >
-            <Link to={`/profile/${character.unique_id}`}>
+            <Link
+              to={`/profile/${character.unique_id}`}
+              className="profile__link"
+            >
               <div
                 style={{ backgroundImage: "url(" + character.url + ")" }}
                 className="card"
