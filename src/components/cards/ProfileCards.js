@@ -47,18 +47,11 @@ const db = [
   },
 ];
 
-// var db = [];
-// fetch("http://localhost:5001/users")
-// .then(response =>response.json())
-// .then(data => {for(var user in data.users){
-//   db.push(data.users[user]);
-// }});
-// console.log(db);
-
-const alreadyRemoved = [];
-let charactersState = db;
-
-function TinderCards() {
+const TinderCards = ({ profiles }) => {
+  console.log("OK AXIOS DONE AND WE ARE HERE");
+  console.log(db);
+  const alreadyRemoved = [];
+  let charactersState = db;
   const [characters, setCharacters] = useState(db);
   const [lastDirection, setLastDirection] = useState(); //do not remove huhu
 
@@ -142,6 +135,6 @@ function TinderCards() {
       </div>
     </div>
   );
-}
+};
 
 export default TinderCards;

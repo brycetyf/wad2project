@@ -6,9 +6,29 @@ import ChatScreen from "./components/chat/ChatScreen";
 import Profile from "./components/Profile";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./styles/App.css";
+import axios from "axios";
 
 class App extends Component {
+  // var db = [];
+  // fetch("http://localhost:5001/users")
+  // .then(response =>response.json())
+  // .then(data => {for(var user in data.users){
+  //   db.push(data.users[user]);
+  // }});
+  // console.log(db);
+  state = {
+    profiles: [],
+    cards: "",
+  };
+  componentDidMount() {
+    axios
+      .get(`http://127.0.0.1:5001/users`)
+      .then((res) => this.setState({ profiles: res.data }));
+    this.setState({ cards: <ProfileCards profiles={this.state.profiles} /> });
+  }
   render() {
+    console.log(this.state);
+    var cards = this.state.cards;
     return (
       <Router>
         <div className="App">
@@ -30,7 +50,7 @@ class App extends Component {
 
             <Route path="/">
               <Header />
-              <ProfileCards />
+              {cards}
             </Route>
           </Switch>
         </div>
