@@ -5,23 +5,20 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import IconButton from "@material-ui/core/IconButton";
 import { Link } from "react-router-dom";
 import "../../styles/SwipeButtons.css";
-import "../../styles/TinderCards.css";
+import "../../styles/ProfileCards.css";
 
 const alreadyRemoved = [];
 let charactersState = [];
 var first_load = true;
 
 const TinderCards = ({ profiles }) => {
-  console.log("OK AXIOS DONE AND WE ARE HERE");
-
   if (first_load) {
     charactersState = profiles;
     first_load = false;
   }
 
   const [characters, setCharacters] = useState(profiles);
-  const [lastDirection, setLastDirection] = useState();
-  console.log(characters);
+
   const childRefs = useMemo(
     () =>
       Array(profiles.length)
@@ -30,18 +27,19 @@ const TinderCards = ({ profiles }) => {
     []
   );
 
-  const swiped = (direction, nameToDelete) => {
-    console.log("removing: " + nameToDelete);
-    setLastDirection(direction);
-    alreadyRemoved.push(nameToDelete);
-  };
-
   const outOfFrame = (name) => {
-    console.log(name + " left the screen!");
+    // console.log(name + " left the screen!");
     charactersState = charactersState.filter(
       (character) => character.name !== name
     );
+    console.log("state", charactersState);
     setCharacters(charactersState);
+  };
+
+  const swiped = (direction, nameToDelete) => {
+    // console.log("removing: " + nameToDelete);
+    // setLastDirection(direction);
+    alreadyRemoved.push(nameToDelete);
   };
 
   const swipe = (dir) => {
@@ -57,6 +55,7 @@ const TinderCards = ({ profiles }) => {
   };
 
   return (
+    
     <div>
       <div className="tinderCards__cardContainer">
         {characters.map((character, index) => (
@@ -67,7 +66,7 @@ const TinderCards = ({ profiles }) => {
             onSwipe={(dir) => swiped(dir, character.name)}
             onCardLeftScreen={() => outOfFrame(character.name)}
           >
-            <Link to={`/profile/${character.username}`}>
+            <Link to={`/profile/${character.unique_id}`}>
               <div
                 style={{ backgroundImage: "url(" + character.url + ")" }}
                 className="card"
