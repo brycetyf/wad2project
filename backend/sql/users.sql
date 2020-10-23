@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `age` int(4) NOT NULL,
   `description` varchar(999) NOT NULL,
   `ghostRating` int(4) NOT NULL,
+  `gender` varchar(100) NOT NULL,
   PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -43,10 +44,16 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`username`, `name`, `url`, `age`, `description`, `ghostRating`) VALUES
-('bill123', 'Bill Gates', 'https://www.thegrandreport.com/wp-content/uploads/2016/02/image-558.jpeg', 61, 'Founder of MS', 0),
-('elon123', 'Elon Musk', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.biography.com%2Fbusiness-figure%2Felon-musk&psig=AOvVaw0A19CiLxVSb-9UbUaXxvwr&ust=1603536356224000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLjM1snEyuwCFQAAAAAdAAAAABAD', 40, 'Founder of Paypal', 0),
-('steve123', 'Steve Jobs', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.biography.com%2Fbusiness-figure%2Fsteve-jobs&psig=AOvVaw2UhhpWOi0imdWdmVeRlcIm&ust=1603536335876000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCOC7kcDEyuwCFQAAAAAdAAAAABAD', 56, 'Apple Founder', 1);
+INSERT INTO `users` (`username`, `name`, `url`, `age`, `description`, `ghostRating`,`gender`) VALUES
+('Aisah', 'Aisah', 'https://images.unsplash.com/photo-1527047614336-194da60dacd9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60', 23, 'cold jokes only', 0,'F'),
+('Tommy', 'Tommy Tan', 'https://images.unsplash.com/photo-1514883916490-bfcd1bc4129b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60', 26, 'i like carousells', 0,'M'),
+('Jon', 'Jon Lee', 'https://images.unsplash.com/photo-1527047024390-ee2da5a0943b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60', 24, 'here for a good time, not a long time', 1,'M'),
+('Natalie','Natalie Siow','https://images.unsplash.com/photo-1500055457707-845bf2958845?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60',22,'i like sweet things',0,'F'),
+('Joyce','Joyce Tan','https://images.unsplash.com/photo-1567250671670-05e36d8ca38e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60',25,'travelling is bae',1,'F'),
+('Lee Min','Ang Lee Min','https://images.unsplash.com/photo-1527431378753-bd2f0dedc06e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60',23,'antique things i love',0,'F'),
+('Sean','Sean Seow','https://images.unsplash.com/photo-1582255334378-4e9bc9505664?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60',22,'b&w times',2,'M'),
+('Tammy','Tammy Ong','https://images.unsplash.com/photo-1514883718278-c239aeaf86df?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60',24,'dont look back in anger',2,'F')
+;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

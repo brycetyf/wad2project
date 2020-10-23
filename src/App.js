@@ -9,13 +9,6 @@ import "./styles/App.css";
 import axios from "axios";
 
 class App extends Component {
-  // var db = [];
-  // fetch("http://localhost:5001/users")
-  // .then(response =>response.json())
-  // .then(data => {for(var user in data.users){
-  //   db.push(data.users[user]);
-  // }});
-  // console.log(db);
   state = {
     profiles: [],
     cards: "",
