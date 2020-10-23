@@ -70,13 +70,11 @@ const TinderCards = ({ profiles }) => {
                 style={{ backgroundImage: "url(" + character.url + ")" }}
                 className="card"
               >
-                <div>
+                <div className="card__description">
                   <div className="main__details">
-                    &nbsp;{character.name}, {character.age}
+                    {character.name}, {character.age}
                   </div>
-                  <div className="description">
-                    &nbsp;{character.description}
-                  </div>
+                  <div className="description">{character.description}</div>
                 </div>
               </div>
             </Link>
