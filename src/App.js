@@ -7,15 +7,28 @@ import Profile from "./components/Profile";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Calendar from "./components/scheduler/calendar";
 import "./styles/App.css";
+import axios from "axios";
 
 class App extends Component {
+  state = {
+    profiles: [],
+    cards: "",
+  };
+  componentDidMount() {
+    axios.get(`http://127.0.0.1:5001/users`).then((res) =>
+      this.setState({
+        profiles: res.data,
+        cards: <ProfileCards profiles={res.data.users} />,
+      })
+    );
+  }
   render() {
     return (
       <Router>
         <div className="App">
           <Switch>
             <Route path="/chats/:person">
-              <Header backButton="/chats" chatCalender="/calendar"/>
+              <Header backButton="/chats" chatCalender="/calendar" />
               <ChatScreen />
             </Route>
 
@@ -36,7 +49,7 @@ class App extends Component {
 
             <Route path="/">
               <Header />
-              <ProfileCards />
+              {this.state.cards}
             </Route>
           </Switch>
         </div>
