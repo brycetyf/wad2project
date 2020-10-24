@@ -4,9 +4,10 @@ import PersonIcon from "@material-ui/icons/Person";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import IconButton from "@material-ui/core/IconButton";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import TodayIcon from '@material-ui/icons/Today';
 import { Link, useHistory } from "react-router-dom";
 
-function Header({ backButton }) {
+function Header({ backButton, chatCalender }) {
   const history = useHistory();
   return (
     // BEM
@@ -27,11 +28,22 @@ function Header({ backButton }) {
           alt="tinder logo"
         ></img>
       </Link>
-      <Link to="/chats">
+
+      {chatCalender ? (
         <IconButton>
-          <QuestionAnswerIcon className="header__icon" fontSize="large" />
+          <Link to="/calendar">
+            <TodayIcon fontSize="large" className="header__icon" />
+            </Link>
         </IconButton>
-      </Link>
+      ) : (
+        <IconButton>
+          <Link to="/chats">
+            <QuestionAnswerIcon className="header__icon" fontSize="large" />
+            </Link>
+        </IconButton>
+      )}
+
+
     </div>
   );
 }
