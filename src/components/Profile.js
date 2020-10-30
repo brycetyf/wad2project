@@ -4,6 +4,7 @@ import "../styles/Profile.css";
 import axios from "axios";
 import SchoolIcon from "@material-ui/icons/School";
 import MoodBadIcon from "@material-ui/icons/MoodBad";
+import IconButton from "@material-ui/core/IconButton";
 import DescriptionIcon from "@material-ui/icons/Description";
 import { Carousel } from "react-bootstrap";
 
@@ -36,10 +37,10 @@ class Profile extends Component {
             <img src={obj.url} alt={obj.name} className="sliderimg" />
           </Carousel.Item>
         </Carousel>
-        <div className="profile__area">
-          <p className="profile__name">
+        <div className="profile__area" style={{background:"lightgrey", width: "100%" }}>
+          <div className="profile__name">
             {obj.name}, {obj.age}
-          </p>
+          </div>
           <div className="profile__description">
             <div className="profile__details">
               <MoodBadIcon />: {obj.ghostRating}

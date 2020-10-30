@@ -68,6 +68,7 @@ const TinderCards = ({ profiles }) => {
             <Link
               to={`/profile/${character.unique_id}`}
               className="profile__link"
+              cursor="pointer"
             >
               <div
                 style={{ backgroundImage: "url(" + character.url + ")" }}
