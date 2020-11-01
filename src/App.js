@@ -14,7 +14,7 @@ class App extends Component {
     profiles: [],
     cards: "",
     lastviewed: "",
-    matched_users: [],
+    matched_users: [], //loaded when component mounts
   };
 
   componentDidMount() {
@@ -105,6 +105,19 @@ class App extends Component {
       <Router>
         <div className="App">
           <Switch>
+            <Route path="/chats/:person">
+              {/* Route to individual chats
+              Note: ALL headers need to include renderCorrectCards*/}
+              <Header
+                backButton="/chats"
+                chatCalender="/calendar"
+                renderCorrectCards={() =>
+                  this.renderCorrectCards(this.state.lastviewed)
+                }
+              />
+              <ChatScreen />
+            </Route>
+
             <Route path="/chats">
               {/* Route to overview of all possible chats*/}
               <Header
@@ -113,16 +126,7 @@ class App extends Component {
                   this.renderCorrectCards(this.state.lastviewed)
                 }
               />
-              <Chats
-                matched_users={this.state.matched_users}
-                loadMatchMessages={this.loadMatchMessages}
-              />
-            </Route>
-
-            <Route path="/chats/:person">
-              {/* Route to individual chats*/}
-              <Header backButton="/chats" chatCalender="/calendar" />
-              <ChatScreen />
+              <Chats matched_users={this.state.matched_users} />
             </Route>
 
             <Route path="/calendar">

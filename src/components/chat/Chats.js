@@ -14,6 +14,7 @@ function Chats({ matched_users }) {
           message={m.message}
           timestamp={m.lastonline}
           profilePic={m.url}
+          key={m.unique_id}
         />
       ))}
     </div>

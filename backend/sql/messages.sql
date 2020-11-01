@@ -31,9 +31,10 @@ DROP TABLE IF EXISTS `messages`;
 CREATE TABLE IF NOT EXISTS `messages` (
   `msgid` int(255) NOT NULL AUTO_INCREMENT,
   `match_name` varchar(255) NOT NULL,
-  `sentByUser` BIT NOT NULL,
-  `matchDate` date NOT NULL,
+  `sent_by_user` BIT NOT NULL,
+  `match_date` date NOT NULL,
   `message` varchar(999) NOT NULL,
+  `url` varchar(300),
   PRIMARY KEY (`msgid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
@@ -41,10 +42,9 @@ CREATE TABLE IF NOT EXISTS `messages` (
 -- Dumping data for table `chat`
 --
 
-INSERT INTO `messages` (`msgid`, `match_name`,`sentByUser`, `matchDate`, `message`) VALUES
-(1, 'Natalie',0, '2020-10-10', 'Hey Bryan!'),
-(2, 'Joyce',0, '2020-10-10', 'Hola. Tell me a cold joke'),
-(3,'Natalie',1,'2020-10-10','holok holok');
+INSERT INTO `messages` (`msgid`, `match_name`,`sent_by_user`, `match_date`, `message`,`url`) VALUES
+(1, 'Natalie',0, '2020-10-10', 'Hey Bryan!','https://images.unsplash.com/photo-1500055457707-845bf2958845?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60'),
+(2, 'Joyce',0, '2020-10-10', 'Hola. Tell me a cold joke','https://images.unsplash.com/photo-1567250671670-05e36d8ca38e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
