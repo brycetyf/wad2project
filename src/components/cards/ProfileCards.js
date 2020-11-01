@@ -11,7 +11,7 @@ const alreadyRemoved = [];
 let charactersState = [];
 var first_load = true;
 
-const TinderCards = ({ profiles }) => {
+const TinderCards = ({ profiles, setLastViewed_cards }) => {
   if (first_load) {
     charactersState = profiles;
     first_load = false;
@@ -32,7 +32,6 @@ const TinderCards = ({ profiles }) => {
     charactersState = charactersState.filter(
       (character) => character.name !== name
     );
-    console.log("state", charactersState);
     setCharacters(charactersState);
   };
 
@@ -46,6 +45,7 @@ const TinderCards = ({ profiles }) => {
     const cardsLeft = characters.filter(
       (person) => !alreadyRemoved.includes(person.name)
     );
+    setLastViewed_cards();
     if (cardsLeft.length) {
       const toBeRemoved = cardsLeft[cardsLeft.length - 1].name; // Find the card object to be removed
       const index = profiles.map((person) => person.name).indexOf(toBeRemoved); // Find the index of which to make the reference to

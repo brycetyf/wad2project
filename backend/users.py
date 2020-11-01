@@ -3,14 +3,13 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 
 application = Flask(__name__)
-application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/wad2project' # TO BE CHANGED
-# application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/wad2project' # FOR MAC USERS
+# application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/wad2project' # TO BE CHANGED
+application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/wad2project' # FOR MAC USERS
 
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(application)
 CORS(application)
-
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -49,9 +48,8 @@ def find_all():
     return jsonify({"users": [user.json() for user in User.query.all()]})
 
 @application.route("/users/<string:unique_id>", methods=['GET'])
-def get_all(unique_id):
+def find_unviewed(unique_id):
     if unique_id:
-        print(unique_id)
         return jsonify({"users": [user.json() for user in User.query.all() if user.unique_id < unique_id] })
     return jsonify({"message": "error encountered"}), 404
 

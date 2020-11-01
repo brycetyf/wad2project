@@ -15,14 +15,13 @@ class Profile extends Component {
 
   componentDidMount() {
     const unique_id = window.location.pathname.split("%")[0].split("/")[2];
-    console.log(unique_id);
+    this.props.setLastViewed_profile(unique_id);
     axios
       .get(`http://127.0.0.1:5001/users/profile/${unique_id}`)
       .then((res) => this.setState({ user: res.data }));
   }
   render() {
     let obj = this.state.user;
-    console.log(obj);
 
     return (
       <div className="profile" id={obj.unique_id}>
@@ -37,7 +36,10 @@ class Profile extends Component {
             <img src={obj.url} alt={obj.name} className="sliderimg" />
           </Carousel.Item>
         </Carousel>
-        <div className="profile__area" style={{background:"lightgrey", width: "100%" }}>
+        <div
+          className="profile__area"
+          style={{ background: "lightgrey", width: "100%" }}
+        >
           <div className="profile__name">
             {obj.name}, {obj.age}
           </div>

@@ -2,7 +2,8 @@ import React from "react";
 import Chat from "./Chat";
 import "../../styles/Chats.css";
 
-function Chats() {
+function Chats({ renderCorrectCards }) {
+  renderCorrectCards();
   return (
     <div className="chats">
       <Chat
