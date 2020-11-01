@@ -6,12 +6,18 @@ import IconButton from "@material-ui/core/IconButton";
 import { Link } from "react-router-dom";
 import "../../styles/SwipeButtons.css";
 import "../../styles/ProfileCards.css";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 
 const alreadyRemoved = [];
 let charactersState = [];
 var first_load = true;
 
-const TinderCards = ({ profiles, setLastViewed_cards }) => {
+const TinderCards = ({
+  profiles,
+  setLastViewed_cards,
+  setLastViewed_profile,
+}) => {
   if (first_load) {
     charactersState = profiles;
     first_load = false;
@@ -19,6 +25,24 @@ const TinderCards = ({ profiles, setLastViewed_cards }) => {
 
   const [characters, setCharacters] = useState(profiles);
 
+  /* 
+  SHOW MODAL POP UP WHEN THE USER GETS A MATCH 
+
+  code for MODAL
+  */
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const matched_popup = (user_indicated_interest) => {
+    if (user_indicated_interest) {
+      handleShow();
+    }
+  };
+  /* 
+  SHOW MODAL POP UP WHEN THE USER GETS A MATCH 
+  */
   const childRefs = useMemo(
     () =>
       Array(profiles.length)
@@ -35,13 +59,19 @@ const TinderCards = ({ profiles, setLastViewed_cards }) => {
     setCharacters(charactersState);
   };
 
-  const swiped = (direction, nameToDelete) => {
+  const swiped = (
+    direction,
+    nameToDelete,
+    unique_id,
+    user_indicated_interest
+  ) => {
     // console.log("removing: " + nameToDelete);
     // setLastDirection(direction);
+    setLastViewed_profile(unique_id - 1);
     alreadyRemoved.push(nameToDelete);
   };
 
-  const swipe = (dir) => {
+  const swipe = (dir, user_indicated_interest) => {
     const cardsLeft = characters.filter(
       (person) => !alreadyRemoved.includes(person.name)
     );
@@ -62,8 +92,17 @@ const TinderCards = ({ profiles, setLastViewed_cards }) => {
             ref={childRefs[index]}
             className="swipe"
             key={character.name}
-            onSwipe={(dir) => swiped(dir, character.name)}
-            onCardLeftScreen={() => outOfFrame(character.name)}
+            onSwipe={(dir) =>
+              swiped(
+                dir,
+                character.name,
+                character.unique_id,
+                character.user_indicated_interest
+              )
+            }
+            onCardLeftScreen={() =>
+              outOfFrame(character.name, character.unique_id)
+            }
           >
             <Link
               to={`/profile/${character.unique_id}`}
@@ -85,7 +124,6 @@ const TinderCards = ({ profiles, setLastViewed_cards }) => {
           </TinderCard>
         ))}
       </div>
-
       <div className="swipeButtons">
         <IconButton
           onClick={() => swipe("left")}
@@ -101,6 +139,20 @@ const TinderCards = ({ profiles, setLastViewed_cards }) => {
           <FavoriteIcon fontSize="large" />
         </IconButton>
       </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

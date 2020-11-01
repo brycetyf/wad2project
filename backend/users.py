@@ -22,8 +22,9 @@ class User(db.Model):
     description = db.Column(db.VARCHAR(999), nullable=False)
     ghostRating = db.Column(db.Integer, nullable=False)
     gender = db.Column(db.VARCHAR(1),nullable=False)
+    user_indicated_interest = db.Column(db.BOOLEAN(),nullable=False)
 
-    def __init__(self,unique_id, username, name, url, age, description, ghostRating,gender):
+    def __init__(self,unique_id, username, name, url, age, description, ghostRating,gender,user_indicated_interest):
         self.unique_id = unique_id
         self.username = username
         self.name = name
@@ -32,6 +33,7 @@ class User(db.Model):
         self.description = description
         self.ghostRating = ghostRating
         self.gender = gender
+        self.user_indicated_interest = user_indicated_interest
 
     def json(self):
         return {"unique_id":self.unique_id,
@@ -41,7 +43,8 @@ class User(db.Model):
                 "age": self.age, 
                 "description": self.description, 
                 "ghostRating": self.ghostRating,
-                "gender":self.gender}
+                "gender":self.gender,
+                "user_indicated_interest":self.user_indicated_interest}
 
 @application.route("/users")
 def find_all():

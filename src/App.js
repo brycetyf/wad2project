@@ -32,6 +32,7 @@ class App extends Component {
           <ProfileCards
             profiles={res.data.users}
             setLastViewed_cards={() => this.setLastViewed_cards()}
+            setLastViewed_profile={this.setLastViewed_profile}
           />
         ),
       })
@@ -65,6 +66,7 @@ class App extends Component {
             <ProfileCards
               profiles={res.data.users}
               setLastViewed_cards={() => this.setLastViewed_cards()}
+              setLastViewed_profile={this.setLastViewed_profile}
             />
           ),
         })
@@ -78,7 +80,6 @@ class App extends Component {
     this.setState({
       lastviewed: this.state.lastviewed - 1,
     });
-    console.log(this.state.lastviewed);
   };
 
   renderCorrectCards = () => {
@@ -94,6 +95,7 @@ class App extends Component {
             <ProfileCards
               profiles={res.data.users}
               setLastViewed_cards={() => this.setLastViewed_cards()}
+              setLastViewed_profile={this.setLastViewed_profile}
             />
           ),
         })
