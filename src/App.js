@@ -14,6 +14,7 @@ class App extends Component {
     profiles: [],
     cards: "",
     lastviewed: "",
+    matched_users: [],
   };
 
   componentDidMount() {
@@ -21,6 +22,8 @@ class App extends Component {
     When App.js is mounted successfully, an API call is made to our database to retrieve
     the potential match details and then it is passed to profile cards
     */
+
+    // API call to get cards
     axios.get(`http://127.0.0.1:5001/users`).then((res) =>
       this.setState({
         profiles: res.data,
@@ -31,6 +34,13 @@ class App extends Component {
             setLastViewed_cards={() => this.setLastViewed_cards()}
           />
         ),
+      })
+    );
+
+    // API call to get matched users chat
+    axios.get(`http://127.0.0.1:5003/matched_users`).then((res) =>
+      this.setState({
+        matched_users: res.data.matched_users,
       })
     );
   }
@@ -95,7 +105,22 @@ class App extends Component {
       <Router>
         <div className="App">
           <Switch>
+            <Route path="/chats">
+              {/* Route to overview of all possible chats*/}
+              <Header
+                backButton="/"
+                renderCorrectCards={() =>
+                  this.renderCorrectCards(this.state.lastviewed)
+                }
+              />
+              <Chats
+                matched_users={this.state.matched_users}
+                loadMatchMessages={this.loadMatchMessages}
+              />
+            </Route>
+
             <Route path="/chats/:person">
+              {/* Route to individual chats*/}
               <Header backButton="/chats" chatCalender="/calendar" />
               <ChatScreen />
             </Route>
@@ -105,21 +130,19 @@ class App extends Component {
               <Calendar />
             </Route>
 
-            <Route path="/chats">
-              <Header backButton="/" />
-              <Chats
+            <Route path="/profile/:person">
+              {/* Route to view a specific profile*/}
+              <Header
+                backButton="/"
                 renderCorrectCards={() =>
                   this.renderCorrectCards(this.state.lastviewed)
                 }
               />
-            </Route>
-
-            <Route path="/profile/:person">
-              <Header backButton="/" />
               <Profile setLastViewed_profile={this.setLastViewed_profile} />
             </Route>
 
             <Route path="/">
+              {/* Route to HOME, always placed at the end*/}
               <Header />
               {this.state.cards}
             </Route>

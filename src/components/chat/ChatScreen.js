@@ -25,7 +25,7 @@ function ChatScreen() {
       },
       {
         message: "Pls tweet tsla is overvalued",
-      },
+      },  
     ],
     Bill: [
       {
