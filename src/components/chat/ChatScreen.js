@@ -16,7 +16,7 @@ class ChatScreen extends Component {
     Load the messages in from data base
     */
     const name = window.location.pathname.split("/")[2];
-    axios.get(`http://127.0.0.1:5002/chat/${name}`).then((res) =>
+    axios.get(`http://127.0.0.1:5001/chat/${name}`).then((res) =>
       this.setState({
         messages: res.data.chats,
         mounted: true,
@@ -31,7 +31,7 @@ class ChatScreen extends Component {
     */
     axios
       .get(
-        `http://127.0.0.1:5002/send_message/match_name=${this.state.match_name}&message=${this.state.user_input}`
+        `http://127.0.0.1:5001/send_message/match_name=${this.state.match_name}&message=${this.state.user_input}`
       )
       .then((res) => this.setState({ user_input: "" }));
   };

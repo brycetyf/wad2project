@@ -39,7 +39,7 @@ class App extends Component {
     );
 
     // API call to get matched users chat
-    axios.get(`http://127.0.0.1:5003/matched_users`).then((res) =>
+    axios.get(`http://127.0.0.1:5001/matched_users`).then((res) =>
       this.setState({
         matched_users: res.data.matched_users,
       })
