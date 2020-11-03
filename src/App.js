@@ -132,7 +132,12 @@ class App extends Component {
             </Route>
 
             <Route path="/calendar">
-              <Header backButton="/chats" />
+              <Header
+                backButton="/chats"
+                renderCorrectCards={() =>
+                  this.renderCorrectCards(this.state.lastviewed)
+                }
+              />
               <Calendar />
             </Route>
 
