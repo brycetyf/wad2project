@@ -5,8 +5,9 @@ import Button from 'react-bootstrap/Button'
 import 'react-calendar/dist/Calendar.css';
 import '../../styles/Calendar.css';
 import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
-class calendar extends Component {
+class CalendarDisplay extends Component {
 
   constructor(props) {
     super(props)
@@ -14,6 +15,7 @@ class calendar extends Component {
     this.state = {
       date: new Date(),
       time: '17:00',
+      location: '',
     }
   }
 
@@ -52,6 +54,7 @@ class calendar extends Component {
   }
 
   render() {
+    const time = '1600';
     return (
         // add styling here 
       <div className={"calendar_whole"}>
@@ -108,10 +111,15 @@ class calendar extends Component {
           </table>
 
           <div className={"button_div"}>
-            <Link to="/list">
-              <Button onClick={this.navigateList} variant="success" size="sm">Continue</Button>{' '}
+            
+            <Link to={{
+              pathname: '/list',
+              time: time
+            }}>
+              <Button variant="success" size="sm">Continue</Button>{' '}
             </Link>
           </div>
+
 
         </div>
 
@@ -120,4 +128,4 @@ class calendar extends Component {
   }
 }
 
-export default calendar
+export default CalendarDisplay

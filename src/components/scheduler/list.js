@@ -1,18 +1,15 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { useLocation } from 'react-router-dom';
 
-class list extends Component {
 
-    constructor(props) {
-        super(props)
-      
-        this.state = {
-        }
-      }
+class List extends Component {
+
+
   render() {
     return (
-    <div>$2</div>
+    <div>WTF</div>
     )
 }
 }
 
-export default list
+export default List

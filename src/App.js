@@ -5,8 +5,8 @@ import Chats from "./components/chat/Chats";
 import ChatScreen from "./components/chat/ChatScreen";
 import Profile from "./components/Profile";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Calendar from "./components/scheduler/calendar";
-import List from "./components/scheduler/list"
+import Calendar from "./components/scheduler/CalendarDisplay";
+import List from "./components/scheduler/List"
 import "./styles/App.css";
 import axios from "axios";
 
@@ -145,7 +145,7 @@ class App extends Component {
 
             <Route path="/list">
               <Header
-                backButton="/chats"
+                backButton="/calendar"
                 renderCorrectCards={() =>
                   this.renderCorrectCards(this.state.lastviewed)
                 }
