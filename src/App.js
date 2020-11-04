@@ -132,6 +132,7 @@ class App extends Component {
             </Route>
 
             <Route path="/calendar">
+              {/* Route to view the calendar to choose date */}
               <Header
                 backButton="/chats"
                 renderCorrectCards={() =>

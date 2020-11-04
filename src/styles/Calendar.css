@@ -1,5 +1,6 @@
 .calendar_whole {
     background-color: pink;
+    text-align: center;
 }
 
 .calendar_title {
@@ -25,4 +26,24 @@
     justify-content: center;
     padding:10px;
 
+}
+
+.booking_details {
+    justify-content: center;
+    text-align: center;
+    padding:10px;
+}
+
+.details_table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.time_picker {
+    padding: 10px;
+    display: inline;
+}
+
+.button_div {
+    padding: 10px;
 }

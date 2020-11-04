@@ -1,19 +1,56 @@
 import React, { Component } from 'react';
 import Calendar from 'react-calendar';
+import TimePicker from 'react-time-picker';
+import Button from 'react-bootstrap/Button'
 import 'react-calendar/dist/Calendar.css';
 import '../../styles/Calendar.css';
  
 class calendar extends Component {
-  state = {
-    date: new Date(),
-  };
 
-  parseISOString(s) {
-    var b = s.split(" ");
-    return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
+  constructor(props) {
+    super(props)
+  
+    this.state = {
+      date: new Date(),
+      time: '17:00',
+    }
   }
- 
-  onChange = date => this.setState({ date })
+
+
+  //Quandoo API requires this format of date in order to retrieve date
+  format_date_api() {
+    let date = this.state.date;
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let dt = date.getDate()
+
+    if (dt < 10) {
+      dt = '0' + dt;
+    }
+    if (month < 10) {
+      month = '0' + month;
+    }
+
+    return year+'-' + month + '-'+ dt
+  }
+
+  //Date that we want to display to users
+  format_date_display() {
+    let date = this.state.date;
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let dt = date.getDate()
+
+    if (dt < 10) {
+      dt = '0' + dt;
+    }
+    if (month < 10) {
+      month = '0' + month;
+    }
+
+    return dt+'-' + month + '-'+ year    
+  }
+
   render() {
     return (
         // add styling here 
@@ -22,21 +59,59 @@ class calendar extends Component {
 
           <div className={"calendar"}>
             <Calendar className={"calendar_design"}
-            onChange={this.onChange}
+
+            
+
+            onChange={date => this.setState({ date })}
             value={this.state.date}
             />
           </div>
 
-        {/* to extract ISO datetime from calendar */}
-        <div>{this.state.date.toString()}</div>
+        <div className={"booking_details"}>
+          <h4>Enter Booking Details</h4>
 
-        {/* why run twice de o.o  */}
-        <div>{console.log(this.state.date.toString())}</div>
+          {/*  Used a table here in order to align the words date and time to make it more organized */}
+          <table className={"details_table"}>
+            <tr>
+              <td>
+                <b>Date: </b>
+              </td>
+              <td>
+                {this.format_date_display()}
+              </td>
+            </tr>
 
-        {/* tried calling the parse function but got some error :( ) */}
-        {/* {this.parseISOString(this.state.date.toString())}    */}
-        
-        <div>hello</div>
+            <tr>
+              <td>
+                <b>Time: </b> 
+              </td>
+              <td>
+                <TimePicker
+                clockIcon = {null}
+                clearIcon = {null}
+                disableClock = {true}
+                onChange={time => this.setState({ time })}
+                value={this.state.time}
+                />
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <b>Location: </b>
+              </td>
+              
+              <td>
+                <i>Dropdown</i>
+              </td>
+            </tr>
+          </table>
+
+          <div className={"button_div"}>
+              <Button variant="success" size="sm">Continue</Button>{' '}
+          </div>
+
+        </div>
 
       </div>
     );
