@@ -4,7 +4,8 @@ import TimePicker from 'react-time-picker';
 import Button from 'react-bootstrap/Button'
 import 'react-calendar/dist/Calendar.css';
 import '../../styles/Calendar.css';
- 
+import { Link } from "react-router-dom";
+
 class calendar extends Component {
 
   constructor(props) {
@@ -15,7 +16,6 @@ class calendar extends Component {
       time: '17:00',
     }
   }
-
 
   //Quandoo API requires this format of date in order to retrieve date
   format_date_api() {
@@ -108,7 +108,9 @@ class calendar extends Component {
           </table>
 
           <div className={"button_div"}>
-              <Button variant="success" size="sm">Continue</Button>{' '}
+            <Link to="/list">
+              <Button onClick={this.navigateList} variant="success" size="sm">Continue</Button>{' '}
+            </Link>
           </div>
 
         </div>

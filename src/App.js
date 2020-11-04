@@ -6,6 +6,7 @@ import ChatScreen from "./components/chat/ChatScreen";
 import Profile from "./components/Profile";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Calendar from "./components/scheduler/calendar";
+import List from "./components/scheduler/list"
 import "./styles/App.css";
 import axios from "axios";
 
@@ -140,6 +141,16 @@ class App extends Component {
                 }
               />
               <Calendar />
+            </Route>
+
+            <Route path="/list">
+              <Header
+                backButton="/chats"
+                renderCorrectCards={() =>
+                  this.renderCorrectCards(this.state.lastviewed)
+                }
+              />
+              <List />
             </Route>
 
             <Route path="/profile/:person">
