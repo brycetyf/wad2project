@@ -26,7 +26,7 @@ DROP TABLE IF EXISTS `matched_users`;
 CREATE TABLE `matched_users` (
   `unique_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `message` varchar(200) NOT NULL,
+  `message` varchar(200),
   `lastonline` varchar(200) NOT NULL,
   `url` varchar(300) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

@@ -47,9 +47,13 @@ class ChatScreen extends Component {
         </p>
         {partner_msg.map((message) =>
           message.sent_by_user ? (
-            <div className="chatScreen__message">
-              <p className="chatScreen__textUser">{message.message}</p>
-            </div>
+            message.message ? (
+              <div className="chatScreen__message" key={message.msgId}>
+                <p className="chatScreen__textUser">{message.message}</p>
+              </div>
+            ) : (
+              <div></div>
+            )
           ) : (
             <div className="chatScreen__message">
               <Avatar
@@ -80,7 +84,7 @@ class ChatScreen extends Component {
         </form>
       </div>
     ) : (
-      <div>hello world</div>
+      <div>PAGE LOADING</div>
     );
   }
 }

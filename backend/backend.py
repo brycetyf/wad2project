@@ -1,21 +1,24 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+import datetime
 
 application = Flask(__name__)
+CORS(application)
 application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/wad2project' #FOR WINDOW USERS
 # application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/wad2project' #FOR MAC USERS
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+application.config['CORS_HEADERS'] = 'Content-Type'
 
 db = SQLAlchemy(application)
-CORS(application)
+
 
 class matched_users(db.Model):
     __tablename__ = 'matched_users'
 
     unique_id = db.Column(db.INT(), primary_key=True)
     name = db.Column(db.VARCHAR(255), nullable=False)
-    message = db.Column(db.VARCHAR(200), nullable=False)
+    message = db.Column(db.VARCHAR(200), nullable=True)
     lastonline = db.Column(db.VARCHAR(255), nullable=False)
     url = db.Column(db.VARCHAR(300), nullable=False)
 
@@ -97,26 +100,56 @@ class messages(db.Model):
 ###---- FOR CHAT PAGE --------
 @application.route("/matched_users")
 def get_conversations():
+    '''
+    Displays all the conversations that the user can have based on matches 
+    '''
     return jsonify({"matched_users": [u.json() for u in matched_users.query.all()]})
+
+###---- API endpoint to update backend that a match has been done --------
+@application.route("/successful_match/unique_id=<string:unique_id>&name=<string:name>&url=<path:url>",methods=["GET"])
+def create_match(unique_id,name,url):
+    '''
+    Updates data based after the user has successfully obtained the matches
+    '''
+    new_match = matched_users(
+        unique_id = int(unique_id),
+        name = name,
+        message = 'No messages sent yet',
+        lastonline = '1 minute ago',
+        url = url
+    )
+    send_message(name,message='')
+
+    db.session.add(new_match)
+    db.session.commit()
+    return jsonify({"message":"successfully updated match"})
+
+
 
 ###---- FOR CHATTING --------
 @application.route("/send_message/match_name=<string:match_name>&message=<string:message>",methods=["GET"])
 def send_message(match_name,message):
     # update database with the latest message from the user
-    highest_msg_id = db.session.query(db.func.max(messages.msgId)).scalar() + 1
+    '''
+    API endpoint to send message 
+    '''
+    try:
+        highest_msg_id = db.session.query(db.func.max(messages.msgId)).scalar() + 1
+    except:
+        highest_msg_id = 1
 
     new_message = messages(
         msgId=highest_msg_id,
         match_name=match_name,
         sent_by_user=1,
         message=message,
-        match_date='2010-01-01',
+        match_date=str(datetime.datetime.now()),
         url=''
     )
     
     db.session.add(new_message)
     db.session.commit()
-    return jsonify({"message":"successfully updated"})
+    return jsonify({"message":"message sent successfully"})
 
 @application.route("/chat")
 def get_all():
@@ -125,7 +158,9 @@ def get_all():
 
 @application.route("/chat/<string:username>", methods=['GET'])
 def find_match_chat(username):
-    # get chat history from specific user
+    '''
+    To display the chat history for a particular user
+    '''
     chats=messages.query.filter_by(match_name=username)
 
     if chats:

@@ -2,7 +2,6 @@ import React from "react";
 import "../../styles/Chat.css";
 import Avatar from "@material-ui/core/Avatar";
 import { Link } from "react-router-dom";
-import IconButton from "@material-ui/core/IconButton";
 
 function Chat({ name, message, profilePic, timestamp }) {
   return (
