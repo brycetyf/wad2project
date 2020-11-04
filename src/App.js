@@ -6,7 +6,7 @@ import ChatScreen from "./components/chat/ChatScreen";
 import Profile from "./components/Profile";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Calendar from "./components/scheduler/CalendarDisplay";
-import List from "./components/scheduler/List"
+import List from "./components/scheduler/list";
 import "./styles/App.css";
 import axios from "axios";
 
@@ -89,9 +89,11 @@ class App extends Component {
     /*
     When the user swipes / presses one of the buttons, we also needa set the last viewed
     */
+    console.log(this.state.lastviewed);
     this.setState({
       lastviewed: this.state.lastviewed - 1,
     });
+    console.log(this.state.lastviewed);
   };
 
   renderCorrectCards = () => {

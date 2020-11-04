@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 
 class List extends Component {
 
-
+  
   render() {
 
     return (

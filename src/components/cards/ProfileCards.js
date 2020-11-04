@@ -14,6 +14,7 @@ const alreadyRemoved = [];
 let charactersState = [];
 var first_load = true;
 
+
 const TinderCards = ({
   profiles,
   setLastViewed_cards,

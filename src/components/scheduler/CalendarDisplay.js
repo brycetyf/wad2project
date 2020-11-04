@@ -5,23 +5,24 @@ import Button from "react-bootstrap/Button";
 import "react-calendar/dist/Calendar.css";
 import "../../styles/Calendar.css";
 import { Link } from "react-router-dom";
-import List from "./List";
+import List from "./list";
 
 class CalendarDisplay extends Component {
+  
   constructor(props) {
     super(props);
 
     this.state = {
       date: new Date(),
-      time: '17:00',
+      time: "17:00",
       location: {
-        Central: [1.2865,103.8412],
-        North: [1.4304,103.8354],
-        South: [1.2655,103.8239],
-        East: [1.3236,103,9273],
-        West: [1.3329,103.7670],
+        Central: [1.2865, 103.8412],
+        North: [1.4304, 103.8354],
+        South: [1.2655, 103.8239],
+        East: [1.3236, 103, 9273],
+        West: [1.3329, 103.767],
       },
-    }
+    };
   }
 
   //Quandoo API requires this format of date in order to retrieve date
@@ -63,11 +64,12 @@ class CalendarDisplay extends Component {
     return (
       // add styling here
       <div className={"calendar_whole"}>
-          <div className={"calendar_title"}> BOOK YOUR DATE! </div>
+        <div className={"calendar_title"}> BOOK YOUR DATE! </div>
 
-          <div className={"calendar"}>
-            <Calendar className={"calendar_design"}
-            onChange={date => this.setState({ date })}
+        <div className={"calendar"}>
+          <Calendar
+            className={"calendar_design"}
+            onChange={(date) => this.setState({ date })}
             value={this.state.date}
           />
         </div>
