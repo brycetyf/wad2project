@@ -34,6 +34,7 @@ class App extends Component {
             profiles={res.data.users}
             setLastViewed_cards={() => this.setLastViewed_cards()}
             setLastViewed_profile={this.setLastViewed_profile}
+            update_messages={() => this.update_messages()}
           />
         ),
       })
@@ -46,6 +47,15 @@ class App extends Component {
       })
     );
   }
+
+  update_messages = () => {
+    // API call to get matched users chat
+    axios.get(`http://127.0.0.1:5001/matched_users`).then((res) =>
+      this.setState({
+        matched_users: res.data.matched_users,
+      })
+    );
+  };
 
   setLastViewed_profile = (lastViewedId) => {
     /*
@@ -68,6 +78,7 @@ class App extends Component {
               profiles={res.data.users}
               setLastViewed_cards={() => this.setLastViewed_cards()}
               setLastViewed_profile={this.setLastViewed_profile}
+              update_messages={this.update_messages}
             />
           ),
         })
@@ -97,6 +108,7 @@ class App extends Component {
               profiles={res.data.users}
               setLastViewed_cards={() => this.setLastViewed_cards()}
               setLastViewed_profile={this.setLastViewed_profile}
+              update_messages={this.update_messages}
             />
           ),
         })

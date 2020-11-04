@@ -4,7 +4,7 @@ import "../styles/Profile.css";
 import axios from "axios";
 import SchoolIcon from "@material-ui/icons/School";
 import MoodBadIcon from "@material-ui/icons/MoodBad";
-import IconButton from "@material-ui/core/IconButton";
+// import IconButton from "@material-ui/core/IconButton";
 import DescriptionIcon from "@material-ui/icons/Description";
 import { Carousel } from "react-bootstrap";
 

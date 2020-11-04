@@ -8,6 +8,7 @@ import "../../styles/SwipeButtons.css";
 import "../../styles/ProfileCards.css";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import axios from "axios";
 
 const alreadyRemoved = [];
 let charactersState = [];
@@ -17,6 +18,7 @@ const TinderCards = ({
   profiles,
   setLastViewed_cards,
   setLastViewed_profile,
+  update_messages,
 }) => {
   if (first_load) {
     charactersState = profiles;
@@ -26,23 +28,32 @@ const TinderCards = ({
   const [characters, setCharacters] = useState(profiles);
 
   /* 
-  SHOW MODAL POP UP WHEN THE USER GETS A MATCH 
-
-  code for MODAL
+  FUNCTION FOR POP UP
+  STILL NEED TO MAKE IT TRIGGER API CALL TO CREATE CONVERSATION
   */
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const matched_popup = (user_indicated_interest) => {
-    if (user_indicated_interest) {
-      handleShow();
-    }
-  };
   /* 
-  SHOW MODAL POP UP WHEN THE USER GETS A MATCH 
+  FUNCTION FOR UPDATING BACKEND WITH MATCH
   */
+  const update_backend_match = (unique_id, name, url) => {
+    let encoded_url = encodeURIComponent(url);
+    let api_url =
+      `http://127.0.0.1:5001/successful_match/unique_id=${unique_id}&name=${name}&url=` +
+      encoded_url;
+    axios
+      .get(api_url, {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => update_messages());
+  };
+
   const childRefs = useMemo(
     () =>
       Array(profiles.length)
@@ -59,16 +70,18 @@ const TinderCards = ({
     setCharacters(charactersState);
   };
 
-  const swiped = (
-    direction,
-    nameToDelete,
-    unique_id,
-    user_indicated_interest
-  ) => {
+  const swiped = (direction, nameToDelete, unique_id, character) => {
     // console.log("removing: " + nameToDelete);
     // setLastDirection(direction);
     setLastViewed_profile(unique_id - 1);
     alreadyRemoved.push(nameToDelete);
+
+    if (direction === "right" && character.user_indicated_interest === true) {
+      console.log(character);
+      handleShow();
+      update_backend_match(character.unique_id, character.name, character.url);
+      // TRIGGER THE API CALL TO CREATE THE MATCH HERE
+    }
   };
 
   const swipe = (dir, user_indicated_interest) => {
@@ -93,12 +106,7 @@ const TinderCards = ({
             className="swipe"
             key={character.name}
             onSwipe={(dir) =>
-              swiped(
-                dir,
-                character.name,
-                character.unique_id,
-                character.user_indicated_interest
-              )
+              swiped(dir, character.name, character.unique_id, character)
             }
             onCardLeftScreen={() =>
               outOfFrame(character.name, character.unique_id)
@@ -139,16 +147,23 @@ const TinderCards = ({
           <FavoriteIcon fontSize="large" />
         </IconButton>
       </div>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+      <Modal show={show} onHide={handleClose} className="popup__body">
+        <Modal.Body className="popup__content">
+          Woohoo, it's a match!
+        </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button
+            variant="secondary"
+            onClick={handleClose}
+            className="popup__button"
+          >
             Close
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button
+            variant="primary"
+            onClick={handleClose}
+            className="popup__button"
+          >
             Save Changes
           </Button>
         </Modal.Footer>
