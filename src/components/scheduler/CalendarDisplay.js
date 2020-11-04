@@ -32,6 +32,7 @@ class CalendarDisplay extends Component {
       month = "0" + month;
     }
 
+    return year + "-" + month + "-" + dt;
   }
 
   //Date that we want to display to users
