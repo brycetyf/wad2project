@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button'
 import 'react-calendar/dist/Calendar.css';
 import '../../styles/Calendar.css';
 import { Link } from "react-router-dom";
-import { withRouter } from "react-router-dom";
+import List from "./List";
 
 class CalendarDisplay extends Component {
 
@@ -15,7 +15,13 @@ class CalendarDisplay extends Component {
     this.state = {
       date: new Date(),
       time: '17:00',
-      location: '',
+      location: {
+        Central: [1.2865,103.8412],
+        North: [1.4304,103.8354],
+        South: [1.2655,103.8239],
+        East: [1.3236,103,9273],
+        West: [1.3329,103.7670],
+      },
     }
   }
 
@@ -62,9 +68,6 @@ class CalendarDisplay extends Component {
 
           <div className={"calendar"}>
             <Calendar className={"calendar_design"}
-
-            
-
             onChange={date => this.setState({ date })}
             value={this.state.date}
             />
@@ -105,7 +108,13 @@ class CalendarDisplay extends Component {
               </td>
               
               <td>
-                <i>Dropdown</i>
+                <select name="locations" id="locations">
+                  <option value="central">Central</option>
+                  <option value="north">North</option>
+                  <option value="south">South</option>
+                  <option value="east">East</option>
+                  <option value="west">West</option>
+                </select>
               </td>
             </tr>
           </table>
