@@ -14,12 +14,12 @@ const alreadyRemoved = [];
 let charactersState = [];
 var first_load = true;
 
-
 const TinderCards = ({
   profiles,
   setLastViewed_cards,
   setLastViewed_profile,
   update_messages,
+  popup_gifs,
 }) => {
   if (first_load) {
     charactersState = profiles;
@@ -27,6 +27,8 @@ const TinderCards = ({
   }
 
   const [characters, setCharacters] = useState(profiles);
+  const [gif_num, setGifNum] = useState([0]);
+  const [user_just_match_name, setJustMatchName] = useState([""]);
 
   /* 
   FUNCTION FOR POP UP
@@ -78,7 +80,7 @@ const TinderCards = ({
     alreadyRemoved.push(nameToDelete);
 
     if (direction === "right" && character.user_indicated_interest === true) {
-      console.log(character);
+      setJustMatchName(character.name);
       handleShow();
       update_backend_match(character.unique_id, character.name, character.url);
       // TRIGGER THE API CALL TO CREATE THE MATCH HERE
@@ -90,6 +92,7 @@ const TinderCards = ({
       (person) => !alreadyRemoved.includes(person.name)
     );
     setLastViewed_cards();
+    setGifNum(Math.floor(Math.random() * 19));
     if (cardsLeft.length) {
       const toBeRemoved = cardsLeft[cardsLeft.length - 1].name; // Find the card object to be removed
       const index = profiles.map((person) => person.name).indexOf(toBeRemoved); // Find the index of which to make the reference to
@@ -97,7 +100,6 @@ const TinderCards = ({
       childRefs[index].current.swipe(dir); // Swipe the card!
     }
   };
-
   return (
     <div>
       <div className="tinderCards__cardContainer">
@@ -148,25 +150,27 @@ const TinderCards = ({
           <FavoriteIcon fontSize="large" />
         </IconButton>
       </div>
+
       <Modal show={show} onHide={handleClose} className="popup__body">
         <Modal.Body className="popup__content">
-          Woohoo, it's a match!
+          <img
+            className="popup__gif"
+            src={popup_gifs[gif_num].images.fixed_height_small.url}
+          />
+          <br />
+          <span className="popup__text">
+            Woohoo! It's a match with {user_just_match_name}!
+          </span>
         </Modal.Body>
-        <Modal.Footer>
-          <Button
-            variant="secondary"
-            onClick={handleClose}
-            className="popup__button"
-          >
-            Close
+        <Modal.Footer className="popup__buttons">
+          <Button variant="light" onClick={handleClose}>
+            Continue swiping
           </Button>
-          <Button
-            variant="primary"
-            onClick={handleClose}
-            className="popup__button"
-          >
-            Save Changes
-          </Button>
+          <Link to="/chats">
+            <Button variant="light" onClick={handleClose}>
+              Go to chat
+            </Button>
+          </Link>
         </Modal.Footer>
       </Modal>
     </div>

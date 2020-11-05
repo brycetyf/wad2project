@@ -12,12 +12,23 @@
 
 .popup__body {
   position: absolute;
-  top: 40%;
+  top: 30%;
   left: 0;
   right: 0;
   margin-left: auto;
   margin-right: auto;
   width: 50%;
+}
+
+.popup__content {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.popup__buttons {
+  display: flex;
+  justify-content: space-between;
 }
 
 .card > div {

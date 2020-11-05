@@ -17,14 +17,10 @@ class App extends Component {
     cards: "",
     lastviewed: "",
     matched_users: [], //loaded when component mounts
+    popup_gifs: [],
   };
 
-  componentDidMount() {
-    /*
-    When App.js is mounted successfully, an API call is made to our database to retrieve
-    the potential match details and then it is passed to profile cards
-    */
-
+  first_load_cards = () => {
     // API call to get cards
     axios.get(`http://127.0.0.1:5001/users`).then((res) =>
       this.setState({
@@ -36,10 +32,28 @@ class App extends Component {
             setLastViewed_cards={() => this.setLastViewed_cards()}
             setLastViewed_profile={this.setLastViewed_profile}
             update_messages={() => this.update_messages()}
+            popup_gifs={this.state.popup_gifs}
           />
         ),
       })
     );
+  };
+  componentDidMount() {
+    /*
+    When App.js is mounted successfully, an API call is made to our database to retrieve
+    the potential match details and then it is passed to profile cards
+    */
+
+    //API call to load giphy urls for matching popup
+    const api_key = "FwThwwuTTlsGSSjWwmw6PKQoBXJZ8pcv";
+    const query = "woohoo";
+    const limit = 20;
+    let url = `https://api.giphy.com/v1/gifs/search?api_key=${api_key}&q=${query}&limit=${limit}`;
+    axios
+      .get(url)
+      .then((res) =>
+        this.setState({ popup_gifs: res.data.data }, this.first_load_cards())
+      );
 
     // API call to get matched users chat
     axios.get(`http://127.0.0.1:5001/matched_users`).then((res) =>
@@ -80,6 +94,7 @@ class App extends Component {
               setLastViewed_cards={() => this.setLastViewed_cards()}
               setLastViewed_profile={this.setLastViewed_profile}
               update_messages={this.update_messages}
+              popup_gifs={this.state.popup_gifs}
             />
           ),
         })
@@ -90,11 +105,9 @@ class App extends Component {
     /*
     When the user swipes / presses one of the buttons, we also needa set the last viewed
     */
-    console.log(this.state.lastviewed);
     this.setState({
       lastviewed: this.state.lastviewed - 1,
     });
-    console.log(this.state.lastviewed);
   };
 
   renderCorrectCards = () => {
@@ -112,6 +125,7 @@ class App extends Component {
               setLastViewed_cards={() => this.setLastViewed_cards()}
               setLastViewed_profile={this.setLastViewed_profile}
               update_messages={this.update_messages}
+              popup_gifs={this.state.popup_gifs}
             />
           ),
         })
@@ -174,6 +188,17 @@ class App extends Component {
               {/* Route to view a specific profile*/}
               <Header
                 backButton="/"
+                renderCorrectCards={() =>
+                  this.renderCorrectCards(this.state.lastviewed)
+                }
+              />
+              <Profile setLastViewed_profile={this.setLastViewed_profile} />
+            </Route>
+
+            <Route path="/matched_profile/:person">
+              {/* Route to view a specific profile FROM inside of chat*/}
+              <Header
+                backButton="go_back"
                 renderCorrectCards={() =>
                   this.renderCorrectCards(this.state.lastviewed)
                 }

@@ -5,15 +5,15 @@ import datetime
 
 application = Flask(__name__)
 CORS(application)
-application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/wad2project' #FOR WINDOW USERS
-# application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/wad2project' #FOR MAC USERS
+# application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/wad2project' #FOR WINDOW USERS
+application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/wad2project' #FOR MAC USERS
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 application.config['CORS_HEADERS'] = 'Content-Type'
 
 db = SQLAlchemy(application)
 
 
-class matched_users(db.Model):
+class Matched_users(db.Model):
     __tablename__ = 'matched_users'
 
     unique_id = db.Column(db.INT(), primary_key=True)
@@ -71,9 +71,9 @@ class User(db.Model):
                 "gender":self.gender,
                 "user_indicated_interest":self.user_indicated_interest}
 
-class messages(db.Model):
+class Messages(db.Model):
     __tablename__ = 'messages'
-
+    
     msgId = db.Column(db.INT(), primary_key=True,autoincrement=True)
     match_name = db.Column(db.VARCHAR(255), nullable=False)
     sent_by_user = db.Column(db.BOOLEAN(), nullable=False)
@@ -103,7 +103,7 @@ def get_conversations():
     '''
     Displays all the conversations that the user can have based on matches 
     '''
-    return jsonify({"matched_users": [u.json() for u in matched_users.query.all()]})
+    return jsonify({"matched_users": [u.json() for u in Matched_users.query.all()]})
 
 ###---- API endpoint to update backend that a match has been done --------
 @application.route("/successful_match/unique_id=<string:unique_id>&name=<string:name>&url=<path:url>",methods=["GET"])
@@ -111,7 +111,7 @@ def create_match(unique_id,name,url):
     '''
     Updates data based after the user has successfully obtained the matches
     '''
-    new_match = matched_users(
+    new_match = Matched_users(
         unique_id = int(unique_id),
         name = name,
         message = 'No messages sent yet',
@@ -134,11 +134,11 @@ def send_message(match_name,message):
     API endpoint to send message 
     '''
     try:
-        highest_msg_id = db.session.query(db.func.max(messages.msgId)).scalar() + 1
+        highest_msg_id = db.session.query(db.func.max(Messages.msgId)).scalar() + 1
     except:
         highest_msg_id = 1
 
-    new_message = messages(
+    new_message = Messages(
         msgId=highest_msg_id,
         match_name=match_name,
         sent_by_user=1,
@@ -154,14 +154,14 @@ def send_message(match_name,message):
 @application.route("/chat")
 def get_all():
     # don't think we will ever use this!! but can leave it here for now
-    return jsonify({"chats": [chat.json() for chat in messages.query.all()]})
+    return jsonify({"chats": [chat.json() for chat in Messages.query.all()]})
 
 @application.route("/chat/<string:username>", methods=['GET'])
 def find_match_chat(username):
     '''
     To display the chat history for a particular user
     '''
-    chats=messages.query.filter_by(match_name=username)
+    chats=Messages.query.filter_by(match_name=username)
 
     if chats:
         return jsonify({"chats": [chat.json() for chat in chats]})
@@ -178,9 +178,12 @@ def find_unviewed(unique_id):
         return jsonify({"users": [user.json() for user in User.query.all() if user.unique_id < unique_id] })
     return jsonify({"message": "error encountered"}), 404
 
-@application.route("/users/profile/<string:unique_id>", methods=['GET'])
-def find_user(unique_id):
-    user=User.query.filter_by(unique_id=unique_id).first()
+@application.route("/users/profile/<string:unique_id_or_name>", methods=['GET'])
+def find_user(unique_id_or_name):
+    try:
+        user=User.query.filter_by(unique_id=unique_id_or_name).first()
+    except:
+        user=User.query.filter_by(username=unique_id_or_name).first()
 
     if user:
         return jsonify(user.json())
