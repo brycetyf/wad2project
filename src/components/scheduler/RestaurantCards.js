@@ -12,13 +12,15 @@ class RestaurantCards extends Component {
 
     render () {
         return (
+
+
             <div>
-                <Card>
+                <Card border='dark'>
                     <Card.Img variant="top" src={this.props.restaurant.images[0].url} />
                     <Card.Body>
                         <Card.Title>{this.props.restaurant.name}</Card.Title>
                         <Card.Text>
-                            <b>Rating: </b>{this.props.restaurant.reviewScore}
+                            <b>Rating: </b>{this.props.restaurant.reviewScore}/10
                             <b>Address: </b>{this.props.restaurant.location.address.number} {this.props.restaurant.location.address.street}
                         </Card.Text>
                     </Card.Body>

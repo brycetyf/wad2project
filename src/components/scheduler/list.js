@@ -5,6 +5,7 @@ import { Restaurant } from '@material-ui/icons';
 import CardGroup from 'react-bootstrap/CardDeck';
 import RestaurantCards from './RestaurantCards.js';
 import Card from 'react-bootstrap/Card';
+import "../../styles/List.css"
 
 
 class List extends Component {
@@ -20,7 +21,7 @@ class List extends Component {
         central: [1.2865, 103.8412],
         north: [1.4304, 103.8354],
         south: [1.2655, 103.8239],
-        east: [1.3236, 103, 9273],
+        east: [1.3236, 103.9273],
         west: [1.3329, 103.767],
       },
 
@@ -34,6 +35,8 @@ class List extends Component {
     let location_details = this.state.locations[location];
     let latitude = location_details[0];
     let longitude = location_details[1];
+    let strrr = `https://api.quandoo.com/v1/merchants?place=singapore&capacity=2&offset=0&limit=50&radius=2&bookable=true&fromtime=${time}&date=${apiDate}&centerPoint=${latitude}%2C${longitude}`;
+    console.log(strrr);
 
     axios.get(`https://api.quandoo.com/v1/merchants?place=singapore&capacity=2&offset=0&limit=50&fromtime=${time}&date=${apiDate}&centerPoint=${latitude}.${longitude}`).then((res) => {
       this.setState ({
