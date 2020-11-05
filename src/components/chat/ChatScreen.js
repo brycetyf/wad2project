@@ -1,4 +1,5 @@
 import React, { useState, Component } from "react";
+import { Link } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import "../../styles/ChatScreen.css";
 import axios from "axios";
@@ -55,14 +56,16 @@ class ChatScreen extends Component {
               <div></div>
             )
           ) : (
-            <div className="chatScreen__message">
-              <Avatar
-                className="chatScreen__image"
-                alt={message.match_name}
-                src={message.url}
-              />
-              <p className="chatScreen__text">{message.message}</p>
-            </div>
+            <Link to={"/matched_profile/" + message.match_name}>
+              <div className="chatScreen__message">
+                <Avatar
+                  className="chatScreen__image"
+                  alt={message.match_name}
+                  src={message.url}
+                />
+                <p className="chatScreen__text">{message.message}</p>
+              </div>
+            </Link>
           )
         )}
 
@@ -84,7 +87,7 @@ class ChatScreen extends Component {
         </form>
       </div>
     ) : (
-      <div>PAGE LOADING</div>
+      <div></div>
     );
   }
 }

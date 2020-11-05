@@ -9,6 +9,7 @@
   background-color: lightgray;
   padding: 15px;
   border-radius: 20px;
+  color: black;
 }
 
 .chatScreen__textUser {
@@ -41,9 +42,9 @@
 }
 
 .chatScreen__inputButton {
-    border:none;
-    margin-right:20px;
-    background-color:white;
-    font-weight:bolder;
-    color: #fe3d71;
+  border: none;
+  margin-right: 20px;
+  background-color: white;
+  font-weight: bolder;
+  color: #fe3d71;
 }
