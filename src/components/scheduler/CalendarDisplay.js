@@ -15,14 +15,11 @@ class CalendarDisplay extends Component {
     this.state = {
       date: new Date(),
       time: "17:00",
-      location: {
-        Central: [1.2865, 103.8412],
-        North: [1.4304, 103.8354],
-        South: [1.2655, 103.8239],
-        East: [1.3236, 103, 9273],
-        West: [1.3329, 103.767],
-      },
+      apiDate: '',
+      location: 'central',
     };
+
+    this.handleChange = this.handleChange.bind(this);
   }
 
   //Quandoo API requires this format of date in order to retrieve date
@@ -38,9 +35,11 @@ class CalendarDisplay extends Component {
     if (month < 10) {
       month = "0" + month;
     }
+    let changed_date =  year + "-" + month + "-" + dt;
 
-    return year + "-" + month + "-" + dt;
+    return changed_date
   }
+
 
   //Date that we want to display to users
   format_date_display() {
@@ -48,6 +47,7 @@ class CalendarDisplay extends Component {
     let year = date.getFullYear();
     let month = date.getMonth() + 1;
     let dt = date.getDate();
+    let return_str = '';
 
     if (dt < 10) {
       dt = "0" + dt;
@@ -55,12 +55,16 @@ class CalendarDisplay extends Component {
     if (month < 10) {
       month = "0" + month;
     }
-
     return dt + "-" + month + "-" + year;
   }
 
+
+
+  handleChange(event) {
+    this.setState({location: event.target.value});
+  }
+
   render() {
-    const time = "1600";
     return (
       // add styling here
       <div className={"calendar_whole"}>
@@ -107,7 +111,7 @@ class CalendarDisplay extends Component {
               </td>
 
               <td>
-                <select name="locations" id="locations">
+                <select value={ this.state.value } onChange={ this.handleChange }>
                   <option value="central">Central</option>
                   <option value="north">North</option>
                   <option value="south">South</option>
@@ -118,17 +122,19 @@ class CalendarDisplay extends Component {
             </tr>
           </table>
 
+
+
+
+          
           <div className={"button_div"}>
-            <Link
-              to={{
-                pathname: "/list",
-                time: time,
-              }}
-            >
-              <Button variant="success" size="sm">
+              <Button onClick={() => 
+                {this.props.updateAPIDate(this.format_date_api());
+                this.props.updateCounter();
+                this.props.updateTime(this.state.time);
+                this.props.updateLocation(this.state.location);
+                }} variant="success" size="sm">
                 Continue
-              </Button>{" "}
-            </Link>
+              </Button>
           </div>
         </div>
       </div>

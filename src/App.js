@@ -6,6 +6,7 @@ import ChatScreen from "./components/chat/ChatScreen";
 import Profile from "./components/Profile";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Calendar from "./components/scheduler/CalendarDisplay";
+import Scheduler from "./components/scheduler/Scheduler";
 import List from "./components/scheduler/list";
 import "./styles/App.css";
 import axios from "axios";
@@ -141,7 +142,7 @@ class App extends Component {
               Note: ALL headers need to include renderCorrectCards*/}
               <Header
                 backButton="/chats"
-                chatCalender="/calendar"
+                chatCalender="/scheduler"
                 renderCorrectCards={() =>
                   this.renderCorrectCards(this.state.lastviewed)
                 }
@@ -160,7 +161,7 @@ class App extends Component {
               <Chats matched_users={this.state.matched_users} />
             </Route>
 
-            <Route path="/calendar">
+            <Route path="/scheduler">
               {/* Route to view the calendar to choose date */}
               <Header
                 backButton="/chats"
@@ -168,18 +169,20 @@ class App extends Component {
                   this.renderCorrectCards(this.state.lastviewed)
                 }
               />
-              <Calendar />
+              <Scheduler />
             </Route>
 
-            <Route path="/list">
+
+            {/* Let me just leave this here first. Shouldn't be needing it but just in case */}
+            {/* <Route path="/list">
               <Header
-                backButton="/calendar"
+                backButton="/scheduler"
                 renderCorrectCards={() =>
                   this.renderCorrectCards(this.state.lastviewed)
                 }
               />
               <List />
-            </Route>
+            </Route> */}
 
             <Route path="/profile/:person">
               {/* Route to view a specific profile*/}
