@@ -34,7 +34,7 @@ function Header({ backButton, chatCalender, renderCorrectCards }) {
 
       {chatCalender ? (
         <IconButton>
-          <Link to="/calendar">
+          <Link to="/scheduler">
             <TodayIcon fontSize="large" className="header__icon" />
           </Link>
         </IconButton>
