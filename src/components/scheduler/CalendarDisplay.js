@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import "react-calendar/dist/Calendar.css";
 import "../../styles/Calendar.css";
 import { Link } from "react-router-dom";
-import List from "./list";
+import List from "./List";
 
 class CalendarDisplay extends Component {
   

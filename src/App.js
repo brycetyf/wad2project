@@ -7,7 +7,7 @@ import Profile from "./components/Profile";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Calendar from "./components/scheduler/CalendarDisplay";
 import Scheduler from "./components/scheduler/Scheduler";
-import List from "./components/scheduler/list";
+import List from "./components/scheduler/List";
 import "./styles/App.css";
 import axios from "axios";
 

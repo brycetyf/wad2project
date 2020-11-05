@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from "axios";
 import { Restaurant } from '@material-ui/icons';
+import CardGroup from 'react-bootstrap/CardDeck';
+import RestaurantCards from './RestaurantCards.js';
+import Card from 'react-bootstrap/Card';
 
 
 class List extends Component {
@@ -12,7 +15,7 @@ class List extends Component {
 
     this.state = {
 
-      restaurants : '',
+      restaurants : [],
       locations: {
         central: [1.2865, 103.8412],
         north: [1.4304, 103.8354],
@@ -32,21 +35,31 @@ class List extends Component {
     let latitude = location_details[0];
     let longitude = location_details[1];
 
-    axios.get(`https://api.quandoo.com/v1/merchants?place=singapore&capacity=2&offset=0&limit=50&fromtime=${time}&date=${apiDate}&centerPoint=${latitude}.${longitude}`).then((res) =>
-    this.setState({
-      restaurants: res,
-    }))
-
-    console.log(this.state.restaurants);
+    axios.get(`https://api.quandoo.com/v1/merchants?place=singapore&capacity=2&offset=0&limit=50&fromtime=${time}&date=${apiDate}&centerPoint=${latitude}.${longitude}`).then((res) => {
+      this.setState ({
+        restaurants : res.data.merchants
+      });
+      console.log(this.state.restaurants);
+    });
 
   }
 
-
   render() {
 
+    let showCards=this.state.restaurants.map(restaurant => {
+      return (
+        <RestaurantCards restaurant={restaurant} />
+      )
+    })
     return (
-    <div className="">
-      <h1>HELLO</h1>
+    <div className="restaurant_list">
+      
+      <CardGroup>
+
+        {showCards}
+
+      </CardGroup>
+
     </div>
     )
 }

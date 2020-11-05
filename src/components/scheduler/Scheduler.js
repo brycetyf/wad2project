@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import List from "./list";
+import List from "./List";
 import CalendarDisplay from "./CalendarDisplay";
 
 class Scheduler extends Component {
