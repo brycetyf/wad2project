@@ -30,7 +30,9 @@ function Header({ backButton, chatCalender, renderCorrectCards }) {
         )
       ) : (
         <IconButton>
-          <PersonIcon className="header__icon" fontSize="large" />
+          <Link to="/myProfile">
+            <PersonIcon className="header__icon" fontSize="large" />
+          </Link>
         </IconButton>
       )}
       <img
