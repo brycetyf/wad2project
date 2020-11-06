@@ -51,7 +51,8 @@ CREATE TABLE `user_bookings` (
   `contact` varchar(12) NOT NULL,
   `booking_date` varchar(200) NOT NULL,
   `booking_time` varchar(200) NOT NULL,
-  `booking_partner` varchar(300) NOT NULL
+  `booking_partner` varchar(300) NOT NULL,
+  `booking_partner_url` varchar(300) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

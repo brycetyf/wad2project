@@ -18,11 +18,12 @@ class RestaurantCards extends Component {
     contact,
     booking_date,
     booking_time,
-    booking_partner
+    booking_partner,
+    booking_partner_url,
   ) => {
     axios
       .get(
-        `http://127.0.0.1:5001/send_reservations/res_name=${res_name}&lon=${lon}&lat=${lat}&res_url=${res_url}&contact=${contact}&booking_date=${booking_date}&booking_time=${booking_time}&booking_partner=${booking_partner}`
+        `http://127.0.0.1:5001/send_reservations/res_name=${res_name}&lon=${lon}&lat=${lat}&res_url=${res_url}&contact=${contact}&booking_date=${booking_date}&booking_time=${booking_time}&booking_partner=${booking_partner}&booking_partner_url=${booking_partner_url}`
       )
       .then((res) => {
         console.log("reservation success!");
@@ -58,7 +59,8 @@ class RestaurantCards extends Component {
                   this.props.restaurant.phoneNumber,
                   this.props.booking_date,
                   this.props.booking_time,
-                  this.props.partner_name
+                  this.props.partner_name,
+                  this.props.partner_url
                 )
               }
             >

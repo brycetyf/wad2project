@@ -19,21 +19,12 @@ function Header({
     // BEM
     <div className="header">
       {backButton ? (
-        backButton === "go_back" ? (
-          <IconButton
-            onClick={() => history.goBack()}
-            onMouseOver={() => renderCorrectCards()}
-          >
-            <ArrowBackIosIcon fontSize="large" className="header__icon" />
-          </IconButton>
-        ) : (
-          <IconButton
-            onClick={() => history.replace(backButton)}
-            onMouseOver={() => renderCorrectCards()}
-          >
-            <ArrowBackIosIcon fontSize="large" className="header__icon" />
-          </IconButton>
-        )
+        <IconButton
+          onClick={() => history.goBack()}
+          onMouseOver={() => renderCorrectCards()}
+        >
+          <ArrowBackIosIcon fontSize="large" className="header__icon" />
+        </IconButton>
       ) : (
         <IconButton>
           <Link to="/myProfile">

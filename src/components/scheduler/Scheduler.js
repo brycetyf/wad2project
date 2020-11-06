@@ -58,6 +58,7 @@ class Scheduler extends Component {
             time={this.state.time}
             location={this.state.location}
             person={this.props.person}
+            person_url={this.props.person_url}
           />
         </div>
       );

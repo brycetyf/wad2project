@@ -48,8 +48,9 @@ class Reservations(db.Model):
     booking_date = db.Column(db.VARCHAR(200), nullable=False)
     booking_time = db.Column(db.VARCHAR(200), nullable=False)
     booking_partner = db.Column(db.VARCHAR(300), nullable=False)
+    booking_partner_url = db.Column(db.VARCHAR(300), nullable=False)
 
-    def __init__(self, res_name, lon,lat, res_url, contact,booking_date,booking_time,booking_partner):
+    def __init__(self, res_name, lon,lat, res_url, contact,booking_date,booking_time,booking_partner,booking_partner_url):
         self.res_name = res_name
         self.lon = lon
         self.lat = lat
@@ -58,6 +59,7 @@ class Reservations(db.Model):
         self.booking_date = booking_date
         self.booking_time = booking_time
         self.booking_partner = booking_partner
+        self.booking_partner_url = booking_partner_url
 
     def json(self):
         return {'res_name':self.res_name,
@@ -67,7 +69,8 @@ class Reservations(db.Model):
                 'contact':self.contact,
                 'booking_date':self.booking_date,
                 'booking_time':self.booking_time,
-                'booking_partner':self.booking_partner}
+                'booking_partner':self.booking_partner,
+                'booking_partner_url':self.booking_partner_url}
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -131,8 +134,8 @@ class Messages(db.Model):
                 "url":self.url}
 
 ###---- FOR RESERVATIONS ----
-@application.route("/send_reservations/res_name=<string:res_name>&lon=<string:lon>&lat=<string:lat>&res_url=<path:res_url>&contact=<string:contact>&booking_date=<string:booking_date>&booking_time=<string:booking_time>&booking_partner=<string:booking_partner>",methods=["GET"])
-def create_reservation(res_name,lon,lat,res_url,contact,booking_date,booking_time,booking_partner):
+@application.route("/send_reservations/res_name=<string:res_name>&lon=<string:lon>&lat=<string:lat>&res_url=<path:res_url>&contact=<string:contact>&booking_date=<string:booking_date>&booking_time=<string:booking_time>&booking_partner=<string:booking_partner>&booking_partner_url=<path:booking_partner_url>",methods=["GET"])
+def create_reservation(res_name,lon,lat,res_url,contact,booking_date,booking_time,booking_partner,booking_partner_url):
     new_reservation = Reservations(
         res_name = res_name,
         lon = lon,
@@ -141,7 +144,8 @@ def create_reservation(res_name,lon,lat,res_url,contact,booking_date,booking_tim
         contact = contact,
         booking_date = booking_date,
         booking_time = booking_time,
-        booking_partner = booking_partner
+        booking_partner = booking_partner,
+        booking_partner_url = booking_partner_url
     )
 
     db.session.add(new_reservation)
@@ -153,7 +157,7 @@ def get_reservations():
     '''
     Displays all the conversations that the user can have based on matches 
     '''
-    return jsonify({"matched_users": [u.json() for u in Reservations.query.all()]})
+    return jsonify({"reservation_data": [u.json() for u in Reservations.query.all()]})
 
 ###---- FOR CHAT PAGE --------
 @application.route("/matched_users")
@@ -181,7 +185,6 @@ def create_match(unique_id,name,url):
     db.session.add(new_match)
     db.session.commit()
     return jsonify({"message":"successfully updated match"})
-
 
 
 ###---- FOR CHATTING --------
@@ -239,8 +242,10 @@ def find_unviewed(unique_id):
 @application.route("/users/profile/<string:unique_id_or_name>", methods=['GET'])
 def find_user(unique_id_or_name):
     try:
-        user=User.query.filter_by(unique_id=unique_id_or_name).first()
+        search_param = int(unique_id_or_name) #hack
+        user=User.query.filter_by(unique_id=search_param).first()
     except:
+        print('hello')
         user=User.query.filter_by(username=unique_id_or_name).first()
 
     if user:

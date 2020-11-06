@@ -20,6 +20,7 @@ class App extends Component {
     matched_users: [], //loaded when component mounts
     popup_gifs: [],
     person: "",
+    person_url: "",
   };
 
   first_load_cards = () => {
@@ -135,13 +136,14 @@ class App extends Component {
       );
   };
 
-  update_current_person = (person) => {
+  update_current_person = (person, person_url) => {
     /*
     for the reservation to load right, we need the update current person to flow
     */
     console.log(person);
     this.setState({
       person: person,
+      person_url: person_url,
     });
   };
 
@@ -185,7 +187,10 @@ class App extends Component {
                 }
                 update_messages={() => this.update_messages()}
               />
-              <Scheduler person={this.state.person} />
+              <Scheduler
+                person={this.state.person}
+                person_url={this.state.person_url}
+              />
             </Route>
 
             {/* Let me just leave this here first. Shouldn't be needing it but just in case */}

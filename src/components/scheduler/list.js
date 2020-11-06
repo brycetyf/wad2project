@@ -24,7 +24,6 @@ class List extends Component {
   }
   componentDidMount() {
     const { apiDate, location, time, person } = this.props;
-    console.log(this.props);
     let location_details = this.state.locations[location];
     let latitude = location_details[0];
     let longitude = location_details[1];
@@ -51,6 +50,7 @@ class List extends Component {
           booking_date={this.props.apiDate}
           booking_time={this.props.time}
           partner_name={this.props.person}
+          partner_url={this.props.person_url}
         />
       );
     });
