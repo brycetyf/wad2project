@@ -6,8 +6,14 @@ import IconButton from "@material-ui/core/IconButton";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import TodayIcon from "@material-ui/icons/Today";
 import { Link, useHistory, withRouter } from "react-router-dom";
+import ghost_me_not from "../images/ghost_me_not.jpg";
 
-function Header({ backButton, chatCalender, renderCorrectCards }) {
+function Header({
+  backButton,
+  chatCalender,
+  renderCorrectCards,
+  update_messages,
+}) {
   const history = useHistory();
   return (
     // BEM
@@ -35,8 +41,8 @@ function Header({ backButton, chatCalender, renderCorrectCards }) {
       )}
       <img
         className="header__logo"
-        src="https://1000logos.net/wp-content/uploads/2018/07/tinder-logo.png"
-        alt="tinder logo"
+        src={ghost_me_not}
+        alt="ghost me not logo"
       ></img>
       {chatCalender ? (
         <IconButton>
@@ -46,7 +52,7 @@ function Header({ backButton, chatCalender, renderCorrectCards }) {
         </IconButton>
       ) : (
         <IconButton>
-          <Link to="/chats">
+          <Link to="/chats" onMouseOver={() => update_messages()}>
             <QuestionAnswerIcon className="header__icon" fontSize="large" />
           </Link>
         </IconButton>

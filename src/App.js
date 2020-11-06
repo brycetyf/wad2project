@@ -7,7 +7,7 @@ import Profile from "./components/Profile";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Calendar from "./components/scheduler/CalendarDisplay";
 import Scheduler from "./components/scheduler/Scheduler";
-import List from "./components/scheduler/List";
+import List from "./components/scheduler/list";
 import "./styles/App.css";
 import axios from "axios";
 
@@ -70,6 +70,7 @@ class App extends Component {
         matched_users: res.data.matched_users,
       })
     );
+    console.log("updating messages");
   };
 
   setLastViewed_profile = (lastViewedId) => {
@@ -146,6 +147,7 @@ class App extends Component {
                 renderCorrectCards={() =>
                   this.renderCorrectCards(this.state.lastviewed)
                 }
+                update_messages={() => this.update_messages()}
               />
               <ChatScreen />
             </Route>
@@ -157,6 +159,7 @@ class App extends Component {
                 renderCorrectCards={() =>
                   this.renderCorrectCards(this.state.lastviewed)
                 }
+                update_messages={() => this.update_messages()}
               />
               <Chats matched_users={this.state.matched_users} />
             </Route>
@@ -164,14 +167,14 @@ class App extends Component {
             <Route path="/scheduler">
               {/* Route to view the calendar to choose date */}
               <Header
-                backButton="/chats"
+                backButton="go_back"
                 renderCorrectCards={() =>
                   this.renderCorrectCards(this.state.lastviewed)
                 }
+                update_messages={() => this.update_messages()}
               />
               <Scheduler />
             </Route>
-
 
             {/* Let me just leave this here first. Shouldn't be needing it but just in case */}
             {/* <Route path="/list">
@@ -191,6 +194,7 @@ class App extends Component {
                 renderCorrectCards={() =>
                   this.renderCorrectCards(this.state.lastviewed)
                 }
+                update_messages={() => this.update_messages()}
               />
               <Profile setLastViewed_profile={this.setLastViewed_profile} />
             </Route>
@@ -202,13 +206,14 @@ class App extends Component {
                 renderCorrectCards={() =>
                   this.renderCorrectCards(this.state.lastviewed)
                 }
+                update_messages={() => this.update_messages()}
               />
               <Profile setLastViewed_profile={this.setLastViewed_profile} />
             </Route>
 
             <Route path="/">
               {/* Route to HOME, always placed at the end*/}
-              <Header />
+              <Header update_messages={() => this.update_messages()} />
               {this.state.cards}
             </Route>
           </Switch>
