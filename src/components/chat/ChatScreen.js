@@ -13,6 +13,13 @@ class ChatScreen extends Component {
   };
 
   componentDidMount() {
+    this.fetchMessages();
+    this.interval = setInterval(() => {
+      this.fetchMessages();
+    }, 10000);
+  }
+
+  fetchMessages = () => {
     /*
     Load the messages in from data base
     */
@@ -24,7 +31,7 @@ class ChatScreen extends Component {
         match_name: res.data.chats[0].match_name,
       })
     );
-  }
+  };
 
   handleSend = () => {
     /*
@@ -36,6 +43,10 @@ class ChatScreen extends Component {
       )
       .then((res) => this.setState({ user_input: "" }));
   };
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
 
   render() {
     var partner_msg = this.state.messages;

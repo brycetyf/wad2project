@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import List from "./List";
+import List from "./list";
 import CalendarDisplay from "./CalendarDisplay";
 
 class Scheduler extends Component {
   state = {
     time: "17:00",
-    location: '',
-    apiDate: '',
+    location: "",
+    apiDate: "",
     counter: 0,
   };
 
@@ -15,49 +15,48 @@ class Scheduler extends Component {
     this.setState({ time: newtime });
   };
 
-
   update_location = (newlocation) => {
-    this.setState({ location: newlocation })
-  }
+    this.setState({ location: newlocation });
+  };
 
   update_counter = () => {
-    this.setState({ counter: this.state.counter + 1 })
-  }
+    this.setState({ counter: this.state.counter + 1 });
+  };
 
   update_api_date = (new_api_date) => {
-    this.setState({ apiDate: new_api_date })
-  }
+    this.setState({ apiDate: new_api_date });
+  };
 
   render() {
-
     if (this.state.counter === 0) {
-      return (<div>
+      return (
+        <div>
           <CalendarDisplay
-          updateTime={ this.update_time }
-          updateLocation={ this.update_location }
-          updateCounter = { this.update_counter }
-          updateAPIDate = { this.update_api_date }
-          date = { this.state.date }
-          apiDate = { this.state.apiDate }
-          time = { this.state.time }
-          location = { this.state.location }
+            updateTime={this.update_time}
+            updateLocation={this.update_location}
+            updateCounter={this.update_counter}
+            updateAPIDate={this.update_api_date}
+            date={this.state.date}
+            apiDate={this.state.apiDate}
+            time={this.state.time}
+            location={this.state.location}
           />
-
-      </div>)}
-
-
-    else if (this.state.counter === 1) {
-      return (<div>
-        <List 
-        updateTime={ this.update_time }
-        updateLocation={ this.update_location }
-        updateCounter = { this.update_counter }
-        updateAPIDate = { this.update_api_date }
-        apiDate = { this.state.apiDate }
-        time = { this.state.time }
-        location = { this.state.location }
-        />
-      </div>)
+        </div>
+      );
+    } else if (this.state.counter === 1) {
+      return (
+        <div>
+          <List
+            updateTime={this.update_time}
+            updateLocation={this.update_location}
+            updateCounter={this.update_counter}
+            updateAPIDate={this.update_api_date}
+            apiDate={this.state.apiDate}
+            time={this.state.time}
+            location={this.state.location}
+          />
+        </div>
+      );
     }
   }
 }

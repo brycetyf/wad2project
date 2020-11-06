@@ -5,18 +5,17 @@ import Button from "react-bootstrap/Button";
 import "react-calendar/dist/Calendar.css";
 import "../../styles/Calendar.css";
 import { Link } from "react-router-dom";
-import List from "./List";
+import List from "./list";
 
 class CalendarDisplay extends Component {
-  
   constructor(props) {
     super(props);
 
     this.state = {
       date: new Date(),
       time: "17:00",
-      apiDate: '',
-      location: 'central',
+      apiDate: "",
+      location: "central",
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -35,11 +34,10 @@ class CalendarDisplay extends Component {
     if (month < 10) {
       month = "0" + month;
     }
-    let changed_date =  year + "-" + month + "-" + dt;
+    let changed_date = year + "-" + month + "-" + dt;
 
-    return changed_date
+    return changed_date;
   }
-
 
   //Date that we want to display to users
   format_date_display() {
@@ -47,7 +45,7 @@ class CalendarDisplay extends Component {
     let year = date.getFullYear();
     let month = date.getMonth() + 1;
     let dt = date.getDate();
-    let return_str = '';
+    let return_str = "";
 
     if (dt < 10) {
       dt = "0" + dt;
@@ -58,10 +56,8 @@ class CalendarDisplay extends Component {
     return dt + "-" + month + "-" + year;
   }
 
-
-
   handleChange(event) {
-    this.setState({location: event.target.value});
+    this.setState({ location: event.target.value });
   }
 
   render() {
@@ -111,7 +107,7 @@ class CalendarDisplay extends Component {
               </td>
 
               <td>
-                <select value={ this.state.value } onChange={ this.handleChange }>
+                <select value={this.state.value} onChange={this.handleChange}>
                   <option value="central">Central</option>
                   <option value="north">North</option>
                   <option value="south">South</option>
@@ -122,19 +118,19 @@ class CalendarDisplay extends Component {
             </tr>
           </table>
 
-
-
-
-          
           <div className={"button_div"}>
-              <Button onClick={() => 
-                {this.props.updateAPIDate(this.format_date_api());
+            <Button
+              onClick={() => {
+                this.props.updateAPIDate(this.format_date_api());
                 this.props.updateCounter();
                 this.props.updateTime(this.state.time);
                 this.props.updateLocation(this.state.location);
-                }} variant="success" size="sm">
-                Continue
-              </Button>
+              }}
+              variant="success"
+              size="sm"
+            >
+              Continue
+            </Button>
           </div>
         </div>
       </div>
