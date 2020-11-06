@@ -5,12 +5,15 @@ import "../../styles/ChatScreen.css";
 import axios from "axios";
 
 class ChatScreen extends Component {
-  state = {
-    messages: [],
-    user_input: "",
-    match_name: "",
-    mounted: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      messages: [],
+      user_input: "",
+      match_name: "",
+      mounted: false,
+    };
+  }
 
   componentDidMount() {
     this.fetchMessages();
@@ -23,7 +26,8 @@ class ChatScreen extends Component {
     /*
     Load the messages in from data base
     */
-    const name = window.location.pathname.split("/")[2];
+    var name = window.location.pathname.split("/")[2];
+
     axios.get(`http://127.0.0.1:5001/chat/${name}`).then((res) =>
       this.setState({
         messages: res.data.chats,
@@ -31,6 +35,8 @@ class ChatScreen extends Component {
         match_name: res.data.chats[0].match_name,
       })
     );
+    console.log(name);
+    this.props.update_current_person(name);
   };
 
   handleSend = () => {
@@ -50,7 +56,6 @@ class ChatScreen extends Component {
 
   render() {
     var partner_msg = this.state.messages;
-    console.log("user input:", this.state.user_input);
     return this.state.mounted ? (
       <div className="chatScreen">
         <p className="chatScreen__timestamp">

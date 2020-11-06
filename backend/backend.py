@@ -5,8 +5,8 @@ import datetime
 
 application = Flask(__name__)
 CORS(application)
-application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/wad2project' #FOR WINDOW USERS
-# application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/wad2project' #FOR MAC USERS
+# application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/wad2project' #FOR WINDOW USERS
+application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/wad2project' #FOR MAC USERS
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 application.config['CORS_HEADERS'] = 'Content-Type'
 
@@ -35,6 +35,39 @@ class Matched_users(db.Model):
                 "message": self.message, 
                 "lastonline": self.lastonline,
                 "url":self.url}
+
+
+class Reservations(db.Model):
+    __tablename__ = 'user_bookings'
+
+    res_name = db.Column(db.VARCHAR(300), primary_key=True)
+    lon = db.Column(db.VARCHAR(255), nullable=False)
+    lat = db.Column(db.VARCHAR(200), nullable=True)
+    res_url = db.Column(db.VARCHAR(300), nullable=False)
+    contact = db.Column(db.VARCHAR(12), nullable=False)
+    booking_date = db.Column(db.VARCHAR(200), nullable=False)
+    booking_time = db.Column(db.VARCHAR(200), nullable=False)
+    booking_partner = db.Column(db.VARCHAR(300), nullable=False)
+
+    def __init__(self, res_name, lon,lat, res_url, contact,booking_date,booking_time,booking_partner):
+        self.res_name = res_name
+        self.lon = lon
+        self.lat = lat
+        self.res_url = res_url
+        self.contact = contact
+        self.booking_date = booking_date
+        self.booking_time = booking_time
+        self.booking_partner = booking_partner
+
+    def json(self):
+        return {'res_name':self.res_name,
+                'lon':self.lon,
+                'lat':self.lat,
+                'res_url':self.res_url,
+                'contact':self.contact,
+                'booking_date':self.booking_date,
+                'booking_time':self.booking_time,
+                'booking_partner':self.booking_partner}
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -96,6 +129,31 @@ class Messages(db.Model):
                 "match_date": self.match_date, 
                 "message": self.message,
                 "url":self.url}
+
+###---- FOR RESERVATIONS ----
+@application.route("/send_reservations/res_name=<string:res_name>&lon=<string:lon>&lat=<string:lat>&res_url=<path:res_url>&contact=<string:contact>&booking_date=<string:booking_date>&booking_time=<string:booking_time>&booking_partner=<string:booking_partner>",methods=["GET"])
+def create_reservation(res_name,lon,lat,res_url,contact,booking_date,booking_time,booking_partner):
+    new_reservation = Reservations(
+        res_name = res_name,
+        lon = lon,
+        lat = lat,
+        res_url = res_url,
+        contact = contact,
+        booking_date = booking_date,
+        booking_time = booking_time,
+        booking_partner = booking_partner
+    )
+
+    db.session.add(new_reservation)
+    db.session.commit()
+    return jsonify({"message":"successfully made reservation"})
+
+@application.route("/get_reservations")
+def get_reservations():
+    '''
+    Displays all the conversations that the user can have based on matches 
+    '''
+    return jsonify({"matched_users": [u.json() for u in Reservations.query.all()]})
 
 ###---- FOR CHAT PAGE --------
 @application.route("/matched_users")

@@ -27,6 +27,9 @@ class Scheduler extends Component {
     this.setState({ apiDate: new_api_date });
   };
 
+  componentDidMount = () => {
+    console.log(this.props);
+  };
   render() {
     if (this.state.counter === 0) {
       return (
@@ -54,6 +57,7 @@ class Scheduler extends Component {
             apiDate={this.state.apiDate}
             time={this.state.time}
             location={this.state.location}
+            person={this.props.person}
           />
         </div>
       );

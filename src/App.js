@@ -19,6 +19,7 @@ class App extends Component {
     lastviewed: "",
     matched_users: [], //loaded when component mounts
     popup_gifs: [],
+    person: "",
   };
 
   first_load_cards = () => {
@@ -134,6 +135,16 @@ class App extends Component {
       );
   };
 
+  update_current_person = (person) => {
+    /*
+    for the reservation to load right, we need the update current person to flow
+    */
+    console.log(person);
+    this.setState({
+      person: person,
+    });
+  };
+
   render() {
     return (
       <Router>
@@ -150,7 +161,7 @@ class App extends Component {
                 }
                 update_messages={() => this.update_messages()}
               />
-              <ChatScreen />
+              <ChatScreen update_current_person={this.update_current_person} />
             </Route>
 
             <Route path="/chats">
@@ -174,7 +185,7 @@ class App extends Component {
                 }
                 update_messages={() => this.update_messages()}
               />
-              <Scheduler />
+              <Scheduler person={this.state.person} />
             </Route>
 
             {/* Let me just leave this here first. Shouldn't be needing it but just in case */}
@@ -219,8 +230,9 @@ class App extends Component {
                 renderCorrectCards={() =>
                   this.renderCorrectCards(this.state.lastviewed)
                 }
+                update_messages={() => this.update_messages()}
               />
-              <MyProfile/>
+              <MyProfile />
             </Route>
 
             <Route path="/">

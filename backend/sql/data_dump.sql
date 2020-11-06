@@ -39,6 +39,29 @@ INSERT INTO `matched_users` (`unique_id`, `name`, `message`, `lastonline`, `url`
 (4, 'Natalie', 'Hey Bryan!', '1 minute ago', 'https://images.unsplash.com/photo-1500055457707-845bf2958845?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60'),
 (5, 'Joyce', 'Hola. Tell me a cold joke.', '24 minutes ago', 'https://images.unsplash.com/photo-1567250671670-05e36d8ca38e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60');
 
+--
+-- Table structure for table `user_bookings`
+--
+DROP TABLE IF EXISTS `user_bookings`;
+CREATE TABLE `user_bookings` (
+  `res_name` varchar(300) NOT NULL,
+  `lon` varchar(255) NOT NULL,
+  `lat` varchar(200) NOT NULL,
+  `res_url` varchar(300) NOT NULL,
+  `contact` varchar(12) NOT NULL,
+  `booking_date` varchar(200) NOT NULL,
+  `booking_time` varchar(200) NOT NULL,
+  `booking_partner` varchar(300) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user_bookings`
+--
+
+-- INSERT INTO `user_bookings` (`res_name`, `lon`, `lat`, `res_url`, `contact`,`booking_date`,`booking_partner`) VALUES
+-- (5, 'Joyce', 'Hola. Tell me a cold joke.', '24 minutes ago', 'https://images.unsplash.com/photo-1567250671670-05e36d8ca38e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60');
+
+
 -- --------------------------------------------------------
 
 --
@@ -105,6 +128,12 @@ INSERT INTO `users` (`unique_id`, `username`, `name`, `url`, `age`, `description
 --
 ALTER TABLE `matched_users`
   ADD PRIMARY KEY (`unique_id`);
+
+--
+-- Indexes for table `user_bookings`
+--
+ALTER TABLE `user_bookings`
+  ADD PRIMARY KEY (`res_name`);
 
 --
 -- Indexes for table `messages`

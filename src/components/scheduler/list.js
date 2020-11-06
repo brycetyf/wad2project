@@ -1,22 +1,18 @@
-import React, { Component } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { Component } from "react";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
-import { Restaurant } from '@material-ui/icons';
-import CardGroup from 'react-bootstrap/CardDeck';
-import RestaurantCards from './RestaurantCards.js';
-import Card from 'react-bootstrap/Card';
-import "../../styles/List.css"
-
+import { Restaurant } from "@material-ui/icons";
+import CardGroup from "react-bootstrap/CardGroup";
+import RestaurantCards from "./RestaurantCards.js";
+import Card from "react-bootstrap/Card";
+import "../../styles/List.css";
 
 class List extends Component {
-
-
   constructor(props) {
     super(props);
 
     this.state = {
-
-      restaurants : [],
+      restaurants: [],
       locations: {
         central: [1.2865, 103.8412],
         north: [1.4304, 103.8354],
@@ -24,48 +20,46 @@ class List extends Component {
         east: [1.3236, 103.9273],
         west: [1.3329, 103.767],
       },
-
-    }
-    
-  }  
+    };
+  }
   componentDidMount() {
-
-    const { apiDate,location,time } = this.props;
-
+    const { apiDate, location, time, person } = this.props;
+    console.log(this.props);
     let location_details = this.state.locations[location];
     let latitude = location_details[0];
     let longitude = location_details[1];
     let strrr = `https://api.quandoo.com/v1/merchants?place=singapore&capacity=2&offset=0&limit=50&radius=2&bookable=true&fromtime=${time}&date=${apiDate}&centerPoint=${latitude}%2C${longitude}`;
     console.log(strrr);
 
-    axios.get(`https://api.quandoo.com/v1/merchants?place=singapore&capacity=2&offset=0&limit=50&fromtime=${time}&date=${apiDate}&centerPoint=${latitude}.${longitude}`).then((res) => {
-      this.setState ({
-        restaurants : res.data.merchants
+    axios
+      .get(
+        `https://api.quandoo.com/v1/merchants?place=singapore&capacity=2&offset=0&limit=50&fromtime=${time}&date=${apiDate}&centerPoint=${latitude}.${longitude}`
+      )
+      .then((res) => {
+        this.setState({
+          restaurants: res.data.merchants,
+        });
+        console.log(this.state.restaurants);
       });
-      console.log(this.state.restaurants);
-    });
-
   }
 
   render() {
-
-    let showCards=this.state.restaurants.map(restaurant => {
+    let showCards = this.state.restaurants.map((restaurant) => {
       return (
-        <RestaurantCards restaurant={restaurant} />
-      )
-    })
+        <RestaurantCards
+          restaurant={restaurant}
+          booking_date={this.props.apiDate}
+          booking_time={this.props.time}
+          partner_name={this.props.person}
+        />
+      );
+    });
     return (
-    <div className="restaurant_list">
-      
-      <CardGroup>
-
-        {showCards}
-
-      </CardGroup>
-
-    </div>
-    )
-}
+      <div className="restaurant_list">
+        <CardGroup>{showCards}</CardGroup>
+      </div>
+    );
+  }
 }
 
-export default List
+export default List;

@@ -2,12 +2,32 @@ import React, { Component } from "react";
 import CardDeck from "react-bootstrap/CardDeck";
 import Card from "react-bootstrap/Card";
 import List from "./list";
+import axios from "axios";
 
 class RestaurantCards extends Component {
   constructor(props) {
     super(props);
     console.log(this.props.restaurant);
   }
+
+  sendBooking = (
+    res_name,
+    lon,
+    lat,
+    res_url,
+    contact,
+    booking_date,
+    booking_time,
+    booking_partner
+  ) => {
+    axios
+      .get(
+        `http://127.0.0.1:5001/send_reservations/res_name=${res_name}&lon=${lon}&lat=${lat}&res_url=${res_url}&contact=${contact}&booking_date=${booking_date}&booking_time=${booking_time}&booking_partner=${booking_partner}`
+      )
+      .then((res) => {
+        console.log("reservation success!");
+      });
+  };
 
   render() {
     return (
@@ -28,7 +48,22 @@ class RestaurantCards extends Component {
             <small className="text-muted">
               Contact: {this.props.restaurant.phoneNumber}
             </small>
-            <button>BOOK NOW</button>
+            <button
+              onClick={() =>
+                this.sendBooking(
+                  this.props.restaurant.name,
+                  this.props.restaurant.location.coordinates.latitude,
+                  this.props.restaurant.location.coordinates.longitude,
+                  this.props.restaurant.images[0].url,
+                  this.props.restaurant.phoneNumber,
+                  this.props.booking_date,
+                  this.props.booking_time,
+                  this.props.partner_name
+                )
+              }
+            >
+              BOOK NOW
+            </button>
           </Card.Footer>
         </Card>
       </div>
