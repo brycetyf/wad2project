@@ -6,9 +6,8 @@ import ChatScreen from "./components/chat/ChatScreen";
 import Profile from "./components/Profile";
 import MyProfile from "./components/myOwnProfile/MyProfile";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Calendar from "./components/scheduler/CalendarDisplay";
 import Scheduler from "./components/scheduler/Scheduler";
-import List from "./components/scheduler/list";
+import DateDetails from "./components/myOwnProfile/DateDetails";
 import "./styles/App.css";
 import axios from "axios";
 
@@ -238,6 +237,18 @@ class App extends Component {
                 update_messages={() => this.update_messages()}
               />
               <MyProfile />
+            </Route>
+
+            <Route path="/DateDetails/:dateid">
+              {/* Route to view a specific profile FROM inside of chat*/}
+              <Header
+                backButton="go_back"
+                renderCorrectCards={() =>
+                  this.renderCorrectCards(this.state.lastviewed)
+                }
+                update_messages={() => this.update_messages()}
+              />
+              <DateDetails />
             </Route>
 
             <Route path="/">

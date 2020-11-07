@@ -40,7 +40,8 @@ class Matched_users(db.Model):
 class Reservations(db.Model):
     __tablename__ = 'user_bookings'
 
-    res_name = db.Column(db.VARCHAR(300), primary_key=True)
+    res_id = db.Column(db.INT(),primary_key=True)
+    res_name = db.Column(db.VARCHAR(300), primary_key=False)
     lon = db.Column(db.VARCHAR(255), nullable=False)
     lat = db.Column(db.VARCHAR(200), nullable=True)
     res_url = db.Column(db.VARCHAR(300), nullable=False)
@@ -50,7 +51,8 @@ class Reservations(db.Model):
     booking_partner = db.Column(db.VARCHAR(300), nullable=False)
     booking_partner_url = db.Column(db.VARCHAR(300), nullable=False)
 
-    def __init__(self, res_name, lon,lat, res_url, contact,booking_date,booking_time,booking_partner,booking_partner_url):
+    def __init__(self, res_id,res_name, lon,lat, res_url, contact,booking_date,booking_time,booking_partner,booking_partner_url):
+        self.red_id = res_id
         self.res_name = res_name
         self.lon = lon
         self.lat = lat
@@ -62,7 +64,8 @@ class Reservations(db.Model):
         self.booking_partner_url = booking_partner_url
 
     def json(self):
-        return {'res_name':self.res_name,
+        return {'res_id':self.res_id,
+                'res_name':self.res_name,
                 'lon':self.lon,
                 'lat':self.lat,
                 'res_url':self.res_url,
@@ -136,7 +139,13 @@ class Messages(db.Model):
 ###---- FOR RESERVATIONS ----
 @application.route("/send_reservations/res_name=<string:res_name>&lon=<string:lon>&lat=<string:lat>&res_url=<path:res_url>&contact=<string:contact>&booking_date=<string:booking_date>&booking_time=<string:booking_time>&booking_partner=<string:booking_partner>&booking_partner_url=<path:booking_partner_url>",methods=["GET"])
 def create_reservation(res_name,lon,lat,res_url,contact,booking_date,booking_time,booking_partner,booking_partner_url):
+    try:
+        highest_res_id = db.session.query(db.func.max(Reservations.res_id)).scalar() + 1
+    except:
+        highest_res_id = 0
+    print(highest_res_id)
     new_reservation = Reservations(
+        res_id = highest_res_id,
         res_name = res_name,
         lon = lon,
         lat = lat,
@@ -158,6 +167,15 @@ def get_reservations():
     Displays all the conversations that the user can have based on matches 
     '''
     return jsonify({"reservation_data": [u.json() for u in Reservations.query.all()]})
+
+
+@application.route("/get_particular_reservation/<string:res_id>")
+def get_particular_res(res_id):
+    '''
+    Displays all the conversations that the user can have based on matches 
+    '''
+    res = Reservations.query.filter_by(res_id=res_id)
+    return jsonify({"reservation_data": [r.json() for r in res]})
 
 ###---- FOR CHAT PAGE --------
 @application.route("/matched_users")

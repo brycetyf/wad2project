@@ -5,6 +5,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -45,10 +46,10 @@ export default function ReservationCard({
   booking_time,
   booking_partner,
   partner_url,
+  dateid,
 }) {
   const classes = useStyles();
   const theme = useTheme();
-  console.log(partner_url);
   return (
     <Card className={classes.root}>
       <CardMedia className={classes.cover} image={res_url} />
@@ -70,6 +71,15 @@ export default function ReservationCard({
           <Typography variant="subtitle1" color="textSecondary">
             Restaurant Contact: {contact}
           </Typography>
+          <Link to={`/DateDetails/${dateid}`}>
+            <Button
+              variant="outlined"
+              size="small"
+              classes={{ label: "detail__button" }}
+            >
+              More Details
+            </Button>
+          </Link>
         </CardContent>
       </div>
     </Card>

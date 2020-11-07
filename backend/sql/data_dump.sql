@@ -44,6 +44,7 @@ INSERT INTO `matched_users` (`unique_id`, `name`, `message`, `lastonline`, `url`
 --
 DROP TABLE IF EXISTS `user_bookings`;
 CREATE TABLE `user_bookings` (
+  `res_id` int(200) NOT NULL,
   `res_name` varchar(300) NOT NULL,
   `lon` varchar(255) NOT NULL,
   `lat` varchar(200) NOT NULL,
@@ -134,7 +135,7 @@ ALTER TABLE `matched_users`
 -- Indexes for table `user_bookings`
 --
 ALTER TABLE `user_bookings`
-  ADD PRIMARY KEY (`res_name`);
+  ADD PRIMARY KEY (`res_id`);
 
 --
 -- Indexes for table `messages`
@@ -156,4 +157,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `msgid` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `msgid` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+ALTER TABLE `user_bookings`
+  MODIFY `res_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;

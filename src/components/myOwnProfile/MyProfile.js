@@ -39,7 +39,7 @@ class MyProfile extends Component {
     return (
       <div className="profile">
         <Avatar
-          src={require("./dp/bryce.jpg")}
+          src={require("../../images/bryce.jpg")}
           alt="bryce"
           style={{
             height: 180,
@@ -84,6 +84,7 @@ class MyProfile extends Component {
               booking_time={date.booking_time}
               booking_partner={date.booking_partner}
               partner_url={date.booking_partner_url}
+              dateid={date.res_id}
               key={index}
             />
           ))}

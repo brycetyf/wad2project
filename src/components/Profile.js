@@ -36,10 +36,7 @@ class Profile extends Component {
             <img src={obj.url} alt={obj.name} className="sliderimg" />
           </Carousel.Item>
         </Carousel>
-        <div
-          className="profile__area"
-          style={{ background: "lightgrey", width: "100%" }}
-        >
+        <div className="profile__area">
           <div className="profile__name">
             {obj.name}, {obj.age}
           </div>
