@@ -20,21 +20,22 @@ function Weather({ w_arr }) {
   var advice = "";
 
   const count_rain = (str) => {
-    let counter = 1;
+    let counter = 0;
     w_arr.map((forecast) => {
       if (forecast.weather[0].description.toLowerCase().includes("rain")) {
         rain_count++;
       }
-      average_feels_like += forecast.main.temp;
+      average_feels_like += forecast.main.feels_like;
       counter++;
     });
     average_feels_like = average_feels_like / counter;
 
     if (rain_count > 0) {
       advice = "Bring an umbrella. It looks like it will rain.";
-    } else if (rain_count === 0 && average_feels_like > 27.0) {
+    } else if (average_feels_like > 27.0) {
       advice = "Looks like its going to be warm. Bring some tissues.";
     } else {
+      console.log(average_feels_like);
       advice = "Looks like weather is going to be perfect!";
     }
   };

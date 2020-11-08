@@ -8,18 +8,19 @@ import { Link } from "react-router-dom";
 import "../../styles/DateDetails.css";
 import Weather from "./Weather";
 import Gif from "./gif";
+import Map from "./Map";
 
 class DateDetails extends Component {
   state = {
     reservation: "",
-    random_vocab: [
+    date_vocab: [
       "lovely",
       "exciting",
       "awesome",
       "magical",
       "fun",
       "brilliant",
-    ],
+    ][Math.floor(Math.random() * 5)],
   };
   componentDidMount() {
     const api_key = "FwThwwuTTlsGSSjWwmw6PKQoBXJZ8pcv";
@@ -41,13 +42,24 @@ class DateDetails extends Component {
           ),
         });
         this.fetchWeatherForecast();
+        this.fetchGoogleMap();
       });
   }
 
+  fetchGoogleMap = () => {
+    const location = {
+      address: this.state.reservation.res_name,
+      lat: this.state.reservation.lat,
+      lng: this.state.reservation.lon,
+    };
+    this.setState({
+      googleMap: <Map location={location} zoomLevel={11} />,
+    });
+  };
   fetchWeatherForecast = () => {
     axios
       .get(
-        `http://api.openweathermap.org/data/2.5/forecast?lat=${this.state.reservation.lon}&lon=${this.state.reservation.lat}&appid=2ac200cd0f1d80f588861e0e396359d1&units=metric`
+        `http://api.openweathermap.org/data/2.5/forecast?lat=${this.state.reservation.lat}&lon=${this.state.reservation.lon}&appid=2ac200cd0f1d80f588861e0e396359d1&units=metric`
       )
       .then((res) => {
         let weather_array = [];
@@ -86,8 +98,7 @@ class DateDetails extends Component {
     return (
       <div className="countdown">
         <h2 className="countdown__details">{this.state.time_delta} days</h2>
-        till your {this.state.random_vocab[Math.floor(Math.random() * 5)]} date
-        with
+        till your {this.state.date_vocab} date with
         <Link to={`/profile/${this.state.reservation.booking_partner}`}>
           <Avatar
             src={this.state.reservation.booking_partner_url}

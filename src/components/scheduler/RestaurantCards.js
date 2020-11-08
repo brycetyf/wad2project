@@ -19,15 +19,13 @@ class RestaurantCards extends Component {
     booking_date,
     booking_time,
     booking_partner,
-    booking_partner_url,
+    booking_partner_url
   ) => {
-    axios
-      .get(
-        `http://127.0.0.1:5001/send_reservations/res_name=${res_name}&lon=${lon}&lat=${lat}&res_url=${res_url}&contact=${contact}&booking_date=${booking_date}&booking_time=${booking_time}&booking_partner=${booking_partner}&booking_partner_url=${booking_partner_url}`
-      )
-      .then((res) => {
-        console.log("reservation success!");
-      });
+    let url = `http://127.0.0.1:5001/send_reservations/res_name=${res_name}&lon=${lon}&lat=${lat}&res_url=${res_url}&contact=${contact}&booking_date=${booking_date}&booking_time=${booking_time}&booking_partner=${booking_partner}&booking_partner_url=${booking_partner_url}`;
+    console.log(url);
+    axios.get(url).then((res) => {
+      console.log("reservation success!");
+    });
   };
 
   render() {
@@ -53,8 +51,8 @@ class RestaurantCards extends Component {
               onClick={() =>
                 this.sendBooking(
                   this.props.restaurant.name,
-                  this.props.restaurant.location.coordinates.latitude,
                   this.props.restaurant.location.coordinates.longitude,
+                  this.props.restaurant.location.coordinates.latitude,
                   this.props.restaurant.images[0].url,
                   this.props.restaurant.phoneNumber,
                   this.props.booking_date,
