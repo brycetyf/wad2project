@@ -71,6 +71,7 @@ class CalendarDisplay extends Component {
             className={"calendar_design"}
             onChange={(date) => this.setState({ date })}
             value={this.state.date}
+            minDate={new Date()}
           />
         </div>
 
