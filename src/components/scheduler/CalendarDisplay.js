@@ -6,6 +6,7 @@ import "react-calendar/dist/Calendar.css";
 import "../../styles/Calendar.css";
 import { Link } from "react-router-dom";
 import List from "./list";
+import Select from 'react-select';
 
 class CalendarDisplay extends Component {
   constructor(props) {
@@ -16,9 +17,18 @@ class CalendarDisplay extends Component {
       time: "17:00",
       apiDate: "",
       location: "central",
+      cuisine: [
+        { value: 'japanese', label: 'Japanese' },
+        { value: 'indian', label: 'Indian' },
+        { value: 'chinese', label: 'Chinese' },
+        { value: 'malay', label:'Malay'},
+        { value: 'western', label:'Western'},
+      ],
+      selectedOptions: [],
     };
 
     this.handleChange = this.handleChange.bind(this);
+
   }
 
   //Quandoo API requires this format of date in order to retrieve date
@@ -58,6 +68,10 @@ class CalendarDisplay extends Component {
 
   handleChange(event) {
     this.setState({ location: event.target.value });
+  }
+
+  handleChange2 = (selectedOptions) => {
+    this.setState({ selectedOptions });
   }
 
   render() {
@@ -117,6 +131,25 @@ class CalendarDisplay extends Component {
                 </select>
               </td>
             </tr>
+
+            <tr>
+              <td>
+                <b>Cuisine: </b>
+              </td>
+
+              <td>
+                <Select 
+                  isMulti
+                  name="cuisine"
+                  options={this.state.cuisine}
+                  className="basic-multi-select"
+                  classNamePrefix="select"
+                  onChange={this.handleChange2}
+                  />
+              </td>
+
+
+            </tr>
           </table>
 
           <div className={"button_div"}>
@@ -126,6 +159,7 @@ class CalendarDisplay extends Component {
                 this.props.updateCounter();
                 this.props.updateTime(this.state.time);
                 this.props.updateLocation(this.state.location);
+                this.props.updateCuisine(this.state.selectedOptions);
               }}
               variant="success"
               size="sm"

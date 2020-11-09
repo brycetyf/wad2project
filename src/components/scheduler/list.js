@@ -23,16 +23,28 @@ class List extends Component {
     };
   }
   componentDidMount() {
-    const { apiDate, location, time, person } = this.props;
+    const { apiDate, location, time, cuisine, person } = this.props;
     let location_details = this.state.locations[location];
     let latitude = location_details[0];
     let longitude = location_details[1];
-    let strrr = `https://api.quandoo.com/v1/merchants?place=singapore&capacity=2&offset=0&limit=50&radius=2&bookable=true&fromtime=${time}&date=${apiDate}&centerPoint=${latitude}%2C${longitude}`;
+    console.log(cuisine);
+    
+    let selected = [];
+    cuisine.map(function(option) {
+      selected.push(option.value);
+    })
+
+    
+
+    let selected_str = selected.join(';');
+    console.log(selected_str);
+
+    let strrr = `https://api.quandoo.com/v1/merchants?place=singapore&capacity=2&offset=0&limit=50&radius=2&bookable=true&fromtime=${time}&date=${apiDate}&centerPoint=${latitude}%2C${longitude}&tags=${selected_str}`;
     console.log(strrr);
 
     axios
       .get(
-        `https://api.quandoo.com/v1/merchants?place=singapore&capacity=2&offset=0&limit=50&fromtime=${time}&date=${apiDate}&centerPoint=${latitude}.${longitude}`
+        `https://api.quandoo.com/v1/merchants?place=singapore&capacity=2&offset=0&limit=50&fromtime=${time}&date=${apiDate}&centerPoint=${latitude}.${longitude}&tags=${selected_str}`
       )
       .then((res) => {
         this.setState({

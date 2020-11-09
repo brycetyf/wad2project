@@ -7,6 +7,7 @@ class Scheduler extends Component {
     time: "17:00",
     location: "",
     apiDate: "",
+    cuisine: [],
     counter: 0,
   };
 
@@ -27,6 +28,10 @@ class Scheduler extends Component {
     this.setState({ apiDate: new_api_date });
   };
 
+  update_cuisine = (new_cuisine) => {
+    this.setState({ cuisine: new_cuisine });
+  }
+
   componentDidMount = () => {
     console.log(this.props);
   };
@@ -39,10 +44,12 @@ class Scheduler extends Component {
             updateLocation={this.update_location}
             updateCounter={this.update_counter}
             updateAPIDate={this.update_api_date}
+            updateCuisine={this.update_cuisine}
             date={this.state.date}
             apiDate={this.state.apiDate}
             time={this.state.time}
             location={this.state.location}
+            cuisine={this.state.cuisine}
           />
         </div>
       );
@@ -54,9 +61,11 @@ class Scheduler extends Component {
             updateLocation={this.update_location}
             updateCounter={this.update_counter}
             updateAPIDate={this.update_api_date}
+            updateCuisine={this.update_cuisine}
             apiDate={this.state.apiDate}
             time={this.state.time}
             location={this.state.location}
+            cuisine={this.state.cuisine}
             person={this.props.person}
             person_url={this.props.person_url}
           />
