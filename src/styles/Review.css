@@ -1,0 +1,40 @@
+.rating__slider {
+  width: 35%;
+  margin: auto;
+}
+
+.review__input {
+  width: 60%;
+  margin: auto;
+  text-align: center;
+}
+
+.review__badges {
+  margin-top: 100px;
+  margin-bottom: 100px;
+  width: 60%;
+  margin: auto;
+  text-align: center;
+}
+
+.confirm__button {
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.review__confirm__button {
+  background-color: white;
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3) !important;
+}
+
+.attendance__input {
+  margin-top: 25px;
+  text-align: center;
+  justify-content: center;
+}
+
+.MuiFormGroup-root {
+  display: block !important ;
+  margin-right: 25px;
+}

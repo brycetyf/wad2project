@@ -108,7 +108,7 @@ export default function ReservationCard({
                     {res_name}
                   </Typography>
                   <Typography variant="subtitle1" color="textSecondary">
-                    Your you met {booking_partner} on {booking_date}
+                    You met {booking_partner} on {booking_date}
                   </Typography>
                   <div style={{ paddingTop: "10px" }}>
                     <Link to={`/Review/${booking_partner}`}>

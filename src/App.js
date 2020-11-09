@@ -8,7 +8,7 @@ import MyProfile from "./components/myOwnProfile/MyProfile";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Scheduler from "./components/scheduler/Scheduler";
 import DateDetails from "./components/myOwnProfile/DateDetails";
-import Review from "./components/Review";
+import Review from "./components/Review/Review";
 import "./styles/App.css";
 import axios from "axios";
 

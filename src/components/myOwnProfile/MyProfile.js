@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import SchoolIcon from "@material-ui/icons/School";
 import MoodBadIcon from "@material-ui/icons/MoodBad";
 import DescriptionIcon from "@material-ui/icons/Description";
@@ -7,7 +6,6 @@ import Avatar from "@material-ui/core/Avatar";
 import "../../styles/myProfile.css";
 import axios from "axios";
 import ReservationCard from "./UpcomingReservations";
-import Circle from "react-circle";
 
 class MyProfile extends Component {
   state = {

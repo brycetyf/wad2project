@@ -5,8 +5,8 @@ import datetime
 
 application = Flask(__name__)
 CORS(application)
-application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/wad2project' #FOR WINDOW USERS
-# application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/wad2project' #FOR MAC USERS
+# application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/wad2project' #FOR WINDOW USERS
+application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/wad2project' #FOR MAC USERS
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 application.config['CORS_HEADERS'] = 'Content-Type'
 
@@ -36,6 +36,22 @@ class Matched_users(db.Model):
                 "lastonline": self.lastonline,
                 "url":self.url}
 
+class Reviews(db.Model):
+    __tablename__ = 'reviewComments'
+
+    comment_id = db.Column(db.INT(), primary_key=True)
+    username = db.Column(db.VARCHAR(100), nullable=False)
+    comments = db.Column(db.VARCHAR(8000), nullable=False)
+
+    def __init__(self, comment_id, username, comments):
+        self.comment_id = comment_id
+        self.username = username
+        self.comments = comments
+
+    def json(self):
+        return {"comment_id": self.comment_id, 
+                "username": self.username, 
+                "comments": self.comments}
 
 class Reservations(db.Model):
     __tablename__ = 'user_bookings'
@@ -87,8 +103,11 @@ class User(db.Model):
     ghostRating = db.Column(db.Integer, nullable=False)
     gender = db.Column(db.VARCHAR(1),nullable=False)
     user_indicated_interest = db.Column(db.BOOLEAN(),nullable=False)
+    reviewInstances = db.Column(db.INT(),nullable=True)
+    userRating = db.Column(db.Integer,nullable=True)
+    userTags = db.Column(db.VARCHAR(8000),nullable=True)
 
-    def __init__(self,unique_id, username, name, url, age, description, ghostRating,gender,user_indicated_interest):
+    def __init__(self,unique_id, username, name, url, age, description, ghostRating,gender,user_indicated_interest,reviewInstances,userRating,userTags):
         self.unique_id = unique_id
         self.username = username
         self.name = name
@@ -98,6 +117,9 @@ class User(db.Model):
         self.ghostRating = ghostRating
         self.gender = gender
         self.user_indicated_interest = user_indicated_interest
+        self.reviewInstances = reviewInstances
+        self.userRating = userRating
+        self.userTags = userTags
 
     def json(self):
         return {"unique_id":self.unique_id,
@@ -108,7 +130,10 @@ class User(db.Model):
                 "description": self.description, 
                 "ghostRating": self.ghostRating,
                 "gender":self.gender,
-                "user_indicated_interest":self.user_indicated_interest}
+                "user_indicated_interest":self.user_indicated_interest,
+                "reviewInstances":self.reviewInstances,
+                "userRating":self.userRating,
+                "userTags":self.userTags}
 
 class Messages(db.Model):
     __tablename__ = 'messages'
@@ -203,7 +228,6 @@ def create_match(unique_id,name,url):
     db.session.add(new_match)
     db.session.commit()
     return jsonify({"message":"successfully updated match"})
-
 
 ###---- FOR CHATTING --------
 @application.route("/send_message/match_name=<string:match_name>&message=<string:message>",methods=["GET"])
