@@ -12,6 +12,7 @@ class CalendarDisplay extends Component {
   constructor(props) {
     super(props);
 
+    // current state of stuff??? 
     this.state = {
       date: new Date(),
       time: "17:00",
@@ -77,7 +78,10 @@ class CalendarDisplay extends Component {
   render() {
     return (
       // add styling here
+
       <div className={"calendar_whole"}>
+
+
         <div className={"calendar_title"}> BOOK YOUR DATE! </div>
 
         <div className={"calendar"}>
@@ -90,23 +94,23 @@ class CalendarDisplay extends Component {
         </div>
 
         <div className={"booking_details"}>
-          <h4>ENTER BOOKING DETAILS</h4>
+          <div className={"booking_header"}>ENTER BOOKING DETAILS</div>
 
           {/*  Used a table here in order to align the words date and time to make it more organized */}
           <table className={"details_table"}>
             <tr>
               <td>
-                <b>Date: </b>
+                <h5>Date:</h5>
               </td>
-              <td>{this.format_date_display()}</td>
+              <td><h5>{this.format_date_display()}</h5></td>
             </tr>
 
             <tr>
               <td>
-                <b>Time: </b>
+                <h5>Time:</h5>
               </td>
-              <td>
-                <TimePicker
+              <td><TimePicker
+                //   className={"timepicker_design"}
                   clockIcon={null}
                   clearIcon={null}
                   disableClock={true}
@@ -118,23 +122,23 @@ class CalendarDisplay extends Component {
 
             <tr>
               <td>
-                <b>Location: </b>
+                <h5>Location:</h5>
               </td>
 
               <td>
-                <select value={this.state.value} onChange={this.handleChange}>
+                  <h5><select value={this.state.value} onChange={this.handleChange}>
                   <option value="central">Central</option>
                   <option value="north">North</option>
                   <option value="south">South</option>
                   <option value="east">East</option>
                   <option value="west">West</option>
-                </select>
+                </select></h5>
               </td>
             </tr>
 
             <tr>
               <td>
-                <b>Cuisine: </b>
+                <h5>Cuisine:</h5>
               </td>
 
               <td>
@@ -162,7 +166,7 @@ class CalendarDisplay extends Component {
                 this.props.updateCuisine(this.state.selectedOptions);
               }}
               variant="success"
-              size="sm"
+              size="md"
             >
               Continue
             </Button>
