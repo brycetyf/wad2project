@@ -76,7 +76,7 @@ class CalendarDisplay extends Component {
         </div>
 
         <div className={"booking_details"}>
-          <h4>Enter Booking Details</h4>
+          <h4>ENTER BOOKING DETAILS</h4>
 
           {/*  Used a table here in order to align the words date and time to make it more organized */}
           <table className={"details_table"}>
