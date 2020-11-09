@@ -6,19 +6,16 @@
 .calendar_title {
     display: flex;
     justify-content: center;
-    font-weight: bold;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: 625;
     font-size: 45px;
     padding: 10px;
 
 }
 
 .calendar_design {
-    background-color: rgb(255, 249, 231);
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: white;
     font-size: larger;
-    width: 500px;
-    height:420px;
+    width: 40%;
 }
 
 .calendar {
