@@ -55,20 +55,26 @@ class List extends Component {
   }
 
   render() {
-    let showCards = this.state.restaurants.map((restaurant) => {
-      return (
-        <RestaurantCards
-          restaurant={restaurant}
-          booking_date={this.props.apiDate}
-          booking_time={this.props.time}
-          partner_name={this.props.person}
-          partner_url={this.props.person_url}
-        />
-      );
-    });
+    // let showCards = this.state.restaurants.map((restaurant) => {
+    //   return (
+    //     <RestaurantCards
+    //       restaurant={restaurant}
+    //       booking_date={this.props.apiDate}
+    //       booking_time={this.props.time}
+    //       partner_name={this.props.person}
+    //       partner_url={this.props.person_url}
+    //     />
+    //   );
+    // });
     return (
       <div className="restaurant_list">
-        <CardGroup>{showCards}</CardGroup>
+        {/* <CardGroup>{showCards}</CardGroup> */}
+        <RestaurantCards 
+        restaurants={this.state.restaurants}
+        booking_date={this.props.apiDate}
+        booking_time={this.props.time}
+        partner_name={this.props.person}
+        partner_url={this.props.person_url}/>
       </div>
     );
   }
