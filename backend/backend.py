@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import datetime
+import ast
 
 application = Flask(__name__)
 CORS(application)
@@ -100,12 +101,12 @@ class User(db.Model):
     url = db.Column(db.VARCHAR(300), nullable=False)
     age = db.Column(db.Integer, nullable=False)
     description = db.Column(db.VARCHAR(999), nullable=False)
-    ghostRating = db.Column(db.Integer, nullable=False)
     gender = db.Column(db.VARCHAR(1),nullable=False)
     user_indicated_interest = db.Column(db.BOOLEAN(),nullable=False)
     reviewInstances = db.Column(db.INT(),nullable=True)
     userRating = db.Column(db.Integer,nullable=True)
     userTags = db.Column(db.VARCHAR(8000),nullable=True)
+    ghostRating = db.Column(db.INT(), nullable=False)
 
     def __init__(self,unique_id, username, name, url, age, description, ghostRating,gender,user_indicated_interest,reviewInstances,userRating,userTags):
         self.unique_id = unique_id
@@ -193,7 +194,6 @@ def get_reservations():
     '''
     return jsonify({"reservation_data": [u.json() for u in Reservations.query.all()]})
 
-
 @application.route("/get_particular_reservation/<string:res_id>")
 def get_particular_res(res_id):
     '''
@@ -229,7 +229,7 @@ def create_match(unique_id,name,url):
     db.session.commit()
     return jsonify({"message":"successfully updated match"})
 
-###---- FOR CHATTING --------
+###---- MESSAGE TABLE APIS --------
 @application.route("/send_message/match_name=<string:match_name>&message=<string:message>",methods=["GET"])
 def send_message(match_name,message):
     # update database with the latest message from the user
@@ -270,7 +270,7 @@ def find_match_chat(username):
         return jsonify({"chats": [chat.json() for chat in chats]})
     return jsonify({"message": "User not found."}), 404
 
-###---- TO DISPLAY CARDS --------
+###---- USER TABLE APIS --------
 @application.route("/users")
 def find_all():
     return jsonify({"users": [user.json() for user in User.query.all()]})
@@ -287,12 +287,82 @@ def find_user(unique_id_or_name):
         search_param = int(unique_id_or_name) #hack
         user=User.query.filter_by(unique_id=search_param).first()
     except:
-        print('hello')
         user=User.query.filter_by(username=unique_id_or_name).first()
 
     if user:
         return jsonify(user.json())
     return jsonify({"message": "User not found."}), 404
+
+@application.route("/users/update/unique_id_or_name=<string:unique_id_or_name>&rating=<string:rating>&badges=<string:badges>&attendance=<string:attendance>", methods=['GET'])
+def update_user_data(unique_id_or_name,rating,badges,attendance):
+    ### STILL NOT DONE
+    try:
+        search_param = int(unique_id_or_name) #hack
+        user=User.query.filter_by(unique_id=search_param).first()
+    except:
+        user=User.query.filter_by(username=unique_id_or_name).first()
+
+    ## Dealing with tags
+    
+    tags_array = badges.split(',')
+    userTags_dict = user.userTags
+    if (userTags_dict):
+        userTags_dict = ast.literal_eval(userTags_dict)
+        for tag in tags_array:
+            if tag in userTags_dict:
+                userTags_dict[tag] += 1
+            else:
+                userTags_dict[tag] = 1
+    else:
+        userTags_dict = {}
+        for tag in tags_array:
+            userTags_dict[tag] = 1
+
+    userTags_dict = str(userTags_dict)    
+    attendance = int(attendance)
+    ## Dealing with the average attendance and user rating
+    if (user.reviewInstances) is None:
+        no_of_reviews = 0
+        user_avg_rating = 0
+        userRating = rating
+        userGhostRating = attendance * 100
+        no_of_reviews = 1
+    else:
+        no_of_reviews = int(user.reviewInstances)  
+        total_score = int(user.userRating) * no_of_reviews
+        total_att = int(user.ghostRating) * no_of_reviews
+        no_of_reviews = no_of_reviews + 1
+        userRating = (total_score + int(rating)) / (no_of_reviews)
+        userGhostRating = (total_att+int(attendance*100)) / (no_of_reviews)
+
+
+    user.userRating = int(round(float(userRating),0))
+    user.ghostRating = int(round(float(userGhostRating),0))
+    user.reviewInstances = no_of_reviews
+    user.userTags = userTags_dict
+    db.session.commit()
+    return jsonify({"message": "Review was successfully made"}), 200
+
+###--- REVIEW TABLE APIS ----
+@application.route("/review/username=<string:username>&comments=<string:comments>",methods=["GET"])
+def create_review(username,comments):
+    '''
+    Updates DB with user reviews
+    '''
+    try:
+        highest_comment_id = db.session.query(db.func.max(Reviews.comment_id)).scalar() + 1
+    except:
+        highest_comment_id = 1
+
+    new_review = Reviews(
+        comment_id = int(highest_comment_id),
+        username = username,
+        comments = comments,
+    )
+
+    db.session.add(new_review)
+    db.session.commit()
+    return jsonify({"message":"successfully updated review"})
 
 if __name__ == '__main__':
     application.run(port=5001, debug=True)

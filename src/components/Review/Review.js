@@ -10,6 +10,7 @@ import DoneIcon from "@material-ui/icons/Done";
 import SimpleModal from "../popup_modal";
 import RadioButtons from "./RadioButtons";
 import "../../styles/Review.css";
+import { Link } from "react-router-dom";
 
 class Review extends Component {
   state = {
@@ -17,15 +18,42 @@ class Review extends Component {
     rating_value: 0,
     text_review: "",
     badges: [],
+    attendence: 0,
     confirmation_button: (
       <IconButton
         type="button"
         className="swipeButtons__right review__confirm__button"
+        onClick={() => {
+          this.compositeFunction(
+            this.state.user.username,
+            this.state.rating_value,
+            this.state.text_review,
+            this.state.badges,
+            this.state.attendence
+          );
+        }}
       >
         <DoneIcon fontSize="large" />
       </IconButton>
     ),
-    attendence: 0,
+  };
+
+  compositeFunction = (username, rating, review, badges, attendance) => {
+    this.sendReview(username, review);
+    this.editUserData(username, rating, badges, attendance);
+  };
+
+  editUserData = (username, rating, badges, attendance) => {
+    let serialiseBadges = badges.toString();
+    axios.get(
+      `http://127.0.0.1:5001/users/update/unique_id_or_name=${username}&rating=${rating}&badges=${serialiseBadges}&attendance=${attendance}`
+    );
+  };
+
+  sendReview = (username, review) => {
+    axios.get(
+      `http://127.0.0.1:5001/review/username=${username}&comments=${review}`
+    );
   };
   updateRating = (e, value) => {
     this.setState({
@@ -47,11 +75,11 @@ class Review extends Component {
   updateAttendence = (e) => {
     if (e === "b") {
       this.setState({
-        attendence: 1,
+        attendence: 0,
       });
     } else {
       this.setState({
-        attendence: 0,
+        attendence: 1,
       });
     }
   };
