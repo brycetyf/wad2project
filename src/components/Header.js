@@ -7,10 +7,12 @@ import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import TodayIcon from "@material-ui/icons/Today";
 import { Link, useHistory } from "react-router-dom";
 import ghost_me_not from "../images/ghost_me_not.jpg";
+import RateReviewIcon from "@material-ui/icons/RateReview";
 
 function Header({
   backButton,
   chatCalender,
+  userVetting,
   renderCorrectCards,
   update_messages,
 }) {
@@ -19,12 +21,21 @@ function Header({
     // BEM
     <div className="header">
       {backButton ? (
-        <IconButton
-          onClick={() => history.goBack()}
-          onMouseOver={() => renderCorrectCards()}
-        >
-          <ArrowBackIosIcon fontSize="large" className="header__icon" />
-        </IconButton>
+        backButton === "go_back" ? (
+          <IconButton
+            onClick={() => history.goBack()}
+            onMouseOver={() => renderCorrectCards()}
+          >
+            <ArrowBackIosIcon fontSize="large" className="header__icon" />
+          </IconButton>
+        ) : (
+          <IconButton
+            onClick={() => history.replace(backButton)}
+            onMouseOver={() => renderCorrectCards()}
+          >
+            <ArrowBackIosIcon fontSize="large" className="header__icon" />
+          </IconButton>
+        )
       ) : (
         <IconButton>
           <Link to="/myProfile">
@@ -41,6 +52,12 @@ function Header({
         <IconButton>
           <Link to="/scheduler">
             <TodayIcon fontSize="large" className="header__icon" />
+          </Link>
+        </IconButton>
+      ) : userVetting ? (
+        <IconButton>
+          <Link to="/vet_reviews" onMouseOver={() => update_messages()}>
+            <RateReviewIcon className="header__icon" fontSize="large" />
           </Link>
         </IconButton>
       ) : (

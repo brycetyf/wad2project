@@ -43,16 +43,22 @@ class Reviews(db.Model):
     comment_id = db.Column(db.INT(), primary_key=True)
     username = db.Column(db.VARCHAR(100), nullable=False)
     comments = db.Column(db.VARCHAR(8000), nullable=False)
+    review_left_by = db.Column(db.VARCHAR(100),nullable=False)
+    approved = db.Column(db.BOOLEAN(),nullable=False)
 
-    def __init__(self, comment_id, username, comments):
+    def __init__(self, comment_id, username, comments,review_left_by,approved):
         self.comment_id = comment_id
         self.username = username
         self.comments = comments
+        self.review_left_by = review_left_by
+        self.approved = approved
 
     def json(self):
         return {"comment_id": self.comment_id, 
                 "username": self.username, 
-                "comments": self.comments}
+                "comments": self.comments,
+                "review_left_by":self.review_left_by,
+                "approved":self.approved}
 
 class Reservations(db.Model):
     __tablename__ = 'user_bookings'
@@ -67,8 +73,9 @@ class Reservations(db.Model):
     booking_time = db.Column(db.VARCHAR(200), nullable=False)
     booking_partner = db.Column(db.VARCHAR(300), nullable=False)
     booking_partner_url = db.Column(db.VARCHAR(300), nullable=False)
+    review_left = db.Column(db.BOOLEAN(),nullable=True)
 
-    def __init__(self, res_id,res_name, lon,lat, res_url, contact,booking_date,booking_time,booking_partner,booking_partner_url):
+    def __init__(self, res_id,res_name, lon,lat, res_url, contact,booking_date,booking_time,booking_partner,booking_partner_url,review_left):
         self.red_id = res_id
         self.res_name = res_name
         self.lon = lon
@@ -79,6 +86,7 @@ class Reservations(db.Model):
         self.booking_time = booking_time
         self.booking_partner = booking_partner
         self.booking_partner_url = booking_partner_url
+        self.review_left = review_left
 
     def json(self):
         return {'res_id':self.res_id,
@@ -90,7 +98,8 @@ class Reservations(db.Model):
                 'booking_date':self.booking_date,
                 'booking_time':self.booking_time,
                 'booking_partner':self.booking_partner,
-                'booking_partner_url':self.booking_partner_url}
+                'booking_partner_url':self.booking_partner_url,
+                'review_left':self.review_left}
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -180,7 +189,8 @@ def create_reservation(res_name,lon,lat,res_url,contact,booking_date,booking_tim
         booking_date = booking_date,
         booking_time = booking_time,
         booking_partner = booking_partner,
-        booking_partner_url = booking_partner_url
+        booking_partner_url = booking_partner_url,
+        review_left = 0
     )
 
     db.session.add(new_reservation)
@@ -293,15 +303,15 @@ def find_user(unique_id_or_name):
         return jsonify(user.json())
     return jsonify({"message": "User not found."}), 404
 
-@application.route("/users/update/unique_id_or_name=<string:unique_id_or_name>&rating=<string:rating>&badges=<string:badges>&attendance=<string:attendance>", methods=['GET'])
-def update_user_data(unique_id_or_name,rating,badges,attendance):
-    ### STILL NOT DONE
+@application.route("/users/update/unique_id_or_name=<string:unique_id_or_name>&rating=<string:rating>&badges=<string:badges>&attendance=<string:attendance>&res_id=<string:res_id>", methods=['GET'])
+def update_user_data(unique_id_or_name,rating,badges,attendance,res_id):
+    
     try:
         search_param = int(unique_id_or_name) #hack
         user=User.query.filter_by(unique_id=search_param).first()
     except:
         user=User.query.filter_by(username=unique_id_or_name).first()
-
+    
     ## Dealing with tags
     
     tags_array = badges.split(',')
@@ -340,12 +350,17 @@ def update_user_data(unique_id_or_name,rating,badges,attendance):
     user.ghostRating = int(round(float(userGhostRating),0))
     user.reviewInstances = no_of_reviews
     user.userTags = userTags_dict
+    
+    
+    Res=Reservations.query.filter_by(res_id=res_id).first()
+    Res.review_left = 1
     db.session.commit()
     return jsonify({"message": "Review was successfully made"}), 200
 
+
 ###--- REVIEW TABLE APIS ----
-@application.route("/review/username=<string:username>&comments=<string:comments>",methods=["GET"])
-def create_review(username,comments):
+@application.route("/review/username=<string:username>&comments=<string:comments>&review_left_by=<string:review_left_by>",methods=["GET"])
+def create_review(username,comments,review_left_by):
     '''
     Updates DB with user reviews
     '''
@@ -358,11 +373,30 @@ def create_review(username,comments):
         comment_id = int(highest_comment_id),
         username = username,
         comments = comments,
+        review_left_by = review_left_by,
+        approved = 0,
     )
 
     db.session.add(new_review)
     db.session.commit()
     return jsonify({"message":"successfully updated review"})
+
+@application.route("/get_review/username=<string:username>")
+def get_reviews(username):
+
+    reviews = Reviews.query.filter_by(username=username).all()
+    return jsonify({"reviews": [r.json() for r in reviews]})
+
+@application.route("/approve_reject_review/comment_id=<string:comment_id>&status=<string:status>")
+def approve_reject_review(comment_id,status):
+    review = Reviews.query.filter_by(comment_id=comment_id).first()
+    if status == "1":
+        review.approved = 1
+    else:
+        review.approved = 0
+
+    db.session.commit()
+    return jsonify({"reviews": "successfully updated review approval status"})
 
 if __name__ == '__main__':
     application.run(port=5001, debug=True)

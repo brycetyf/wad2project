@@ -6,6 +6,8 @@ import Avatar from "@material-ui/core/Avatar";
 import "../../styles/myProfile.css";
 import axios from "axios";
 import ReservationCard from "./UpcomingReservations";
+import GradeIcon from "@material-ui/icons/Grade";
+import HowToRegIcon from "@material-ui/icons/HowToReg";
 
 class MyProfile extends Component {
   state = {
@@ -27,42 +29,54 @@ class MyProfile extends Component {
   };
 
   componentDidMount() {
+    this.loadReservations();
+    this.interval = setInterval(() => {
+      this.loadReservations();
+    }, 2000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
+  loadReservations = () => {
     let upcoming_arr = [];
     let past_arr = [];
     axios.get("http://127.0.0.1:5001/get_reservations").then((res) => {
-      res.data.reservation_data.map((event) => {
-        // console.log(event.booking_time);
-        var parts = event.booking_date.split("-");
-        var mydate = new Date(parts[0], parts[1] - 1, parts[2]);
-        var today = new Date();
-        var current_hour = parseInt(
-          today.toLocaleTimeString("en-GB").split(":")[0]
-        );
-        var booking_time = parseInt(event.booking_time.split(":")[0]);
-        mydate.setHours(0, 0, 0, 0);
-        today.setHours(0, 0, 0, 0);
-        // console.log(mydate.setHours(0, 0, 0, 0), today.setHours(0, 0, 0, 0));
-
-        if (mydate < today) {
-          past_arr.push(event);
-        } else if (mydate === today) {
-          console.log(booking_time, current_hour);
-          if (booking_time > current_hour) {
-            upcoming_arr.push(event);
-          } else {
+      res.data.reservation_data
+        .filter((event) => event.review_left != 1)
+        .map((event) => {
+          // console.log(event.booking_time);
+          var parts = event.booking_date.split("-");
+          var mydate = new Date(parts[0], parts[1] - 1, parts[2]);
+          var today = new Date();
+          var current_hour = parseInt(
+            today.toLocaleTimeString("en-GB").split(":")[0]
+          );
+          var booking_time = parseInt(event.booking_time.split(":")[0]);
+          mydate.setHours(0, 0, 0, 0);
+          today.setHours(0, 0, 0, 0);
+          // console.log(mydate.setHours(0, 0, 0, 0), today.setHours(0, 0, 0, 0));
+          console.log(event);
+          if (mydate < today) {
             past_arr.push(event);
+          } else if (mydate === today) {
+            console.log(booking_time, current_hour);
+            if (booking_time > current_hour) {
+              upcoming_arr.push(event);
+            } else {
+              past_arr.push(event);
+            }
+          } else {
+            upcoming_arr.push(event);
           }
-        } else {
-          upcoming_arr.push(event);
-        }
-      });
+        });
       this.setState({
         upcomingDates: upcoming_arr,
         pastDates: past_arr,
       });
     });
-  }
-
+  };
   render() {
     return (
       <div className="profile">
@@ -84,7 +98,10 @@ class MyProfile extends Component {
           </div>
           <div className="profile__description">
             <div className="profile__details">
-              <MoodBadIcon />: 0
+              <HowToRegIcon />: 100
+            </div>
+            <div className="profile__details">
+              <GradeIcon />: 95
             </div>
             <div className="profile__details">
               <SchoolIcon />: {this.state.user_data.school}
@@ -128,6 +145,7 @@ class MyProfile extends Component {
         <div>
           {this.state.pastDates.map((date, index) => (
             <ReservationCard
+              res_id={date.res_id}
               res_name={date.res_name}
               res_url={date.res_url}
               contact={date.contact}
@@ -136,6 +154,7 @@ class MyProfile extends Component {
               booking_partner={date.booking_partner}
               partner_url={date.booking_partner_url}
               dateid={date.res_id}
+              reviewer_name={this.state.user_data.name}
               upcoming={false}
               key={index}
             />

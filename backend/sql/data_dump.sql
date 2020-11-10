@@ -53,7 +53,8 @@ CREATE TABLE `user_bookings` (
   `booking_date` varchar(200) NOT NULL,
   `booking_time` varchar(200) NOT NULL,
   `booking_partner` varchar(300) NOT NULL,
-  `booking_partner_url` varchar(300) NOT NULL
+  `booking_partner_url` varchar(300) NOT NULL,
+  `review_left` bit(1)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -133,8 +134,18 @@ DROP TABLE IF EXISTS `reviewComments`;
 CREATE TABLE `reviewComments` (
   `comment_id` INT(255) NOT NULL,
   `username` varchar(100) NOT NULL,
-  `comments` varchar(8000) NOT NULL
+  `comments` varchar(8000) NOT NULL,
+  `review_left_by` varchar(100) NOT NULL,
+  `approved` BIT(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `reviewComments`
+--
+
+INSERT INTO `reviewComments` (`comment_id`,`username`,`comments`,`review_left_by`,`approved`) VALUES
+(1,'bryce','Such a charming man. Best date ever.','Joyce',b'0'),
+(2,'bryce','Bryce was a gentlemen. He helped me to hold my handbag','Natalie',b'0');
 
 
 --

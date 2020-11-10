@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ReservationCard({
+  res_id,
   res_name,
   res_url,
   contact,
@@ -48,6 +49,7 @@ export default function ReservationCard({
   partner_url,
   dateid,
   upcoming,
+  reviewer_name,
   vocab,
 }) {
   const classes = useStyles();
@@ -111,7 +113,9 @@ export default function ReservationCard({
                     You met {booking_partner} on {booking_date}
                   </Typography>
                   <div style={{ paddingTop: "10px" }}>
-                    <Link to={`/Review/${booking_partner}`}>
+                    <Link
+                      to={`/Review/${booking_partner}/${res_id}/${reviewer_name}`}
+                    >
                       <Button
                         variant="outlined"
                         size="small"

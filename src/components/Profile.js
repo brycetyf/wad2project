@@ -3,14 +3,16 @@ import "react-alice-carousel/lib/alice-carousel.css";
 import "../styles/Profile.css";
 import axios from "axios";
 import SchoolIcon from "@material-ui/icons/School";
-import MoodBadIcon from "@material-ui/icons/MoodBad";
-// import IconButton from "@material-ui/core/IconButton";
 import DescriptionIcon from "@material-ui/icons/Description";
 import { Carousel } from "react-bootstrap";
+import GradeIcon from "@material-ui/icons/Grade";
+import HowToRegIcon from "@material-ui/icons/HowToReg";
+import SmallOutlinedChips from "./userTags";
 
 class Profile extends Component {
   state = {
     user: [],
+    userTags: "",
   };
 
   componentDidMount() {
@@ -18,11 +20,16 @@ class Profile extends Component {
     this.props.setLastViewed_profile(unique_id);
     axios
       .get(`http://127.0.0.1:5001/users/profile/${unique_id}`)
-      .then((res) => this.setState({ user: res.data }));
+      .then((res) => {
+        this.setState({ user: res.data });
+        var json_tag = JSON.parse(res.data.userTags.replaceAll("'", '"'));
+        this.setState({
+          userTags: <SmallOutlinedChips tags={json_tag} />,
+        });
+      });
   }
   render() {
     let obj = this.state.user;
-
     return (
       <div className="profile" id={obj.unique_id}>
         <Carousel controls={true} indicators={true}>
@@ -42,7 +49,10 @@ class Profile extends Component {
           </div>
           <div className="profile__description">
             <div className="profile__details">
-              <MoodBadIcon />: {obj.ghostRating}
+              <HowToRegIcon />: {obj.ghostRating}
+            </div>
+            <div className="profile__details">
+              <GradeIcon />: {obj.userRating}
             </div>
             <div className="profile__details">
               <SchoolIcon />: National University of Singapore
@@ -52,6 +62,7 @@ class Profile extends Component {
             </div>
           </div>
         </div>
+        {this.state.userTags}
       </div>
     );
   }

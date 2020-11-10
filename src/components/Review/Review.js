@@ -15,26 +15,29 @@ import { Link } from "react-router-dom";
 class Review extends Component {
   state = {
     user: [],
-    rating_value: 0,
+    rating_value: 49,
     text_review: "",
     badges: [],
-    attendence: 0,
+    res_id: 0,
     confirmation_button: (
-      <IconButton
-        type="button"
-        className="swipeButtons__right review__confirm__button"
-        onClick={() => {
-          this.compositeFunction(
-            this.state.user.username,
-            this.state.rating_value,
-            this.state.text_review,
-            this.state.badges,
-            this.state.attendence
-          );
-        }}
-      >
-        <DoneIcon fontSize="large" />
-      </IconButton>
+      <Link to={"/myProfile"}>
+        <IconButton
+          type="button"
+          className="swipeButtons__right review__confirm__button"
+          onClick={() => {
+            this.compositeFunction(
+              this.state.user.username,
+              this.state.rating_value,
+              this.state.text_review,
+              this.state.badges,
+              this.state.attendance,
+              this.state.res_id
+            );
+          }}
+        >
+          <DoneIcon fontSize="large" />
+        </IconButton>
+      </Link>
     ),
   };
 
@@ -44,15 +47,19 @@ class Review extends Component {
   };
 
   editUserData = (username, rating, badges, attendance) => {
-    let serialiseBadges = badges.toString();
+    if (badges.length == 0) {
+      var serialiseBadges = " ";
+    } else {
+      var serialiseBadges = badges.toString();
+    }
     axios.get(
-      `http://127.0.0.1:5001/users/update/unique_id_or_name=${username}&rating=${rating}&badges=${serialiseBadges}&attendance=${attendance}`
+      `http://127.0.0.1:5001/users/update/unique_id_or_name=${username}&rating=${rating}&badges=${serialiseBadges}&attendance=${attendance}&res_id=${this.state.res_id}`
     );
   };
 
   sendReview = (username, review) => {
     axios.get(
-      `http://127.0.0.1:5001/review/username=${username}&comments=${review}`
+      `http://127.0.0.1:5001/review/username=${username}&comments=${review}&review_left_by=${this.state.reviewer_name}`
     );
   };
   updateRating = (e, value) => {
@@ -75,16 +82,21 @@ class Review extends Component {
   updateAttendence = (e) => {
     if (e === "b") {
       this.setState({
-        attendence: 0,
+        attendance: 0,
       });
     } else {
       this.setState({
-        attendence: 1,
+        attendance: 1,
       });
     }
   };
   componentDidMount() {
     const date_name = window.location.pathname.split("/")[2];
+    this.setState({
+      res_id: window.location.pathname.split("/")[3],
+      reviewer_name: window.location.pathname.split("/")[4].replace("%20", " "),
+    });
+
     axios
       .get(`http://127.0.0.1:5001/users/profile/${date_name}`)
       .then((res) => this.setState({ user: res.data }));
@@ -135,11 +147,20 @@ class Review extends Component {
         </div>
         <br />
         <div className="confirm__button">
-          <SimpleModal
-            modalTitle={"Hey there!"}
-            modalBody={`By clicking the button below, you are confirming that you are leaving a review for ${this.state.user.username}. If this was a mistake, click outside of the box to continue editing.`}
-            modalConfirmationButton={this.state.confirmation_button}
-          />
+          {this.state.text_review != "" &&
+          this.state.rating_value >= 0 &&
+          this.state.attendance >= 0 ? (
+            <SimpleModal
+              modalTitle={"Hey there!"}
+              modalBody={`By clicking the button below, you are confirming that you are leaving a review for ${this.state.user.username}. If this was a mistake, click outside of the box to continue editing.`}
+              modalConfirmationButton={this.state.confirmation_button}
+            />
+          ) : (
+            <SimpleModal
+              modalTitle={"Oops!"}
+              modalBody={`Please fill in all the fields! ${this.state.user.username} will appreciate you for doing so. It also helps to make Ghost-Me-Not better!`}
+            />
+          )}
         </div>
       </div>
     );
