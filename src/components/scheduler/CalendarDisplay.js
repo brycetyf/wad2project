@@ -109,14 +109,13 @@ class CalendarDisplay extends Component {
               <td>
                 <h5>Time:</h5>
               </td>
-              <td><TimePicker
-                //   className={"timepicker_design"}
+              <td><h5><TimePicker
                   clockIcon={null}
                   clearIcon={null}
                   disableClock={true}
                   onChange={(time) => this.setState({ time })}
                   value={this.state.time}
-                />
+                /></h5>
               </td>
             </tr>
 
@@ -141,8 +140,8 @@ class CalendarDisplay extends Component {
                 <h5>Cuisine:</h5>
               </td>
 
-              <td>
-                <Select 
+              <td><h5>
+              <Select 
                   isMulti
                   name="cuisine"
                   options={this.state.cuisine}
@@ -150,6 +149,7 @@ class CalendarDisplay extends Component {
                   classNamePrefix="select"
                   onChange={this.handleChange2}
                   />
+              </h5>
               </td>
 
 

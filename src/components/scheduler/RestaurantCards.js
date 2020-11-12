@@ -107,10 +107,11 @@ export default function RestaurantCards({
                             </CardContent>
 
                             <CardActions>
-                              <Button size="small" variant="outlined" color="primary"
+                              <Button size="small" variant="contained" color="primary"
                                 onClick={handleClickOpen}>
                                 Book Now
                               </Button>
+
                               <Dialog
                                 open={open}
                                 onClose={handleClose}
