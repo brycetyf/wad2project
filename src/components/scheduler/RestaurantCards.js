@@ -112,6 +112,7 @@ export default function RestaurantCards({
                                 Book Now
                               </Button>
 
+                              {/* dialog to handle error prevention during booking */}
                               <Dialog
                                 open={open}
                                 onClose={handleClose}
@@ -131,14 +132,14 @@ export default function RestaurantCards({
                                         <h5>Restaurant Name</h5>
                                         <h6>{restaurant.name}</h6>
                                         <br />
+                                        <h5>Address</h5>
+                                        <h6>{restaurant.location.address.number} {restaurant.location.address.street}</h6>
+                                        <br />
                                         <h5>Date</h5>
                                         <h6>{booking_date}</h6>
                                         <br />
                                         <h5>Time</h5>
                                         <h6>{booking_time}</h6>
-                                        <br />
-                                        <h5>Address</h5>
-                                        <h6>{restaurant.location.address.number} {restaurant.location.address.street}</h6>
                                         <br />
                                       </Box>
                                     </Typography>
