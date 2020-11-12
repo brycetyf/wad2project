@@ -107,20 +107,10 @@ export default function RestaurantCards({
                             </CardContent>
 
                             <CardActions>
-                              <Button size="small" variant="contained" color="primary"
+                              <Button size="small" variant="outlined" color="primary"
                                 onClick={handleClickOpen}>
                                 Book Now
                               </Button>
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-                              {/* Pop-up to handle error prevent during restaurant booking */}
-
-=======
->>>>>>> parent of e5bde24... sjdnfsn
-=======
-                              {/* dialog to handle error prevention during booking */}
->>>>>>> parent of 1143ad1... Revert "sjdnfsn"
                               <Dialog
                                 open={open}
                                 onClose={handleClose}
@@ -130,7 +120,7 @@ export default function RestaurantCards({
                                 <DialogTitle id="{alert-dialog-title}">{"Please Check Booking Details Before Confirming!"}</DialogTitle>
                                 <DialogContent>
                                   <DialogContentText id="alert-dialog-description">
-                                    <img src={restaurant.images[0].url} width="100%" height="70%"/>
+                                    <img src={restaurant.images[0].url} width="70%" height="70%"/>
                                     <br></br>
                                     <br />
                                     <Typography component="div">
@@ -138,25 +128,16 @@ export default function RestaurantCards({
                                         <h5>Date With {partner_name}</h5>
                                         <br />
                                         <h5>Restaurant Name</h5>
-                                        <h6 style={{textDecorationLine: 'underline'}}>{restaurant.name}</h6>
+                                        <h6>{restaurant.name}</h6>
                                         <br />
-<<<<<<< HEAD
-                                        <h5>Address</h5>
-                                        <h6 style={{textDecorationLine: 'underline'}}>{restaurant.location.address.number} {restaurant.location.address.street}</h6>
-                                        <br />
-<<<<<<< HEAD
-=======
->>>>>>> parent of e5bde24... sjdnfsn
-=======
-                                        <h5>Address</h5>
-                                        <h6>{restaurant.location.address.number} {restaurant.location.address.street}</h6>
-                                        <br />
->>>>>>> parent of 1143ad1... Revert "sjdnfsn"
                                         <h5>Date</h5>
-                                        <h6 style={{textDecorationLine: 'underline'}}>{booking_date}</h6>
+                                        <h6>{booking_date}</h6>
                                         <br />
                                         <h5>Time</h5>
-                                        <h6 style={{textDecorationLine: 'underline'}}>{booking_time}</h6>
+                                        <h6>{booking_time}</h6>
+                                        <br />
+                                        <h5>Address</h5>
+                                        <h6>{restaurant.location.address.number} {restaurant.location.address.street}</h6>
                                         <br />
                                       </Box>
                                     </Typography>
