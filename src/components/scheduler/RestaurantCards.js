@@ -8,18 +8,20 @@ import {
     Typography,
     CardMedia,
     Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-    Box,
+    Modal,
 } from '@material-ui/core/';
 import axios from "axios";
 
 
+function getModalStyle() {
+  return {
+    top: `${50}%`,
+    left: `${50}%`,
+    transform: `translate(-${50}%, -${50}%)`,
+  };
+}
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
         padding: theme.spacing(2)
@@ -29,6 +31,15 @@ const useStyles = makeStyles(theme => ({
     },
     fullHeightCard: {
       height: "100%",
+    },
+    paper: {
+      position: "absolute",
+      width: 400,
+      backgroundColor: theme.palette.background.paper,
+      border: "0px solid #000",
+      boxShadow: theme.shadows[0],
+      padding: theme.spacing(2, 4, 3),
+      textAlign: "center",
     },
 }))
 
@@ -62,6 +73,8 @@ export default function RestaurantCards({
 }) {
     const classes = useStyles();
     //console.log(restaurants);
+
+    const [modalStyle] = React.useState(getModalStyle);
 
     //For Dialog Box
     const [open, setOpen] = React.useState(false);
@@ -112,40 +125,34 @@ export default function RestaurantCards({
                                 onClick={handleClickOpen}>
                                 Book Now
                               </Button>
-                              <Dialog
+                              <Modal
                                 open={open}
                                 onClose={handleClose}
-                                aria-labelledby="alert-dialog-title"
-                                aria-describedby="alert-dialog-description"
+                                aria-labelledby="simple-modal-title"
+                                aria-describedby="simple-modal-description"
                               >
-                                <DialogTitle id="{alert-dialog-title}">{"Please Check Booking Details Before Confirming!"}</DialogTitle>
-                                <DialogContent>
-                                  <DialogContentText id="alert-dialog-description">
-                                    <img src={restaurant.images[0].url} width="70%" height="70%"/>
-                                    <br></br>
+                                <div style={modalStyle} className={classes.paper}>
+                                  <h5 id="simple-modal-title">Please Check Booking Details Before Confirming!</h5>
+                                  <h2 id="simple-modal-title">Date With {partner_name}</h2>
+                                  <p id="simple-modal-description">
                                     <br />
-                                    <Typography component="div">
-                                      <Box color="text.primary">
-                                        <h5>Date With {partner_name}</h5>
-                                        <br />
-                                        <h5>Restaurant Name</h5>
-                                        <h6>{restaurant.name}</h6>
-                                        <br />
-                                        <h5>Date</h5>
-                                        <h6>{booking_date}</h6>
-                                        <br />
-                                        <h5>Time</h5>
-                                        <h6>{booking_time}</h6>
-                                        <br />
-                                        <h5>Address</h5>
-                                        <h6>{restaurant.location.address.number} {restaurant.location.address.street}</h6>
-                                        <br />
-                                      </Box>
-                                    </Typography>
-                                     
-                                  </DialogContentText>
-                                </DialogContent>
-                                <DialogActions>
+                                    <b>Restaurant Name</b>
+                                    <br />
+                                    {restaurant.name}
+                                    <br />
+                                    <b>Date</b>
+                                    <br />
+                                    {booking_date}
+                                    <br />
+                                    <b>Time</b>
+                                    <br />
+                                    {booking_time}
+                                    <br />
+                                    <b>Address</b>
+                                    <br />
+                                    {restaurant.location.address.number} {restaurant.location.address.street}
+                                  </p>
+
                                   <Button onClick={handleClose} color="primary">
                                     Go Back
                                   </Button>
@@ -165,8 +172,9 @@ export default function RestaurantCards({
                                   }} color="primary" autoFocus>
                                     Confirm Booking
                                   </Button>
-                                </DialogActions>
-                              </Dialog>
+
+                                </div>
+                              </Modal>
                             </CardActions>
                         </Card>
                      </Grid>

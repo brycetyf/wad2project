@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import List from "./list";
-import CalendarDisplay from "./CalendarDisplay";
+import CalendarDisplay from "./CalendarManager";
 
 class Scheduler extends Component {
   state = {
