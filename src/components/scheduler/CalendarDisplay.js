@@ -7,6 +7,7 @@ import "../../styles/Calendar.css";
 import { Link } from "react-router-dom";
 import List from "./list";
 import Select from 'react-select';
+import axios from 'axios';
 
 class CalendarDisplay extends Component {
   constructor(props) {
@@ -73,6 +74,22 @@ class CalendarDisplay extends Component {
 
   handleChange2 = (selectedOptions) => {
     this.setState({ selectedOptions });
+  }
+
+
+  //If there is a booking existing in the same date, this function will be activated
+  checkReservations(date) {
+
+    axios.get("http://127.0.0.1:5001/get_reservations").then((res) => {
+      res.data.reservation_data
+      .map((event) => {
+        console.log(event.booking_date);
+
+        if (date == event.booking_date) {
+          alert("Oh my god! You alr have a booking! Don't be a player >.<");
+        }
+      })
+    })
   }
 
   render() {
@@ -164,6 +181,7 @@ class CalendarDisplay extends Component {
                 this.props.updateTime(this.state.time);
                 this.props.updateLocation(this.state.location);
                 this.props.updateCuisine(this.state.selectedOptions);
+                this.checkReservations(this.format_date_api());
               }}
               variant="success"
               size="md"

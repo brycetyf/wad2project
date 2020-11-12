@@ -117,27 +117,27 @@ export default function RestaurantCards({
                                 aria-labelledby="alert-dialog-title"
                                 aria-describedby="alert-dialog-description"
                               >
-                                <DialogTitle id="alert-dialog-title" style={{ backgroundColor: 'grey' }}>{"Please check Booking Details before confirming!"}</DialogTitle>
+                                <DialogTitle id="{alert-dialog-title}">{"Please Check Booking Details Before Confirming!"}</DialogTitle>
                                 <DialogContent>
-                                  <DialogContentText id="alert-dialog-description" style={{ marginTop: 15 }}>
-                                    <img src={restaurant.images[0].url} width="100%" height="70%"/>
+                                  <DialogContentText id="alert-dialog-description">
+                                    <img src={restaurant.images[0].url} width="70%" height="70%"/>
                                     <br></br>
                                     <br />
                                     <Typography component="div">
                                       <Box color="text.primary">
-                                        <h5 style={{ fontWeight: "bold" }}>Date with {partner_name}</h5>
+                                        <h5>Date With {partner_name}</h5>
                                         <br />
-                                        <h5>Restaurant Name:</h5>
-                                        <h6 style={{ textDecorationLine: 'underline' }}>{restaurant.name}</h6>
+                                        <h5>Restaurant Name</h5>
+                                        <h6>{restaurant.name}</h6>
                                         <br />
-                                        <h5>Address:</h5>
-                                        <h6 style={{ textDecorationLine: 'underline' }}>{restaurant.location.address.number} {restaurant.location.address.street}</h6>
+                                        <h5>Date</h5>
+                                        <h6>{booking_date}</h6>
                                         <br />
-                                        <h5>Date:</h5>
-                                        <h6 style={{ textDecorationLine: 'underline' }}>{booking_date}</h6>
+                                        <h5>Time</h5>
+                                        <h6>{booking_time}</h6>
                                         <br />
-                                        <h5>Time:</h5>
-                                        <h6 style={{ textDecorationLine: 'underline' }}>{booking_time}</h6>
+                                        <h5>Address</h5>
+                                        <h6>{restaurant.location.address.number} {restaurant.location.address.street}</h6>
                                         <br />
                                       </Box>
                                     </Typography>
