@@ -34,6 +34,7 @@ const useStyles = makeStyles(theme => ({
 
 
 //Updating Backend With the Booking details
+// API call using axios
 const sendBooking = (
   res_name,
   lon,
