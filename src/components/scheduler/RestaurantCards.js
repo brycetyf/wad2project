@@ -112,8 +112,11 @@ export default function RestaurantCards({
                                 Book Now
                               </Button>
 
+<<<<<<< HEAD
                               {/* Pop-up to handle error prevent during restaurant booking */}
 
+=======
+>>>>>>> parent of e5bde24... sjdnfsn
                               <Dialog
                                 open={open}
                                 onClose={handleClose}
@@ -133,14 +136,20 @@ export default function RestaurantCards({
                                         <h5>Restaurant Name</h5>
                                         <h6 style={{textDecorationLine: 'underline'}}>{restaurant.name}</h6>
                                         <br />
+<<<<<<< HEAD
                                         <h5>Address</h5>
                                         <h6 style={{textDecorationLine: 'underline'}}>{restaurant.location.address.number} {restaurant.location.address.street}</h6>
                                         <br />
+=======
+>>>>>>> parent of e5bde24... sjdnfsn
                                         <h5>Date</h5>
                                         <h6 style={{textDecorationLine: 'underline'}}>{booking_date}</h6>
                                         <br />
                                         <h5>Time</h5>
                                         <h6 style={{textDecorationLine: 'underline'}}>{booking_time}</h6>
+                                        <br />
+                                        <h5>Address</h5>
+                                        <h6>{restaurant.location.address.number} {restaurant.location.address.street}</h6>
                                         <br />
                                       </Box>
                                     </Typography>
