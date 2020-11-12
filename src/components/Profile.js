@@ -8,7 +8,7 @@ import { Carousel } from "react-bootstrap";
 import GradeIcon from "@material-ui/icons/Grade";
 import HowToRegIcon from "@material-ui/icons/HowToReg";
 import SmallOutlinedChips from "./userTags";
-
+import Slider from "react-slick";
 class Profile extends Component {
   state = {
     user: [],
@@ -22,27 +22,36 @@ class Profile extends Component {
       .get(`http://127.0.0.1:5001/users/profile/${unique_id}`)
       .then((res) => {
         this.setState({ user: res.data });
-        var json_tag = JSON.parse(res.data.userTags.replaceAll("'", '"'));
-        this.setState({
-          userTags: <SmallOutlinedChips tags={json_tag} />,
-        });
+        if (res.data.userTags != null) {
+          var json_tag = JSON.parse(res.data.userTags.replaceAll("'", '"'));
+          this.setState({
+            userTags: <SmallOutlinedChips tags={json_tag} />,
+          });
+        }
       });
   }
   render() {
     let obj = this.state.user;
+    var settings = {
+      dots: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+    };
     return (
       <div className="profile" id={obj.unique_id}>
-        <Carousel controls={true} indicators={true}>
-          <Carousel.Item>
+        <Slider {...settings}>
+          <div>
             <img src={obj.url} alt={obj.name} className="sliderimg" />
-          </Carousel.Item>
-          <Carousel.Item>
+          </div>
+          <div>
             <img src={obj.url} alt={obj.name} className="sliderimg" />
-          </Carousel.Item>
-          <Carousel.Item>
+          </div>
+          <div>
             <img src={obj.url} alt={obj.name} className="sliderimg" />
-          </Carousel.Item>
-        </Carousel>
+          </div>
+        </Slider>
         <div className="profile__area">
           <div className="profile__name">
             {obj.name}, {obj.age}
