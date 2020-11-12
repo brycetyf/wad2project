@@ -112,6 +112,8 @@ export default function RestaurantCards({
                                 Book Now
                               </Button>
 
+                              {/* Pop-up to handle error prevent during restaurant booking */}
+
                               <Dialog
                                 open={open}
                                 onClose={handleClose}
@@ -121,7 +123,7 @@ export default function RestaurantCards({
                                 <DialogTitle id="{alert-dialog-title}">{"Please Check Booking Details Before Confirming!"}</DialogTitle>
                                 <DialogContent>
                                   <DialogContentText id="alert-dialog-description">
-                                    <img src={restaurant.images[0].url} width="70%" height="70%"/>
+                                    <img src={restaurant.images[0].url} width="100%" height="70%"/>
                                     <br></br>
                                     <br />
                                     <Typography component="div">
@@ -129,16 +131,16 @@ export default function RestaurantCards({
                                         <h5>Date With {partner_name}</h5>
                                         <br />
                                         <h5>Restaurant Name</h5>
-                                        <h6>{restaurant.name}</h6>
-                                        <br />
-                                        <h5>Date</h5>
-                                        <h6>{booking_date}</h6>
-                                        <br />
-                                        <h5>Time</h5>
-                                        <h6>{booking_time}</h6>
+                                        <h6 style={{textDecorationLine: 'underline'}}>{restaurant.name}</h6>
                                         <br />
                                         <h5>Address</h5>
-                                        <h6>{restaurant.location.address.number} {restaurant.location.address.street}</h6>
+                                        <h6 style={{textDecorationLine: 'underline'}}>{restaurant.location.address.number} {restaurant.location.address.street}</h6>
+                                        <br />
+                                        <h5>Date</h5>
+                                        <h6 style={{textDecorationLine: 'underline'}}>{booking_date}</h6>
+                                        <br />
+                                        <h5>Time</h5>
+                                        <h6 style={{textDecorationLine: 'underline'}}>{booking_time}</h6>
                                         <br />
                                       </Box>
                                     </Typography>
