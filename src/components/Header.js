@@ -8,6 +8,7 @@ import TodayIcon from "@material-ui/icons/Today";
 import { Link, useHistory } from "react-router-dom";
 import ghost_me_not from "../images/ghost_me_not.jpg";
 import RateReviewIcon from "@material-ui/icons/RateReview";
+import Badge from '@material-ui/core/Badge';
 
 function Header({
   backButton,
@@ -63,7 +64,9 @@ function Header({
       ) : (
         <IconButton>
           <Link to="/chats" onMouseOver={() => update_messages()}>
-            <QuestionAnswerIcon className="header__icon" fontSize="large" />
+            <Badge color="secondary" overlap="circle" badgeContent=" ">
+              <QuestionAnswerIcon className="header__icon" fontSize="large" />
+            </Badge>
           </Link>
         </IconButton>
       )}
