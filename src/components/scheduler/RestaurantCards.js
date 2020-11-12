@@ -117,7 +117,7 @@ export default function RestaurantCards({
                                 aria-labelledby="alert-dialog-title"
                                 aria-describedby="alert-dialog-description"
                               >
-                                <DialogTitle id="alert-dialog-title">{"Please Check Booking Details Before Confirming!"}</DialogTitle>
+                                <DialogTitle id="{alert-dialog-title}">{"Please Check Booking Details Before Confirming!"}</DialogTitle>
                                 <DialogContent>
                                   <DialogContentText id="alert-dialog-description">
                                     <img src={restaurant.images[0].url} width="70%" height="70%"/>

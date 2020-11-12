@@ -44,7 +44,7 @@ class List extends Component {
 
     axios
       .get(
-        `https://api.quandoo.com/v1/merchants?place=singapore&capacity=2&offset=0&limit=50&fromtime=${time}&date=${apiDate}&centerPoint=${latitude}.${longitude}&tags=${selected_str}`
+        `https://api.quandoo.com/v1/merchants?place=singapore&capacity=2&offset=0&limit=50&radius=2&bookable=true&fromtime=${time}&date=${apiDate}&centerPoint=${latitude}.${longitude}&tags=${selected_str}`
       )
       .then((res) => {
         this.setState({
