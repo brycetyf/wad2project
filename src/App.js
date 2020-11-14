@@ -208,7 +208,7 @@ class App extends Component {
             <Route path="/profile/:person">
               {/* Route to view a specific profile*/}
               <Header
-                backButton="/"
+                backButton="go_back"
                 renderCorrectCards={() =>
                   this.renderCorrectCards(this.state.lastviewed)
                 }

@@ -223,8 +223,6 @@ def check_if_reservation_exists(booking_date,booking_time):
         return jsonify({"conflicting_booking": "true"})
     else:
         return jsonify({"conflicting_booking": "false"})
-    
-
 
 
 @application.route("/get_particular_reservation/<string:res_id>")

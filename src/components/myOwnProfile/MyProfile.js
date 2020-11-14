@@ -25,7 +25,7 @@ class MyProfile extends Component {
     user_data: {
       name: "Bryce Tan",
       age: "23",
-      school: "Singapore Management University",
+      school: "SMU",
       desc: "Just send it",
     },
   };
@@ -102,7 +102,7 @@ class MyProfile extends Component {
               <HowToRegIcon />: 100
             </div>
             <div className="profile__details">
-              <GradeIcon />: 95
+              <GradeIcon />: 100
             </div>
             <div className="profile__details">
               <SchoolIcon />: {this.state.user_data.school}

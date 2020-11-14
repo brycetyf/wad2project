@@ -91,7 +91,7 @@ class Profile extends Component {
             </div>
           </div>
         </div>
-        <div>{this.state.userTags}</div>
+        <div style={{ marginTop: "10px" }}>{this.state.userTags}</div>
         {this.state.userReviews.length > 0 && (
           <div>
             <hr style={{ paddingTop: "20px" }} />

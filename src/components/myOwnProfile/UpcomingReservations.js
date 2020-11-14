@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     justifyContent: "left",
-    maxWidth: 600,
+    maxWidth: 400,
     marginLeft: "auto",
     marginRight: "auto",
     marginBottom: "15px",
@@ -30,7 +30,9 @@ const useStyles = makeStyles((theme) => ({
   cover: {
     flex: "1 0 auto",
     maxWidth: 200,
-    height: 220,
+    minWidth: 100,
+    maxHeight: 220,
+    minHeight: 200,
     marginLeft: 0,
   },
   avatar: {
@@ -71,7 +73,7 @@ export default function ReservationCard({
               <CardMedia className={classes.cover} image={res_url} />
               <div className={classes.details}>
                 <CardContent className={classes.content}>
-                  <Typography component="h5" variant="h5">
+                  <Typography component="h6" variant="h6">
                     {res_name}
                   </Typography>
                   <Typography variant="subtitle1" className={classes.avatar}>

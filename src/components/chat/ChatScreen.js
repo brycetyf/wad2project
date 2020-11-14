@@ -19,7 +19,7 @@ class ChatScreen extends Component {
     this.fetchMessages();
     this.interval = setInterval(() => {
       this.fetchMessages();
-    }, 10000);
+    }, 3000);
   }
 
   fetchMessages = () => {
@@ -29,11 +29,14 @@ class ChatScreen extends Component {
     var name = window.location.pathname.split("/")[2];
 
     axios.get(`http://127.0.0.1:5001/chat/${name}`).then((res) => {
-      this.setState({
-        messages: res.data.chats,
-        mounted: true,
-        match_name: res.data.chats[0].match_name,
-      });
+      this.setState(
+        {
+          messages: res.data.chats,
+          mounted: true,
+          match_name: res.data.chats[0].match_name,
+        },
+        console.log(res)
+      );
       this.props.update_current_person(name, res.data.chats[0].url);
     });
   };

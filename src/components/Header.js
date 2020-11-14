@@ -8,7 +8,7 @@ import TodayIcon from "@material-ui/icons/Today";
 import { Link, useHistory } from "react-router-dom";
 import ghost_me_not from "../images/ghost_me_not.jpg";
 import RateReviewIcon from "@material-ui/icons/RateReview";
-import Badge from '@material-ui/core/Badge';
+import Badge from "@material-ui/core/Badge";
 
 function Header({
   backButton,
@@ -58,15 +58,18 @@ function Header({
       ) : userVetting ? (
         <IconButton>
           <Link to="/vet_reviews" onMouseOver={() => update_messages()}>
-            <RateReviewIcon className="header__icon" fontSize="large" />
+            <Badge color="secondary" overlap="circle" badgeContent=" ">
+              <RateReviewIcon className="header__icon" fontSize="large" />
+            </Badge>
           </Link>
         </IconButton>
       ) : (
         <IconButton>
           <Link to="/chats" onMouseOver={() => update_messages()}>
-            <Badge color="secondary" overlap="circle" badgeContent=" ">
-              <QuestionAnswerIcon className="header__icon" fontSize="large" />
-            </Badge>
+            {/* <Badge color="secondary" overlap="circle" badgeContent=" "> */}{" "}
+            {/* <QuestionAnswerIcon className="header__icon" fontSize="large" /> */}
+            {/* </Badge> */}
+            <QuestionAnswerIcon className="header__icon" fontSize="large" />
           </Link>
         </IconButton>
       )}
