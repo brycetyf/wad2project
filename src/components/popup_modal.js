@@ -34,7 +34,7 @@ export default function SimpleModal({
   cancelDateFunction,
   res_id,
 }) {
-  console.log(res_id);
+  // console.log(res_id);
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);

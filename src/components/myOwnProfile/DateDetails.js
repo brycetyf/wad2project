@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 import "../../styles/DateDetails.css";
 import Weather from "./Weather";
 import Gif from "./gif";
-import Map from "./Map";
 
 class DateDetails extends Component {
   state = {
@@ -42,20 +41,8 @@ class DateDetails extends Component {
           ),
         });
         this.fetchWeatherForecast();
-        this.fetchGoogleMap();
       });
   }
-
-  fetchGoogleMap = () => {
-    const location = {
-      address: this.state.reservation.res_name,
-      lat: this.state.reservation.lat,
-      lng: this.state.reservation.lon,
-    };
-    this.setState({
-      googleMap: <Map location={location} zoomLevel={11} />,
-    });
-  };
   fetchWeatherForecast = () => {
     axios
       .get(

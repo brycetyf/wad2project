@@ -99,7 +99,7 @@ class Profile extends Component {
             <br />
           </div>
         )}
-        <div>
+        <div style={{ marginBottom: "50px" }}>
           {this.state.userReviews.map((review, index) => (
             <Card
               style={{
@@ -111,8 +111,16 @@ class Profile extends Component {
               key={index}
             >
               <CardContent>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  {review.comments}
+                <Typography variant="body1" color="textprimary" component="p">
+                  "{review.comments}"
+                </Typography>
+                <Typography
+                  variant="body2"
+                  color="textSecondary"
+                  component="p"
+                  style={{ fontStyle: "italic" }}
+                >
+                  - {review.review_left_by}
                 </Typography>
               </CardContent>
             </Card>
