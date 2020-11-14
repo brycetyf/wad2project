@@ -1,17 +1,18 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles'
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import {
-    Grid,
-    Card,
-    CardContent,
-    CardActions,
-    Typography,
-    CardMedia,
-    Button,
-    Modal,
-} from '@material-ui/core/';
+  Grid,
+  Card,
+  CardContent,
+  CardActions,
+  Typography,
+  CardMedia,
+  Button,
+  Modal,
+} from "@material-ui/core/";
 import axios from "axios";
-
+import BookingConfirmationModal from "./BookingConfirmationModal";
+import { Book } from "@material-ui/icons";
 
 function getModalStyle() {
   return {
@@ -22,28 +23,52 @@ function getModalStyle() {
 }
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-        padding: theme.spacing(2)
-    },
-    media: {
-      height: 300,
-    },
-    fullHeightCard: {
-      height: "100%",
-    },
-    paper: {
-      position: "absolute",
-      width: 400,
-      backgroundColor: theme.palette.background.paper,
-      border: "0px solid #000",
-      boxShadow: theme.shadows[0],
-      padding: theme.spacing(2, 4, 3),
-      textAlign: "center",
-    },
-}))
+  root: {
+    flexGrow: 1,
+    padding: theme.spacing(2),
+  },
+  card: {
+    height: 300,
+  },
+  fullHeightCard: {
+    height: "100%",
+    display: "flex",
+    justifyContent: "space-between",
+    flexDirection: "column",
+    width: "100%",
+  },
+  MainGrid: {
+    alignItems: "stretch",
+  },
+  SubGrid: {
+    display: "flex",
+  },
+}));
 
-
+const convert_price_rating = (price_rating) => {
+  if (price_rating == "price average") {
+    return (
+      <span>
+        <span style={{ color: "black" }}>$$</span>
+        <span style={{ color: "grey" }}>$</span>
+      </span>
+    );
+  } else if (price_rating == "price upscale") {
+    return (
+      <span>
+        <span style={{ color: "black" }}>$$$</span>
+      </span>
+    );
+  } else {
+    return (
+      <span>
+        <span style={{ color: "black" }}>$</span>
+        <span style={{ color: "grey" }}>$$</span>
+        {/* <span>{price_rating}</span> */}
+      </span>
+    );
+  }
+};
 //Updating Backend With the Booking details
 // API call using axios
 const sendBooking = (
@@ -71,115 +96,71 @@ export default function RestaurantCards({
   partner_name,
   partner_url,
 }) {
-    const classes = useStyles();
-    //console.log(restaurants);
+  const classes = useStyles();
 
-    const [modalStyle] = React.useState(getModalStyle);
+  return (
+    <div className={classes.root}>
+      <Grid
+        container
+        spacing={2}
+        direction="row"
+        justify="flex-start"
+        alignItems="flex-start"
+        className={classes.MainGrid}
+      >
+        {restaurants.map((restaurant, index) => (
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            md={4}
+            key={index}
+            className={classes.SubGrid}
+          >
+            <Card className={classes.fullHeightCard}>
+              <CardMedia
+                className={classes.card}
+                image={restaurant.images[0].url}
+                title={restaurant.name}
+              />
 
-    //For Dialog Box
-    const [open, setOpen] = React.useState(false);
+              <CardContent>
+                <Typography variant="h6" gutterBottom component="h6">
+                  {restaurant.name}
+                </Typography>
 
-    const handleClickOpen = () => {
-      setOpen(true);
-    };
+                <Typography variant="body1" gutterBottom component="body1">
+                  Rating: {restaurant.reviewScore} / 6
+                </Typography>
+                <br />
+                <Typography variant="body1" gutterBottom component="body1">
+                  Price:{" "}
+                  {convert_price_rating(restaurant.tagGroups[0].tags[0].name)}
+                </Typography>
+                <br />
+                <Typography variant="body1" gutterBottom component="body1">
+                  Address: {restaurant.location.address.number}{" "}
+                  {restaurant.location.address.street}
+                </Typography>
+                <br />
+                <Typography variant="body1" component="p">
+                  Contact: {restaurant.phoneNumber}
+                </Typography>
+              </CardContent>
 
-    const handleClose = () => {
-      setOpen(false);
-    };
-
-
-
-    return (
-        <div className={classes.root}>
-            <Grid
-                container
-                spacing={2}
-                direction="row"
-                justify="flex-start"
-                alignItems="flex-start"
-            >
-                {restaurants.map(restaurant => (
-                    <Grid item xs={12} sm={6} md={4} key={restaurants.indexOf(restaurant)}>
-                        <Card className={classes.fullHeightCard}>
-                            <CardMedia 
-                              className={classes.media}
-                              image={restaurant.images[0].url}
-                              title={restaurant.name}
-                              />
-
-                            <CardContent>
-                                <Typography variant="h4" gutterBottom component="h4"> 
-                                    {restaurant.name}
-                                </Typography>
-
-                                <Typography variant="h5" gutterBottom component="h5">Address: </Typography>
-                                <Typography variant="h6" gutterBottom component="h6">{restaurant.location.address.number} {restaurant.location.address.street}</Typography>
-
-                                <Typography variant="body2" color="textSecondary" component="p">
-                                  Contact Number: {restaurant.phoneNumber}
-                                </Typography>
-                            </CardContent>
-
-                            <CardActions>
-                              <Button size="small" variant="outlined" color="primary"
-                                onClick={handleClickOpen}>
-                                Book Now
-                              </Button>
-                              <Modal
-                                open={open}
-                                onClose={handleClose}
-                                aria-labelledby="simple-modal-title"
-                                aria-describedby="simple-modal-description"
-                              >
-                                <div style={modalStyle} className={classes.paper}>
-                                  <h5 id="simple-modal-title">Please Check Booking Details Before Confirming!</h5>
-                                  <h2 id="simple-modal-title">Date With {partner_name}</h2>
-                                  <p id="simple-modal-description">
-                                    <br />
-                                    <b>Restaurant Name</b>
-                                    <br />
-                                    {restaurant.name}
-                                    <br />
-                                    <b>Date</b>
-                                    <br />
-                                    {booking_date}
-                                    <br />
-                                    <b>Time</b>
-                                    <br />
-                                    {booking_time}
-                                    <br />
-                                    <b>Address</b>
-                                    <br />
-                                    {restaurant.location.address.number} {restaurant.location.address.street}
-                                  </p>
-
-                                  <Button onClick={handleClose} color="primary">
-                                    Go Back
-                                  </Button>
-                                  <Button onClick={() => {
-                                    {handleClose()};
-                                    {sendBooking(
-                                      restaurant.name,
-                                      restaurant.location.coordinates.longitude,
-                                      restaurant.location.coordinates.latitude,
-                                      restaurant.images[0].url,
-                                      restaurant.phoneNumber,
-                                      booking_date,
-                                      booking_time,
-                                      partner_name,
-                                      partner_url
-                                    )}
-                                  }} color="primary" autoFocus>
-                                    Confirm Booking
-                                  </Button>
-
-                                </div>
-                              </Modal>
-                            </CardActions>
-                        </Card>
-                     </Grid>
-                ))}
-            </Grid>
-        </div>
-    )
+              <CardActions style={{ marginLeft: "5px", marginBottom: "5px" }}>
+                <BookingConfirmationModal
+                  partner_name={partner_name}
+                  restaurant={restaurant}
+                  booking_date={booking_date}
+                  booking_time={booking_time}
+                  partner_url={partner_url}
+                />
+              </CardActions>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    </div>
+  );
 }

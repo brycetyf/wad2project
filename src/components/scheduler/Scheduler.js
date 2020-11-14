@@ -30,7 +30,7 @@ class Scheduler extends Component {
 
   update_cuisine = (new_cuisine) => {
     this.setState({ cuisine: new_cuisine });
-  }
+  };
 
   componentDidMount = () => {
     console.log(this.props);
@@ -57,11 +57,7 @@ class Scheduler extends Component {
       return (
         <div>
           <List
-            updateTime={this.update_time}
-            updateLocation={this.update_location}
-            updateCounter={this.update_counter}
-            updateAPIDate={this.update_api_date}
-            updateCuisine={this.update_cuisine}
+          // cleaned up the code abit here - Brandon
             apiDate={this.state.apiDate}
             time={this.state.time}
             location={this.state.location}
