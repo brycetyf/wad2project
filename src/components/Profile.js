@@ -8,11 +8,15 @@ import { Carousel } from "react-bootstrap";
 import GradeIcon from "@material-ui/icons/Grade";
 import HowToRegIcon from "@material-ui/icons/HowToReg";
 import SmallOutlinedChips from "./userTags";
-import Slider from "react-slick";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import Typography from "@material-ui/core/Typography";
+
 class Profile extends Component {
   state = {
     user: [],
     userTags: "",
+    userReviews: [],
   };
 
   componentDidMount() {
@@ -28,8 +32,24 @@ class Profile extends Component {
             userTags: <SmallOutlinedChips tags={json_tag} />,
           });
         }
+        this.fetchReviews(res.data.username);
       });
   }
+  fetchReviews = (username) => {
+    axios
+      .get(`http://127.0.0.1:5001/get_review/username=${username}`)
+      .then((res) => {
+        let temp_review_arr = [];
+        res.data.reviews
+          .filter((r) => r.approved === true)
+          .map((r) => {
+            temp_review_arr.push(r);
+          });
+        this.setState({
+          userReviews: temp_review_arr,
+        });
+      });
+  };
   render() {
     let obj = this.state.user;
     var settings = {
@@ -41,17 +61,17 @@ class Profile extends Component {
     };
     return (
       <div className="profile" id={obj.unique_id}>
-        <Slider {...settings}>
-          <div>
+        <Carousel {...settings}>
+          <Carousel.Item>
             <img src={obj.url} alt={obj.name} className="sliderimg" />
-          </div>
-          <div>
+          </Carousel.Item>
+          <Carousel.Item>
             <img src={obj.url} alt={obj.name} className="sliderimg" />
-          </div>
-          <div>
+          </Carousel.Item>
+          <Carousel.Item>
             <img src={obj.url} alt={obj.name} className="sliderimg" />
-          </div>
-        </Slider>
+          </Carousel.Item>
+        </Carousel>
         <div className="profile__area">
           <div className="profile__name">
             {obj.name}, {obj.age}
@@ -71,7 +91,33 @@ class Profile extends Component {
             </div>
           </div>
         </div>
-        {this.state.userTags}
+        <div>{this.state.userTags}</div>
+        {this.state.userReviews.length > 0 && (
+          <div>
+            <hr style={{ paddingTop: "20px" }} />
+            <h3 className="upcomingDates">What others have said</h3>
+            <br />
+          </div>
+        )}
+        <div>
+          {this.state.userReviews.map((review, index) => (
+            <Card
+              style={{
+                maxWidth: "50%",
+                marginTop: "50px",
+                textAlign: "center",
+                margin: "auto",
+              }}
+              key={index}
+            >
+              <CardContent>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  {review.comments}
+                </Typography>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
     );
   }

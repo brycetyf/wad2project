@@ -6,6 +6,8 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
+import SimpleModal from "../popup_modal";
+import axios from "axios";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -38,6 +40,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const cancelDate = (res_id) => {
+  axios.get(`http://127.0.0.1:5001/delete_reservation/${res_id}`);
+};
+
 export default function ReservationCard({
   res_id,
   res_name,
@@ -54,7 +60,7 @@ export default function ReservationCard({
 }) {
   const classes = useStyles();
   const theme = useTheme();
-  console.log(vocab);
+  // console.log(vocab);
   return (
     <div>
       {
@@ -81,16 +87,28 @@ export default function ReservationCard({
                   <Typography variant="subtitle1" color="textSecondary">
                     Restaurant Contact: {contact}
                   </Typography>
-                  <div style={{ paddingTop: "10px" }}>
+                  <div
+                    style={{
+                      paddingTop: "10px",
+                      display: "flex",
+                    }}
+                  >
                     <Link to={`/DateDetails/${dateid}`}>
                       <Button
                         variant="outlined"
                         size="small"
                         classes={{ label: "detail__button" }}
+                        style={{ marginRight: "10px" }}
                       >
                         More Details
                       </Button>
                     </Link>
+                    <SimpleModal
+                      modalTitle={"Oh? 🤔"}
+                      modalBody={`By clicking the button below, you are confirming that you want to cancel this reservation.`}
+                      cancelDateFunction={cancelDate}
+                      res_id={res_id}
+                    />
                   </div>
                 </CardContent>
               </div>

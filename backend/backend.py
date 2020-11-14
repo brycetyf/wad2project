@@ -204,6 +204,15 @@ def get_reservations():
     '''
     return jsonify({"reservation_data": [u.json() for u in Reservations.query.all()]})
 
+@application.route("/delete_reservation/<string:res_id>")
+def delete_reservation(res_id):
+    '''
+    Displays all the conversations that the user can have based on matches 
+    '''
+    Reservations.query.filter_by(res_id=res_id).delete()
+    db.session.commit()
+    return jsonify({"reservation_data": "successfully deleted!"})
+
 @application.route("/get_particular_reservation/<string:res_id>")
 def get_particular_res(res_id):
     '''

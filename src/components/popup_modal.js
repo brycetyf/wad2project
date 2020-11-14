@@ -4,6 +4,8 @@ import Modal from "@material-ui/core/Modal";
 import IconButton from "@material-ui/core/IconButton";
 import DoneIcon from "@material-ui/icons/Done";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
+import Button from "@material-ui/core/Button";
+import { Link } from "react-router-dom";
 
 function getModalStyle() {
   return {
@@ -29,7 +31,10 @@ export default function SimpleModal({
   modalTitle,
   modalBody,
   modalConfirmationButton,
+  cancelDateFunction,
+  res_id,
 }) {
+  console.log(res_id);
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
@@ -51,23 +56,63 @@ export default function SimpleModal({
     </div>
   );
 
+  const CompositeFunction = (res_id) => {
+    handleClose();
+    cancelDateFunction(res_id);
+  };
+
   return (
     <div>
-      <IconButton
-        type="button"
-        onClick={handleOpen}
-        className="swipeButtons__right review__confirm__button"
-      >
-        <PersonAddIcon fontSize="large" />
-      </IconButton>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-      >
-        {body}
-      </Modal>
+      {cancelDateFunction ? (
+        <div>
+          <Button
+            variant="outlined"
+            size="small"
+            classes={{ label: "detail__button" }}
+            onClick={handleOpen}
+          >
+            Cancel Date
+          </Button>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+          >
+            <div style={modalStyle} className={classes.paper}>
+              <h2 id="simple-modal-title">{modalTitle}</h2>
+              <p id="simple-modal-description">{modalBody}</p>
+              <Link to={"/myProfile"}>
+                <IconButton
+                  type="button"
+                  className="swipeButtons__right review__confirm__button"
+                  onClick={() => CompositeFunction(res_id)}
+                >
+                  <DoneIcon fontSize="large" />
+                </IconButton>
+              </Link>
+            </div>
+          </Modal>
+        </div>
+      ) : (
+        <div>
+          <IconButton
+            type="button"
+            onClick={handleOpen}
+            className="swipeButtons__right review__confirm__button"
+          >
+            <PersonAddIcon fontSize="large" />
+          </IconButton>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+          >
+            {body}
+          </Modal>
+        </div>
+      )}
     </div>
   );
 }

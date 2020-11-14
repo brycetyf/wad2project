@@ -8,6 +8,8 @@ import axios from "axios";
 import ReservationCard from "./UpcomingReservations";
 import GradeIcon from "@material-ui/icons/Grade";
 import HowToRegIcon from "@material-ui/icons/HowToReg";
+import { Link } from "react-router-dom";
+import IconButton from "@material-ui/core/IconButton";
 
 class MyProfile extends Component {
   state = {
@@ -27,7 +29,6 @@ class MyProfile extends Component {
       desc: "Just send it",
     },
   };
-
   componentDidMount() {
     this.loadReservations();
     this.interval = setInterval(() => {
@@ -57,11 +58,11 @@ class MyProfile extends Component {
           mydate.setHours(0, 0, 0, 0);
           today.setHours(0, 0, 0, 0);
           // console.log(mydate.setHours(0, 0, 0, 0), today.setHours(0, 0, 0, 0));
-          console.log(event);
+          // console.log(event);
           if (mydate < today) {
             past_arr.push(event);
           } else if (mydate === today) {
-            console.log(booking_time, current_hour);
+            // console.log(booking_time, current_hour);
             if (booking_time > current_hour) {
               upcoming_arr.push(event);
             } else {
@@ -122,6 +123,7 @@ class MyProfile extends Component {
         <div>
           {this.state.upcomingDates.map((date, index) => (
             <ReservationCard
+              res_id={date.res_id}
               res_name={date.res_name}
               res_url={date.res_url}
               contact={date.contact}
