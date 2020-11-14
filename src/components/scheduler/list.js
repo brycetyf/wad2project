@@ -1,10 +1,6 @@
 import React, { Component } from "react";
-import { useLocation } from "react-router-dom";
 import axios from "axios";
-import { Restaurant } from "@material-ui/icons";
-import CardGroup from "react-bootstrap/CardGroup";
 import RestaurantCards from "./RestaurantCards.js";
-import Card from "react-bootstrap/Card";
 import "../../styles/List.css";
 
 class List extends Component {
@@ -27,17 +23,13 @@ class List extends Component {
     let location_details = this.state.locations[location];
     let latitude = location_details[0];
     let longitude = location_details[1];
-    console.log(cuisine);
-    
+
     let selected = [];
-    cuisine.map(function(option) {
-      selected.push(option.value);
-    })
+    cuisine.map(function (option) {
+      selected.push(option);
+    });
 
-    
-
-    let selected_str = selected.join(';');
-    console.log(selected_str);
+    var selected_str = selected.join(";");
 
     let strrr = `https://api.quandoo.com/v1/merchants?place=singapore&capacity=2&offset=0&limit=50&radius=2&bookable=true&fromtime=${time}&date=${apiDate}&centerPoint=${latitude}%2C${longitude}&tags=${selected_str}`;
     console.log(strrr);
@@ -57,12 +49,13 @@ class List extends Component {
   render() {
     return (
       <div className="restaurant_list">
-        <RestaurantCards 
-        restaurants={this.state.restaurants}
-        booking_date={this.props.apiDate}
-        booking_time={this.props.time}
-        partner_name={this.props.person}
-        partner_url={this.props.person_url}/>
+        <RestaurantCards
+          restaurants={this.state.restaurants}
+          booking_date={this.props.apiDate}
+          booking_time={this.props.time}
+          partner_name={this.props.person}
+          partner_url={this.props.person_url}
+        />
       </div>
     );
   }

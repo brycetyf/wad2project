@@ -213,6 +213,20 @@ def delete_reservation(res_id):
     db.session.commit()
     return jsonify({"reservation_data": "successfully deleted!"})
 
+@application.route("/check_reservation/booking_date=<string:booking_date>&booking_time=<string:booking_time>")
+def check_if_reservation_exists(booking_date,booking_time):
+    '''
+    Displays all the conversations that the user can have based on matches 
+    '''
+    search_result = Reservations.query.filter_by(booking_date=booking_date).filter_by(booking_time=booking_time).first()
+    if search_result:
+        return jsonify({"conflicting_booking": "true"})
+    else:
+        return jsonify({"conflicting_booking": "false"})
+    
+
+
+
 @application.route("/get_particular_reservation/<string:res_id>")
 def get_particular_res(res_id):
     '''

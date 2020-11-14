@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import List from "./list";
-import CalendarDisplay from "./CalendarManager";
+import CalendarManager from "./CalendarManager";
+import axios from "axios";
 
 class Scheduler extends Component {
   state = {
@@ -9,6 +10,7 @@ class Scheduler extends Component {
     apiDate: "",
     cuisine: [],
     counter: 0,
+    conflicting_booking: false,
   };
 
   // callback functions
@@ -32,14 +34,30 @@ class Scheduler extends Component {
     this.setState({ cuisine: new_cuisine });
   };
 
+  checkReservations = (time, date) => {
+    axios
+      .get(
+        `http://127.0.0.1:5001/check_reservation/booking_date=${date}&booking_time=${time}`
+      )
+      .then((res) => {
+        this.setState(
+          {
+            conflicting_booking: res.data.conflicting_booking,
+          },
+          () => console.log(this.state.conflicting_booking)
+        );
+      });
+  };
+
   componentDidMount = () => {
     console.log(this.props);
   };
+
   render() {
     if (this.state.counter === 0) {
       return (
         <div>
-          <CalendarDisplay
+          <CalendarManager
             updateTime={this.update_time}
             updateLocation={this.update_location}
             updateCounter={this.update_counter}
@@ -50,6 +68,8 @@ class Scheduler extends Component {
             time={this.state.time}
             location={this.state.location}
             cuisine={this.state.cuisine}
+            checkReservations={this.checkReservations}
+            conflicting_booking={this.state.conflicting_booking}
           />
         </div>
       );
@@ -57,7 +77,6 @@ class Scheduler extends Component {
       return (
         <div>
           <List
-          // cleaned up the code abit here - Brandon
             apiDate={this.state.apiDate}
             time={this.state.time}
             location={this.state.location}

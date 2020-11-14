@@ -58,8 +58,10 @@ class ChatScreen extends Component {
     return this.state.mounted ? (
       <div className="chatScreen">
         <p className="chatScreen__timestamp">
-          YOU MATCHED WITH {partner_msg[0].match_name.toUpperCase()} ON{" "}
-          {partner_msg[0].match_date}
+          You matched with{" "}
+          {partner_msg[0].match_name.charAt(0).toUpperCase() +
+            partner_msg[0].match_name.slice(1)}{" "}
+          on {partner_msg[0].match_date.slice(0, 16)}
         </p>
         {partner_msg.map((message) =>
           message.sent_by_user ? (

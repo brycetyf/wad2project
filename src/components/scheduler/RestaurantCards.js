@@ -7,20 +7,9 @@ import {
   CardActions,
   Typography,
   CardMedia,
-  Button,
-  Modal,
 } from "@material-ui/core/";
 import axios from "axios";
 import BookingConfirmationModal from "./BookingConfirmationModal";
-import { Book } from "@material-ui/icons";
-
-function getModalStyle() {
-  return {
-    top: `${50}%`,
-    left: `${50}%`,
-    transform: `translate(-${50}%, -${50}%)`,
-  };
-}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,7 +34,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const convert_price_rating = (price_rating) => {
+const convert_price_rating = (tagGroups) => {
+  console.log(tagGroups[0].type);
+  if (tagGroups[0].type !== "PRICE") {
+    var price_rating = tagGroups[1].tags[0].name;
+  } else {
+    var price_rating = tagGroups[0].tags[0].name;
+  }
   if (price_rating == "price average") {
     return (
       <span>
@@ -69,6 +64,7 @@ const convert_price_rating = (price_rating) => {
     );
   }
 };
+
 //Updating Backend With the Booking details
 // API call using axios
 const sendBooking = (
@@ -108,58 +104,59 @@ export default function RestaurantCards({
         alignItems="flex-start"
         className={classes.MainGrid}
       >
-        {restaurants.map((restaurant, index) => (
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={4}
-            key={index}
-            className={classes.SubGrid}
-          >
-            <Card className={classes.fullHeightCard}>
-              <CardMedia
-                className={classes.card}
-                image={restaurant.images[0].url}
-                title={restaurant.name}
-              />
-
-              <CardContent>
-                <Typography variant="h6" gutterBottom component="h6">
-                  {restaurant.name}
-                </Typography>
-
-                <Typography variant="body1" gutterBottom component="body1">
-                  Rating: {restaurant.reviewScore} / 6
-                </Typography>
-                <br />
-                <Typography variant="body1" gutterBottom component="body1">
-                  Price:{" "}
-                  {convert_price_rating(restaurant.tagGroups[0].tags[0].name)}
-                </Typography>
-                <br />
-                <Typography variant="body1" gutterBottom component="body1">
-                  Address: {restaurant.location.address.number}{" "}
-                  {restaurant.location.address.street}
-                </Typography>
-                <br />
-                <Typography variant="body1" component="p">
-                  Contact: {restaurant.phoneNumber}
-                </Typography>
-              </CardContent>
-
-              <CardActions style={{ marginLeft: "5px", marginBottom: "5px" }}>
-                <BookingConfirmationModal
-                  partner_name={partner_name}
-                  restaurant={restaurant}
-                  booking_date={booking_date}
-                  booking_time={booking_time}
-                  partner_url={partner_url}
+        {restaurants
+          .sort((a, b) => b.reviewScore.localeCompare(a.reviewScore))
+          .map((restaurant, index) => (
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              key={index}
+              className={classes.SubGrid}
+            >
+              <Card className={classes.fullHeightCard}>
+                <CardMedia
+                  className={classes.card}
+                  image={restaurant.images[0].url}
+                  title={restaurant.name}
                 />
-              </CardActions>
-            </Card>
-          </Grid>
-        ))}
+
+                <CardContent>
+                  <Typography variant="h6" gutterBottom component="h6">
+                    {restaurant.name}
+                  </Typography>
+
+                  <Typography variant="body1" gutterBottom component="body1">
+                    Rating: {restaurant.reviewScore} / 6
+                  </Typography>
+                  <br />
+                  <Typography variant="body1" gutterBottom component="body1">
+                    Price: {convert_price_rating(restaurant.tagGroups)}
+                  </Typography>
+                  <br />
+                  <Typography variant="body1" gutterBottom component="body1">
+                    Address: {restaurant.location.address.number}{" "}
+                    {restaurant.location.address.street}
+                  </Typography>
+                  <br />
+                  <Typography variant="body1" component="p">
+                    Contact: {restaurant.phoneNumber}
+                  </Typography>
+                </CardContent>
+
+                <CardActions style={{ marginLeft: "5px", marginBottom: "5px" }}>
+                  <BookingConfirmationModal
+                    partner_name={partner_name}
+                    restaurant={restaurant}
+                    booking_date={booking_date}
+                    booking_time={booking_time}
+                    partner_url={partner_url}
+                  />
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
       </Grid>
     </div>
   );

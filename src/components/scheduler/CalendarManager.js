@@ -4,10 +4,8 @@ import TimePicker from "react-time-picker";
 import Button from "react-bootstrap/Button";
 import "react-calendar/dist/Calendar.css";
 import "../../styles/Calendar.css";
-import { Link } from "react-router-dom";
-import List from "./list";
-import Select from 'react-select';
-import axios from 'axios';
+import CuisineSelector from "./CuisineSelector";
+import LocationSelector from "./LocationSelector";
 
 class CalendarDisplay extends Component {
   constructor(props) {
@@ -19,19 +17,11 @@ class CalendarDisplay extends Component {
       time: "17:00",
       apiDate: "",
       location: "central",
-      cuisine: [
-        { value: 'japanese', label: 'Japanese' },
-        { value: 'indian', label: 'Indian' },
-        { value: 'chinese', label: 'Chinese' },
-        { value: 'malay', label:'Malay'},
-        { value: 'western', label:'Western'},
-      ],
-      selectedOptions: [],
+      selectedCuisine: [],
       bookedDates: [],
     };
-
-    this.handleChange = this.handleChange.bind(this);
-
+    this.updateLocation = this.updateLocation.bind(this);
+    this.updateCuisine = this.updateCuisine.bind(this);
   }
 
   //Quandoo API requires this format of date in order to retrieve date
@@ -59,7 +49,6 @@ class CalendarDisplay extends Component {
     let month = date.getMonth() + 1;
     let dt = date.getDate();
     let return_str = "";
-
     if (dt < 10) {
       dt = "0" + dt;
     }
@@ -69,151 +58,131 @@ class CalendarDisplay extends Component {
     return dt + "-" + month + "-" + year;
   }
 
-  handleChange(event) {
-    this.setState({ location: event.target.value });
+  updateLocation(selection) {
+    this.setState({ location: selection });
   }
 
-  handleChange2 = (selectedOptions) => {
-    this.setState({ selectedOptions });
-  }
+  updateCuisine = (selections) => {
+    this.setState({ selectedCuisine: selections });
+  };
 
-  updateBookedDates (dates) {
-    this.setState({ bookedDates: dates });
-    console.log(dates);
-    console.log(this.state.bookedDates);
-  }
-
-
-  //If there is a booking existing in the same date, this function will be activated
-
-  //Having some difficulty here trying to update the state array. Help look into it plz
-  checkReservations(date) {
-
-    var dates = [];    
-
-    axios.get("http://127.0.0.1:5001/get_reservations").then((res) => {
-      res.data.reservation_data
-      .map((event) => {
-        console.log(event.booking_date);
-
-        dates.push(event.booking_date);
-      })
-      console.log(dates);
-      this.updateBookedDates(dates);
-    })
-  }
+  compositeFunction = (payload, type) => {
+    var parent_response = false;
+    // Trigger date change and make API call to check if there is conflict in Scheduler.js
+    if (type === "time") {
+      this.setState({ time: payload }, () => {
+        parent_response = this.props.checkReservations(
+          this.state.time,
+          this.format_date_api(this.state.date)
+        );
+      });
+    } else {
+      this.setState({ date: payload }, () => {
+        parent_response = this.props.checkReservations(
+          this.state.time,
+          this.format_date_api(this.state.date)
+        );
+      });
+    }
+  };
 
   render() {
-    if (this.state.bookedDates.includes(this.state.date)) {
-      return (
-        <div>
-          <h1>YES WE DID IT</h1>
+    const double_booking_messages = [
+      "😏 someone's feeling naughty eh..? Don't you already have a date booked?",
+      "🧐 Are you forgetting that you have another date already?",
+      "Would you like to be on 🎅🏻's naughty list? If you book this date, it seems like the case!",
+    ];
+    const double_book_message =
+      double_booking_messages[Math.floor(Math.random() * 2)];
+    return (
+      <div className={"calendar_whole"}>
+        <div className={"calendar_title"}> BOOK YOUR DATE! </div>
+
+        <div className={"calendar"}>
+          <Calendar
+            className={"calendar_design"}
+            onChange={(date) => this.compositeFunction(date, "date")}
+            value={this.state.date}
+            minDate={new Date()}
+          />
         </div>
-      );
-    }
-    else {
+        {this.props.conflicting_booking === "true" ? (
+          <div>{double_book_message}</div>
+        ) : (
+          <div></div>
+        )}
+        <div className={"booking_details"}>
+          <div className={"booking_header"}>ENTER BOOKING DETAILS</div>
 
-      return (
-        // add styling here
+          {/*  Used a table here in order to align the words date and time to make it more organized */}
+          <table className={"details_table"}>
+            <tr>
+              <td>
+                <h5>Date:</h5>
+              </td>
+              <td>
+                <h5>{this.format_date_display()}</h5>
+              </td>
+            </tr>
 
-        <div className={"calendar_whole"}>
-  
-  
-          <div className={"calendar_title"}> BOOK YOUR DATE! </div>
-  
-          <div className={"calendar"}>
-            <Calendar
-              className={"calendar_design"}
-              onChange={(date) => this.setState({ date })}
-              value={this.state.date}
-              minDate={new Date()}
-            />
-          </div>
-  
-          <div className={"booking_details"}>
-            <div className={"booking_header"}>ENTER BOOKING DETAILS</div>
-  
-            {/*  Used a table here in order to align the words date and time to make it more organized */}
-            <table className={"details_table"}>
-              <tr>
-                <td>
-                  <h5>Date:</h5>
-                </td>
-                <td><h5>{this.format_date_display()}</h5></td>
-              </tr>
-  
-              <tr>
-                <td>
-                  <h5>Time:</h5>
-                </td>
-                <td><h5><TimePicker
+            <tr>
+              <td>
+                <h5>Time:</h5>
+              </td>
+              <td>
+                <h5>
+                  <TimePicker
                     clockIcon={null}
                     clearIcon={null}
                     disableClock={true}
-                    onChange={(time) => this.setState({ time })}
+                    onChange={(time) => this.compositeFunction(time, "time")}
                     value={this.state.time}
-                  /></h5>
-                </td>
-              </tr>
-  
-              <tr>
-                <td>
-                  <h5>Location:</h5>
-                </td>
-  
-                <td>
-                    <h5><select value={this.state.value} onChange={this.handleChange}>
-                    <option value="central">Central</option>
-                    <option value="north">North</option>
-                    <option value="south">South</option>
-                    <option value="east">East</option>
-                    <option value="west">West</option>
-                  </select></h5>
-                </td>
-              </tr>
-  
-              <tr>
-                <td>
-                  <h5>Cuisine:</h5>
-                </td>
-  
-                <td><h5>
-                <Select 
-                    isMulti
-                    name="cuisine"
-                    options={this.state.cuisine}
-                    className="basic-multi-select"
-                    classNamePrefix="select"
-                    onChange={this.handleChange2}
-                    />
+                  />
                 </h5>
-                </td>
-  
-  
-              </tr>
-            </table>
-  
-            <div className={"button_div"}>
-              <Button
-                onClick={() => {
-                  this.props.updateAPIDate(this.format_date_api());
-                  this.props.updateCounter();
-                  this.props.updateTime(this.state.time);
-                  this.props.updateLocation(this.state.location);
-                  this.props.updateCuisine(this.state.selectedOptions);
-                  this.checkReservations(this.format_date_api());
-                }}
-                variant="success"
-                size="md"
-              >
-                Continue
-              </Button>
-            </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <h5>Location:</h5>
+              </td>
+
+              <td>
+                <LocationSelector updateLocation={this.updateLocation} />
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <h5>Cuisine(s):</h5>
+              </td>
+
+              <td>
+                <CuisineSelector updateCuisine={this.updateCuisine} />
+              </td>
+            </tr>
+          </table>
+
+          <div className={"button_div"}>
+            <Button
+              onClick={() => {
+                this.props.updateAPIDate(this.format_date_api());
+                this.props.updateCounter();
+                this.props.updateTime(this.state.time);
+                this.props.updateLocation(this.state.location);
+                this.props.updateCuisine(this.state.selectedCuisine);
+              }}
+              variant="success"
+              size="md"
+            >
+              Continue
+            </Button>
           </div>
         </div>
-      );      
-    }
+      </div>
+    );
   }
 }
+// }
 
 export default CalendarDisplay;
