@@ -135,6 +135,7 @@ class Review extends Component {
         <div className="review__input">
           <Typography>
             Let others know how {this.state.user.username} was
+            <span style={{ color: "red" }}>*</span>
           </Typography>
           <MultilineTextFields updateTextReview={this.updateTextReview} />
         </div>
@@ -158,7 +159,7 @@ class Review extends Component {
           ) : (
             <SimpleModal
               modalTitle={"Oops!"}
-              modalBody={`Please fill in all the fields! ${this.state.user.username} will appreciate you for doing so. It also helps to make Ghost-Me-Not better!`}
+              modalBody={`Please ensured that you've filled up the compulsory fields. ${this.state.user.username} will appreciate you for doing so. It also helps to make Ghost-Me-Not better!`}
             />
           )}
         </div>

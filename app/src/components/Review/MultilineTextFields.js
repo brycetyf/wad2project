@@ -27,7 +27,7 @@ export default function MultilineTextFields({ updateTextReview }) {
           id="outlined-multiline-static"
           label=""
           multiline
-          rows={4}
+          rows={3}
           placeholder="Share your thoughts here"
           variant="outlined"
           onChange={(e) => updateTextReview(e)}

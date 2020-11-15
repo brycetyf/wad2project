@@ -5,7 +5,7 @@ import Slider from "@material-ui/core/Slider";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "80",
+    width: "100",
     textAlign: "center",
   },
   margin: {
@@ -44,7 +44,7 @@ export default function DiscreteSlider({ updateRating }) {
   return (
     <div className={classes.root}>
       <Typography id="track-false-slider" gutterBottom>
-        Rate your date experience
+        Rate your experience<span style={{ color: "red" }}>*</span>
       </Typography>
       <Slider
         track={false}

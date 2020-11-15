@@ -30,7 +30,7 @@ export default function FormControlLabelPlacement({
   return (
     <FormControl component="fieldset">
       <FormLabel component="legend" style={{ color: "black" }}>
-        Did {partner_name} show up for your date?
+        Did {partner_name} show up for your date?<span style={{ color: "red" }}>*</span>
       </FormLabel>
       <RadioGroup row aria-label="position" name="position" defaultValue="top">
         <FormControlLabel

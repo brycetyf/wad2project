@@ -102,7 +102,7 @@ export default function MultipleSelect({ updateBadges }) {
   return (
     <div>
       <FormControl className={classes.formControl}>
-        <InputLabel id="demo-mutiple-chip-label">Choose here!</InputLabel>
+        <InputLabel id="demo-mutiple-chip-label">This is optional!</InputLabel>
         <Select
           labelId="demo-mutiple-chip-label"
           id="demo-mutiple-chip"
