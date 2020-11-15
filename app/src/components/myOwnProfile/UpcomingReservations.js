@@ -7,6 +7,8 @@ import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import SimpleModal from "../popup_modal";
+import CardActions from "@material-ui/core/CardActions";
+import Container from "@material-ui/core/Container";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -70,50 +72,59 @@ export default function ReservationCard({
         upcoming ? (
           <div>
             <Card className={classes.root}>
-              <CardMedia className={classes.cover} image={res_url} />
-              <div className={classes.details}>
-                <CardContent className={classes.content}>
-                  <Typography component="h6" variant="h6">
-                    {res_name}
-                  </Typography>
-                  <Typography variant="subtitle1" className={classes.avatar}>
-                    Your Date: &nbsp;&nbsp;
-                    <Link to={`/profile/${booking_partner}`}>
-                      <Avatar src={partner_url} alt={booking_partner} />
-                    </Link>
-                    &nbsp;&nbsp;&nbsp;&nbsp;{booking_partner}
-                  </Typography>
-                  <Typography variant="subtitle1" color="textSecondary">
-                    Booking Details: {booking_time}hrs on {booking_date}
-                  </Typography>
-                  <Typography variant="subtitle1" color="textSecondary">
-                    Restaurant Contact: {contact}
-                  </Typography>
-                  <div
-                    style={{
-                      paddingTop: "10px",
-                      display: "flex",
-                    }}
-                  >
-                    <Link to={`/DateDetails/${dateid}`}>
-                      <Button
-                        variant="outlined"
-                        size="small"
-                        classes={{ label: "detail__button" }}
-                        style={{ marginRight: "10px" }}
-                      >
-                        More Details
-                      </Button>
-                    </Link>
-                    <SimpleModal
-                      modalTitle={"Oh? 🤔"}
-                      modalBody={`By clicking the button below, you are confirming that you want to cancel this reservation.`}
-                      cancelDateFunction={cancelDate}
-                      res_id={res_id}
-                    />
-                  </div>
-                </CardContent>
-              </div>
+
+              <CardContent>
+                  <CardMedia
+                      className={classes.cover}
+                      image={res_url}
+                      title={res_name}
+                  />
+                <Typography variant="h6" gutterBottom component="h6">
+                  {res_name}
+                </Typography>
+
+                <Typography variant="body1" className={classes.avatar}>
+                  Your Date: &nbsp;&nbsp;
+                  <Link to={`/profile/${booking_partner}`}>
+                    <Avatar src={partner_url} alt={booking_partner} />
+                  </Link>
+                  &nbsp;&nbsp;&nbsp;&nbsp;{booking_partner}
+                </Typography>
+                <br />
+                <Typography variant="body1" color="textSecondary">
+                  Booking Details: {booking_time}hrs on {booking_date}
+                </Typography>
+                <br />
+                <Typography variant="subtitle1" color="textSecondary">
+                  Restaurant Contact: {contact}
+                </Typography>
+                <br />
+
+                <div
+                  style={{
+                    paddingTop: "10px",
+                    display: "flex",
+                  }}
+                >
+                  <Link to={`/DateDetails/${dateid}`}>
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      classes={{ label: "detail__button" }}
+                      style={{ marginRight: "10px" }}
+                    >
+                      More Details
+                    </Button>
+                  </Link>
+                  <SimpleModal
+                    modalTitle={"Oh? 🤔"}
+                    modalBody={`By clicking the button below, you are confirming that you want to cancel this reservation.`}
+                    cancelDateFunction={cancelDate}
+                    res_id={res_id}
+                  />
+                </div>
+
+              </CardContent>
             </Card>
           </div>
         ) : (
