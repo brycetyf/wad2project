@@ -11,13 +11,10 @@
 }
 
 .popup__body {
-  position: absolute;
-  top: 30%;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
+  position: relative;
+  overflow-y: auto;
+  max-height: 400px;
+  padding: 15px;
 }
 
 .popup__content {
