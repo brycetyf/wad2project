@@ -22,20 +22,23 @@ class Matched_users(db.Model):
     message = db.Column(db.VARCHAR(200), nullable=True)
     lastonline = db.Column(db.VARCHAR(255), nullable=False)
     url = db.Column(db.VARCHAR(300), nullable=False)
+    match_time = db.Column(db.DATETIME(),nullable=False)
 
-    def __init__(self, unique_id, name, message, lastonline,url):
+    def __init__(self, unique_id, name, message, lastonline,url,match_time):
         self.unique_id = unique_id
         self.name = name
         self.message = message
         self.lastonline = lastonline
         self.url = url
+        self.match_time = match_time
 
     def json(self):
         return {"unique_id": self.unique_id, 
                 "name": self.name, 
                 "message": self.message, 
                 "lastonline": self.lastonline,
-                "url":self.url}
+                "url":self.url,
+                "match_time":self.match_time}
 
 class Reviews(db.Model):
     __tablename__ = 'reviewComments'
@@ -154,14 +157,16 @@ class Messages(db.Model):
     match_date = db.Column(db.DATE, nullable=False)
     message = db.Column(db.VARCHAR(255), nullable=False)
     url = db.Column(db.VARCHAR(300), nullable=False)
+    message_sent_datetime = db.Column(db.DATETIME(),nullable=False)
 
-    def __init__(self, msgId, match_name,sent_by_user, match_date, message,url):
+    def __init__(self, msgId, match_name,sent_by_user, match_date, message,url,message_sent_datetime):
         self.msgId = msgId
         self.match_name = match_name
         self.sent_by_user = sent_by_user
         self.match_date = match_date
         self.message = message
         self.url = url
+        self.message_sent_datetime = message_sent_datetime
 
     def json(self):
         return {"msgId": self.msgId,
@@ -169,7 +174,8 @@ class Messages(db.Model):
                 "sent_by_user": self.sent_by_user,
                 "match_date": self.match_date, 
                 "message": self.message,
-                "url":self.url}
+                "url":self.url,
+                "message_sent_datetime":self.message_sent_datetime}
 
 ###---- FOR RESERVATIONS ----
 @application.route("/send_reservations/res_name=<string:res_name>&lon=<string:lon>&lat=<string:lat>&res_url=<path:res_url>&contact=<string:contact>&booking_date=<string:booking_date>&booking_time=<string:booking_time>&booking_partner=<string:booking_partner>&booking_partner_url=<path:booking_partner_url>",methods=["GET"])
@@ -239,6 +245,23 @@ def get_conversations():
     '''
     Displays all the conversations that the user can have based on matches 
     '''
+    matches = Matched_users.query.all() 
+    for m in matches:
+        # now we want to query out the latest message sent by the user 
+        
+        if m.message == "No messages sent yet":
+            # if no messages then calculate last seen via the original match date
+            # need some time manipulation here
+            pass
+        else:
+            # update the message and "match_time" - the variable name is wrong but no time to refactor the code
+            # query the messages table and update the entry in Matched_users, 
+            # db.commit and then push to the end user
+            latest_entry = Messages.query.filter_by(match_name=m.name).order_by(Messages.message_sent_datetime.desc()).first()
+            m.message = latest_entry.message
+            m.match_time = latest_entry.message_sent_datetime
+            
+    db.session.commit()
     return jsonify({"matched_users": [u.json() for u in Matched_users.query.all()]})
 
 ###---- API endpoint to update backend that a match has been done --------
@@ -252,6 +275,7 @@ def create_match(unique_id,name,url):
         name = name,
         message = 'No messages sent yet',
         lastonline = '1 minute ago',
+        match_time = str(datetime.datetime.now().strftime("%y/%m/%d %H:%M:%S")),
         url = url
     )
     send_message(name,message='')
@@ -278,7 +302,8 @@ def send_message(match_name,message):
         sent_by_user=1,
         message=message,
         match_date=str(datetime.datetime.now()),
-        url=''
+        url='',
+        message_sent_datetime=str(datetime.datetime.now().strftime("%y/%m/%d %H:%M:%S"))
     )
     
     db.session.add(new_message)
