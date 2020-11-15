@@ -6,8 +6,8 @@ import ast
 
 application = Flask(__name__)
 CORS(application)
-application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/wad2project' #FOR WINDOW USERS
-# application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/wad2project' #FOR MAC USERS
+# application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/wad2project' #FOR WINDOW USERS
+application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/wad2project' #FOR MAC USERS
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 application.config['CORS_HEADERS'] = 'Content-Type'
 
@@ -118,9 +118,10 @@ class User(db.Model):
     reviewInstances = db.Column(db.INT(),nullable=True)
     userRating = db.Column(db.Integer,nullable=True)
     userTags = db.Column(db.VARCHAR(8000),nullable=True)
+    matched_before = db.Column(db.BOOLEAN(),nullable=False)
     ghostRating = db.Column(db.INT(), nullable=False)
 
-    def __init__(self,unique_id, username, name, url, age, description, ghostRating,gender,user_indicated_interest,reviewInstances,userRating,userTags):
+    def __init__(self,unique_id, username, name, url, age, description, ghostRating,gender,user_indicated_interest,reviewInstances,userRating,matched_before,userTags):
         self.unique_id = unique_id
         self.username = username
         self.name = name
@@ -132,6 +133,7 @@ class User(db.Model):
         self.user_indicated_interest = user_indicated_interest
         self.reviewInstances = reviewInstances
         self.userRating = userRating
+        self.matched_before = matched_before
         self.userTags = userTags
 
     def json(self):
@@ -146,6 +148,7 @@ class User(db.Model):
                 "user_indicated_interest":self.user_indicated_interest,
                 "reviewInstances":self.reviewInstances,
                 "userRating":self.userRating,
+                "matched_before":self.matched_before,
                 "userTags":self.userTags}
 
 class Messages(db.Model):
@@ -322,12 +325,14 @@ def find_match_chat(username):
 ###---- USER TABLE APIS --------
 @application.route("/users")
 def find_all():
-    return jsonify({"users": [user.json() for user in User.query.all()]})
+    profile_cards = User.query.filter_by(matched_before=False).all()
+    return jsonify({"users": [user.json() for user in profile_cards]})
 
 @application.route("/users/<string:unique_id>", methods=['GET'])
 def find_unviewed(unique_id):
+    profile_cards = User.query.filter_by(matched_before=False).all()
     if unique_id:
-        return jsonify({"users": [user.json() for user in User.query.all() if user.unique_id < unique_id] })
+        return jsonify({"users": [user.json() for user in profile_cards if user.unique_id < unique_id] })
     return jsonify({"message": "error encountered"}), 404
 
 @application.route("/users/profile/<string:unique_id_or_name>", methods=['GET'])

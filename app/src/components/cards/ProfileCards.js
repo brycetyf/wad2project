@@ -23,6 +23,7 @@ const TinderCards = ({
 }) => {
   if (first_load) {
     charactersState = profiles;
+    console.log(profiles);
     first_load = false;
   }
 

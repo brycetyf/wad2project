@@ -37,8 +37,8 @@ CREATE TABLE `matched_users` (
 --
 
 INSERT INTO `matched_users` (`unique_id`, `name`, `message`, `lastonline`, `url`,`match_time`) VALUES
-(4, 'Natalie', 'No messages sent yet', 'New Match', 'https://images.unsplash.com/photo-1500055457707-845bf2958845?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60','2020-11-15 08:02:05'),
-(5, 'Joyce', 'Hey Bryce!', 'New Match', 'https://images.unsplash.com/photo-1567250671670-05e36d8ca38e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60','2020-11-15 08:02:05');
+(1, 'Natalie', 'No messages sent yet', 'New Match', 'https://images.unsplash.com/photo-1500055457707-845bf2958845?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60','2020-11-15 08:02:05'),
+(2, 'Joyce', 'Hey Bryce!', 'New Match', 'https://images.unsplash.com/photo-1567250671670-05e36d8ca38e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60','2020-11-15 08:02:05');
 
 --
 -- Table structure for table `messages`
@@ -61,10 +61,11 @@ CREATE TABLE `messages` (
 
 INSERT INTO `messages` (`msgid`, `match_name`, `sent_by_user`, `match_date`, `message`, `url`,`message_sent_datetime`) VALUES
 (1, 'Joyce', b'0', '2020-11-15', 'Hey Bryce!', 'https://images.unsplash.com/photo-1567250671670-05e36d8ca38e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60','2020-11-15 08:02:05'),
-(2, 'Joyce', b'1', '2020-11-15', 'Hey Joyce!', '#','2020-11-15 08:04:05'),
+(2, 'Joyce', b'1', '2020-11-15', 'Hey Joyce!', 'https://images.unsplash.com/photo-1567250671670-05e36d8ca38e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60','2020-11-15 08:04:05'),
 (3, 'Joyce', b'0', '2020-11-15', 'Nice to meet you!', 'https://images.unsplash.com/photo-1567250671670-05e36d8ca38e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60','2020-11-15 08:05:05'),
-(4, 'Joyce', b'1', '2020-11-15', 'Nice to meet you too!:)', '#','2020-11-15 08:16:05'),
-(5, 'Natalie', b'1', '2020-10-10', 'HOla~~~', 'https://images.unsplash.com/photo-1500055457707-845bf2958845?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60','2020-11-15 11:05:05');
+(4, 'Joyce', b'1', '2020-11-15', 'Nice to meet you too!:)', 'https://images.unsplash.com/photo-1567250671670-05e36d8ca38e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60','2020-11-15 08:16:05'),
+(5, 'Natalie', b'1', '2020-11-15', 'HOla~~~', 'https://images.unsplash.com/photo-1500055457707-845bf2958845?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60','2020-11-15 11:05:05'),
+(6, 'Natalie', b'0', '2020-11-15', 'Sup.', 'https://images.unsplash.com/photo-1500055457707-845bf2958845?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60','2020-11-15 12:05:05');
 
 -- --------------------------------------------------------
 
@@ -113,6 +114,7 @@ CREATE TABLE `users` (
   `reviewInstances` int(255),
   `userRating` INT(101),
   `ghostRating` INT(255) NOT NULL,
+  `matched_before` bit (1) NOT NULL,
   `userTags` varchar(8000)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -120,15 +122,15 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`unique_id`, `username`, `name`, `url`, `age`, `description`, `gender`, `user_indicated_interest`,`reviewInstances`,`userRating`,`ghostRating`,`userTags`) VALUES
-('1', 'Aisah', 'Aisah', 'https://images.unsplash.com/photo-1527047614336-194da60dacd9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60', 23, 'cold jokes only',  'F', b'0',NULL,100,100,NULL),
-('2', 'Prapoth', 'Prapoth Panchuea', 'https://images.unsplash.com/photo-1586785772786-a59de185e06a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80', 26, 'i like carousells', 'F', b'0',NULL,100,100,NULL),
-('3', 'Sammy', 'Sammy Lee', 'https://images.unsplash.com/photo-1475823678248-624fc6f85785?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80', 24, 'here for a good time, not a long time',  'F', b'0',NULL,100,100,NULL),
-('4', 'Natalie', 'Natalie Siow', 'https://images.unsplash.com/photo-1500055457707-845bf2958845?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60', 22, 'i like sweet things',  'F', b'1',NULL,100,100,NULL),
-('5', 'Joyce', 'Joyce Tan', 'https://images.unsplash.com/photo-1567250671670-05e36d8ca38e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60', 25, 'travelling is bae',  'F', b'1',NULL,100,100,NULL),
-('6', 'Lee Min', 'Ang Lee Min', 'https://images.unsplash.com/photo-1527431378753-bd2f0dedc06e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60', 23, 'antique things i love',  'F', b'0',NULL,100,100,NULL),
-('7', 'Seanna', 'Seanna Seow', 'https://images.unsplash.com/photo-1498551172505-8ee7ad69f235?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80', 22, 'b&w times',  'M', b'0',NULL,100,100,NULL),
-('8', 'Tammy', 'Tammy Ong', 'https://images.unsplash.com/photo-1514883718278-c239aeaf86df?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60', 24, 'dont look back in anger',  'F', b'0',NULL,100,100,NULL);
+INSERT INTO `users` (`unique_id`, `username`, `name`, `url`, `age`, `description`, `gender`, `user_indicated_interest`,`reviewInstances`,`userRating`,`ghostRating`,`matched_before`,`userTags`) VALUES
+('9', 'Natalie', 'Natalie Siow', 'https://images.unsplash.com/photo-1500055457707-845bf2958845?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60', 22, 'i like sweet things',  'F', b'1',NULL,23,50,b'1',NULL),
+('8', 'Joyce', 'Joyce Tan', 'https://images.unsplash.com/photo-1567250671670-05e36d8ca38e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60', 25, 'travelling is bae',  'F', b'1',NULL,100,95,b'1',"{'Considerate': 1, 'Fantastic': 1, 'Gorgeous': 1}"),
+('1', 'Aisah', 'Aisah', 'https://images.unsplash.com/photo-1527047614336-194da60dacd9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60', 23, 'cold jokes only',  'F', b'0',NULL,100,100,b'0',NULL),
+('2', 'Prapoth', 'Prapoth Panchuea', 'https://images.unsplash.com/photo-1586785772786-a59de185e06a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80', 26, 'i like carousells', 'F', b'0',NULL,100,100,b'0',NULL),
+('3', 'Sammy', 'Sammy Lee', 'https://images.unsplash.com/photo-1475823678248-624fc6f85785?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80', 24, 'here for a good time, not a long time',  'F', b'0',NULL,100,100,b'0',NULL),
+('4', 'Lee Min', 'Ang Lee Min', 'https://images.unsplash.com/photo-1527431378753-bd2f0dedc06e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60', 23, 'antique things i love',  'F', b'0',NULL,100,100,b'0',NULL),
+('5', 'Seanna', 'Seanna Seow', 'https://images.unsplash.com/photo-1498551172505-8ee7ad69f235?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80', 22, 'b&w times',  'M', b'0',NULL,100,100,b'0',NULL),
+('6', 'Tammy', 'Tammy Ong', 'https://images.unsplash.com/photo-1514883718278-c239aeaf86df?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60', 24, 'dont look back in anger',  'F', b'0',NULL,100,100,b'0',NULL);
 
 
 --
@@ -150,7 +152,8 @@ CREATE TABLE `reviewComments` (
 
 INSERT INTO `reviewComments` (`comment_id`,`username`,`comments`,`review_left_by`,`approved`) VALUES
 (1,'bryce','Such a charming man. Best date ever.','Joyce',b'0'),
-(2,'bryce','Bryce was a gentlemen. He helped me to hold my handbag','Natalie',b'0');
+(2,'bryce','Bryce was a gentlemen. He helped me to hold my handbag','Natalie',b'0'),
+(3,'Joyce','Joyce was wonderful. I have a great time hearing her stories about her trip to Japan! 10/10 would go out on a date again. ;)','Bryce Tan',b'1');
 
 
 --
