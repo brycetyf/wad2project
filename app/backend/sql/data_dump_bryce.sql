@@ -37,8 +37,8 @@ CREATE TABLE `matched_users` (
 --
 
 INSERT INTO `matched_users` (`unique_id`, `name`, `message`, `lastonline`, `url`,`match_time`) VALUES
--- (4, 'Natalie', 'Hola. Tell me a cold joke.', '1 minute ago', 'https://images.unsplash.com/photo-1500055457707-845bf2958845?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60');
-(5, 'Joyce', 'Hey Bryce!', '1 minute ago', 'https://images.unsplash.com/photo-1567250671670-05e36d8ca38e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60','2020-11-15 08:02:05');
+(4, 'Natalie', 'No messages sent yet', 'New Match', 'https://images.unsplash.com/photo-1500055457707-845bf2958845?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60','2020-11-15 08:02:05'),
+(5, 'Joyce', 'Hey Bryce!', 'New Match', 'https://images.unsplash.com/photo-1567250671670-05e36d8ca38e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60','2020-11-15 08:02:05');
 
 --
 -- Table structure for table `messages`
@@ -60,9 +60,11 @@ CREATE TABLE `messages` (
 --
 
 INSERT INTO `messages` (`msgid`, `match_name`, `sent_by_user`, `match_date`, `message`, `url`,`message_sent_datetime`) VALUES
--- (1, 'Natalie', b'0', '2020-10-10', 'Hola, tell me a cold joke.', 'https://images.unsplash.com/photo-1500055457707-845bf2958845?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60'),
-(2, 'Joyce', b'0', '2020-11-15', 'Hey Bryce!', 'https://images.unsplash.com/photo-1567250671670-05e36d8ca38e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60','2020-11-15 08:02:05'),
-(3, 'Joyce', b'0', '2020-11-15', 'This is the last message', 'https://images.unsplash.com/photo-1567250671670-05e36d8ca38e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60','2020-11-15 16:02:05');
+(1, 'Joyce', b'0', '2020-11-15', 'Hey Bryce!', 'https://images.unsplash.com/photo-1567250671670-05e36d8ca38e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60','2020-11-15 08:02:05'),
+(2, 'Joyce', b'1', '2020-11-15', 'Hey Joyce!', '#','2020-11-15 08:04:05'),
+(3, 'Joyce', b'0', '2020-11-15', 'Nice to meet you!', 'https://images.unsplash.com/photo-1567250671670-05e36d8ca38e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60','2020-11-15 08:05:05'),
+(4, 'Joyce', b'1', '2020-11-15', 'Nice to meet you too!:)', '#','2020-11-15 08:16:05'),
+(5, 'Natalie', b'1', '2020-10-10', 'HOla~~~', 'https://images.unsplash.com/photo-1500055457707-845bf2958845?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60','2020-11-15 11:05:05');
 
 -- --------------------------------------------------------
 
@@ -147,8 +149,8 @@ CREATE TABLE `reviewComments` (
 --
 
 INSERT INTO `reviewComments` (`comment_id`,`username`,`comments`,`review_left_by`,`approved`) VALUES
-(1,'bryce','Such a charming man. Best date ever.','Joyce',b'0');
--- (2,'bryce','Bryce was a gentlemen. He helped me to hold my handbag','Natalie',b'0');
+(1,'bryce','Such a charming man. Best date ever.','Joyce',b'0'),
+(2,'bryce','Bryce was a gentlemen. He helped me to hold my handbag','Natalie',b'0');
 
 
 --

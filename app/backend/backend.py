@@ -248,18 +248,11 @@ def get_conversations():
     matches = Matched_users.query.all() 
     for m in matches:
         # now we want to query out the latest message sent by the user 
+        latest_entry = Messages.query.filter_by(match_name=m.name).order_by(Messages.message_sent_datetime.desc()).first()
         
-        if m.message == "No messages sent yet":
-            # if no messages then calculate last seen via the original match date
-            # need some time manipulation here
-            pass
-        else:
-            # update the message and "match_time" - the variable name is wrong but no time to refactor the code
-            # query the messages table and update the entry in Matched_users, 
-            # db.commit and then push to the end user
-            latest_entry = Messages.query.filter_by(match_name=m.name).order_by(Messages.message_sent_datetime.desc()).first()
+        if latest_entry:
             m.message = latest_entry.message
-            m.match_time = latest_entry.message_sent_datetime
+            m.match_time = latest_entry.message_sent_datetime   
             
     db.session.commit()
     return jsonify({"matched_users": [u.json() for u in Matched_users.query.all()]})
@@ -274,7 +267,7 @@ def create_match(unique_id,name,url):
         unique_id = int(unique_id),
         name = name,
         message = 'No messages sent yet',
-        lastonline = '1 minute ago',
+        lastonline = 'New match',
         match_time = str(datetime.datetime.now().strftime("%y/%m/%d %H:%M:%S")),
         url = url
     )
