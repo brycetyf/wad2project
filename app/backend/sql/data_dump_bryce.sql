@@ -28,16 +28,43 @@ CREATE TABLE `matched_users` (
   `name` varchar(255) NOT NULL,
   `message` varchar(200),
   `lastonline` varchar(200) NOT NULL,
-  `url` varchar(300) NOT NULL
+  `url` varchar(300) NOT NULL,
+  `match_time` DATETIME NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `matched_users`
 --
 
-INSERT INTO `matched_users` (`unique_id`, `name`, `message`, `lastonline`, `url`) VALUES
+INSERT INTO `matched_users` (`unique_id`, `name`, `message`, `lastonline`, `url`,`match_time`) VALUES
 -- (4, 'Natalie', 'Hola. Tell me a cold joke.', '1 minute ago', 'https://images.unsplash.com/photo-1500055457707-845bf2958845?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60');
-(5, 'Joyce', 'Hey Bryce!', '1 minute ago', 'https://images.unsplash.com/photo-1567250671670-05e36d8ca38e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60');
+(5, 'Joyce', 'Hey Bryce!', '1 minute ago', 'https://images.unsplash.com/photo-1567250671670-05e36d8ca38e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60','2020-11-15 08:02:05');
+
+--
+-- Table structure for table `messages`
+--
+
+DROP TABLE IF EXISTS `messages`;
+CREATE TABLE `messages` (
+  `msgid` int(255) NOT NULL,
+  `match_name` varchar(255) NOT NULL,
+  `sent_by_user` bit(1) NOT NULL,
+  `match_date` date NOT NULL,
+  `message` varchar(999) NOT NULL,
+  `url` varchar(300) DEFAULT NULL,
+  `message_sent_datetime` DATETIME NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `messages`
+--
+
+INSERT INTO `messages` (`msgid`, `match_name`, `sent_by_user`, `match_date`, `message`, `url`,`message_sent_datetime`) VALUES
+-- (1, 'Natalie', b'0', '2020-10-10', 'Hola, tell me a cold joke.', 'https://images.unsplash.com/photo-1500055457707-845bf2958845?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60'),
+(2, 'Joyce', b'0', '2020-11-15', 'Hey Bryce!', 'https://images.unsplash.com/photo-1567250671670-05e36d8ca38e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60','2020-11-15 08:02:05'),
+(3, 'Joyce', b'0', '2020-11-15', 'This is the last message', 'https://images.unsplash.com/photo-1567250671670-05e36d8ca38e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60','2020-11-15 16:02:05');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `user_bookings`
@@ -64,30 +91,6 @@ CREATE TABLE `user_bookings` (
 -- INSERT INTO `user_bookings` (`res_name`, `lon`, `lat`, `res_url`, `contact`,`booking_date`,`booking_partner`) VALUES
 -- (5, 'Joyce', 'Hola. Tell me a cold joke.', '24 minutes ago', 'https://images.unsplash.com/photo-1567250671670-05e36d8ca38e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60');
 
-
--- --------------------------------------------------------
-
---
--- Table structure for table `messages`
---
-
-DROP TABLE IF EXISTS `messages`;
-CREATE TABLE `messages` (
-  `msgid` int(255) NOT NULL,
-  `match_name` varchar(255) NOT NULL,
-  `sent_by_user` bit(1) NOT NULL,
-  `match_date` date NOT NULL,
-  `message` varchar(999) NOT NULL,
-  `url` varchar(300) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `messages`
---
-
-INSERT INTO `messages` (`msgid`, `match_name`, `sent_by_user`, `match_date`, `message`, `url`) VALUES
--- (1, 'Natalie', b'0', '2020-10-10', 'Hola, tell me a cold joke.', 'https://images.unsplash.com/photo-1500055457707-845bf2958845?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60'),
-(2, 'Joyce', b'0', '2020-11-15', 'Hey Bryce!', 'https://images.unsplash.com/photo-1567250671670-05e36d8ca38e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60');
 
 -- --------------------------------------------------------
 

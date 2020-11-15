@@ -1,4 +1,4 @@
-# Initital Load for Mac Users
+# Installation for Mac Users
 Please follow the following instructions if you are running on a Mac machine.
 
 ## Installing dependencies (commands to run)
@@ -18,7 +18,7 @@ cd ~/app/backend && python backend.py
 ## Starting the Web App
 cd ~/app && npm start 
 
-# Initital Load for Windows Users
+# Installation guide for Windows Users
 Please follow the following instructions if you are on a Windows machine.
 
 ## Installing dependencies (commands to run)

@@ -14,7 +14,38 @@ const StyledBadge = withStyles((theme) => ({
   },
 }))(Badge);
 
+const calculate_time_delta = (timestamp) => {
+  const date1 = new Date(timestamp);
+  date1.setHours(date1.getHours() - 8);
+  const date2 = new Date();
+
+  var result = format_delta_to_lastseen(date1, date2);
+  return result;
+};
+
+const format_delta_to_lastseen = (date1, date2) => {
+  const diffTime = Math.abs(date2 - date1);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  var minutes_difference = Math.floor(
+    (diffTime / (1000 * 60 * 60 * 24)) * 24 * 60
+  );
+  if (minutes_difference < 60) {
+    return `${minutes_difference} minutes ago`;
+  } else if (minutes_difference >= 60) {
+    const hours_difference = Math.floor(minutes_difference / 60);
+    if (hours_difference < 24) {
+      return `${hours_difference} hours ago`;
+    } else {
+      const days_difference = Math.floor(hours_difference / 24);
+      console.log(days_difference);
+      return `${days_difference} days ago`;
+    }
+  }
+};
+
 function Chat({ name, message, profilePic, timestamp }) {
+  let time_delta = calculate_time_delta(timestamp);
+
   return (
     <Link to={`/chats/${name}`} className={"chat__link"}>
       <div className={"chat__box"}>
@@ -24,7 +55,7 @@ function Chat({ name, message, profilePic, timestamp }) {
           <h2 className={"chat__name"}>{name}</h2>
           <p>{message}</p>
         </div>
-        <p className={"chat__timestamp"}>{timestamp}</p>
+        <p className={"chat__timestamp"}>{time_delta}</p>
       </div>
     </Link>
   );
