@@ -60,35 +60,36 @@ class ChatScreen extends Component {
     var partner_msg = this.state.messages;
     return this.state.mounted ? (
       <div className="chatScreen">
-        <p className="chatScreen__timestamp">
-          You matched with{" "}
-          {partner_msg[0].match_name.charAt(0).toUpperCase() +
-            partner_msg[0].match_name.slice(1)}{" "}
-          on {partner_msg[0].match_date.slice(0, 16)}
-        </p>
-        {partner_msg.map((message) =>
-          message.sent_by_user ? (
-            message.message ? (
-              <div className="chatScreen__message" key={message.msgId}>
-                <p className="chatScreen__textUser">{message.message}</p>
-              </div>
+        <div style={{ marginBottom: "50px" }}>
+          <p className="chatScreen__timestamp">
+            You matched with{" "}
+            {partner_msg[0].match_name.charAt(0).toUpperCase() +
+              partner_msg[0].match_name.slice(1)}{" "}
+            on {partner_msg[0].match_date.slice(0, 16)}
+          </p>
+          {partner_msg.map((message) =>
+            message.sent_by_user ? (
+              message.message ? (
+                <div className="chatScreen__message" key={message.msgId}>
+                  <p className="chatScreen__textUser">{message.message}</p>
+                </div>
+              ) : (
+                <div></div>
+              )
             ) : (
-              <div></div>
+              <Link to={"/matched_profile/" + message.match_name}>
+                <div className="chatScreen__message">
+                  <Avatar
+                    className="chatScreen__image"
+                    alt={message.match_name}
+                    src={message.url}
+                  />
+                  <p className="chatScreen__text">{message.message}</p>
+                </div>
+              </Link>
             )
-          ) : (
-            <Link to={"/matched_profile/" + message.match_name}>
-              <div className="chatScreen__message">
-                <Avatar
-                  className="chatScreen__image"
-                  alt={message.match_name}
-                  src={message.url}
-                />
-                <p className="chatScreen__text">{message.message}</p>
-              </div>
-            </Link>
-          )
-        )}
-
+          )}
+        </div>
         <form className="chatScreen__input">
           <input
             value={this.user_input}
