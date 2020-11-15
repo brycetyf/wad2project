@@ -84,7 +84,7 @@ class Profile extends Component {
               <GradeIcon />: {obj.userRating}
             </div>
             <div className="profile__details">
-              <SchoolIcon />: National University of Singapore
+              <SchoolIcon />: {obj.school}
             </div>
             <div className="profile__details">
               <DescriptionIcon />: {obj.description}
@@ -103,7 +103,7 @@ class Profile extends Component {
           {this.state.userReviews.map((review, index) => (
             <Card
               style={{
-                maxWidth: "50%",
+                maxWidth: "60%",
                 marginTop: "50px",
                 textAlign: "center",
                 margin: "auto",

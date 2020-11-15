@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    justifyContent: "left",
+    justifyContent: "center",
     maxWidth: 400,
     marginLeft: "auto",
     marginRight: "auto",
@@ -31,11 +31,11 @@ const useStyles = makeStyles((theme) => ({
   },
   cover: {
     flex: "1 0 auto",
-    maxWidth: 200,
-    minWidth: 100,
+    width: "100%",
+    minWidth: 300,
     maxHeight: 220,
     minHeight: 200,
-    marginLeft: 0,
+    margin: "auto",
   },
   avatar: {
     display: "flex",
@@ -72,13 +72,12 @@ export default function ReservationCard({
         upcoming ? (
           <div>
             <Card className={classes.root}>
-
               <CardContent>
-                  <CardMedia
-                      className={classes.cover}
-                      image={res_url}
-                      title={res_name}
-                  />
+                <CardMedia
+                  className={classes.cover}
+                  image={res_url}
+                  title={res_name}
+                />
                 <Typography variant="h6" gutterBottom component="h6">
                   {res_name}
                 </Typography>
@@ -90,20 +89,18 @@ export default function ReservationCard({
                   </Link>
                   &nbsp;&nbsp;&nbsp;&nbsp;{booking_partner}
                 </Typography>
-                <br />
-                <Typography variant="body1" color="textSecondary">
+                <Typography variant="body1">
                   Booking Details: {booking_time}hrs on {booking_date}
                 </Typography>
-                <br />
-                <Typography variant="subtitle1" color="textSecondary">
+                <Typography variant="body1">
                   Restaurant Contact: {contact}
                 </Typography>
-                <br />
 
                 <div
                   style={{
                     paddingTop: "10px",
                     display: "flex",
+                    justifyContent: "space-between",
                   }}
                 >
                   <Link to={`/DateDetails/${dateid}`}>
@@ -123,46 +120,49 @@ export default function ReservationCard({
                     res_id={res_id}
                   />
                 </div>
-
               </CardContent>
             </Card>
           </div>
         ) : (
           <div>
-            <Card
-              className={classes.root}
-              style={{
-                justifyContent: "space-between",
-              }}
-            >
-              <div className={classes.details}>
-                <CardContent className={classes.content}>
-                  <Typography component="h5" variant="h5">
-                    {res_name}
-                  </Typography>
-                  <Typography variant="subtitle1" color="textSecondary">
-                    You met {booking_partner} on {booking_date}
-                  </Typography>
-                  <div style={{ paddingTop: "10px" }}>
-                    <Link
-                      to={`/Review/${booking_partner}/${res_id}/${reviewer_name}`}
+            <Card className={classes.root}>
+              <CardContent>
+                <Link to={`/profile/${booking_partner}`}>
+                  <CardMedia className={classes.cover} image={partner_url} />
+                </Link>
+                <Typography variant="h5" color="textPrimary">
+                  {booking_partner}
+                </Typography>
+
+                <Typography variant="body1" color="textPrimary">
+                  {booking_date}
+                </Typography>
+
+                <Typography component="body1" variant="body1">
+                  {res_name}
+                </Typography>
+
+                <div
+                  style={{
+                    paddingTop: "10px",
+                    margin: "auto",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Link
+                    to={`/Review/${booking_partner}/${res_id}/${reviewer_name}`}
+                  >
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      classes={{ label: "detail__button" }}
                     >
-                      <Button
-                        variant="outlined"
-                        size="small"
-                        classes={{ label: "detail__button" }}
-                      >
-                        Leave a review
-                      </Button>
-                    </Link>
-                  </div>
-                </CardContent>
-              </div>
-              <CardMedia
-                className={classes.cover}
-                image={partner_url}
-                style={{ maxWidth: "300px" }}
-              />
+                      Leave a review
+                    </Button>
+                  </Link>
+                </div>
+              </CardContent>
             </Card>
           </div>
         )

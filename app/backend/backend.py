@@ -120,8 +120,9 @@ class User(db.Model):
     userTags = db.Column(db.VARCHAR(8000),nullable=True)
     matched_before = db.Column(db.BOOLEAN(),nullable=False)
     ghostRating = db.Column(db.INT(), nullable=False)
+    school = db.Column(db.VARCHAR(100),nullable=False)
 
-    def __init__(self,unique_id, username, name, url, age, description, ghostRating,gender,user_indicated_interest,reviewInstances,userRating,matched_before,userTags):
+    def __init__(self,unique_id, username, name, url, age, description, ghostRating,gender,user_indicated_interest,reviewInstances,userRating,matched_before,userTags,school):
         self.unique_id = unique_id
         self.username = username
         self.name = name
@@ -135,6 +136,7 @@ class User(db.Model):
         self.userRating = userRating
         self.matched_before = matched_before
         self.userTags = userTags
+        self.school = school
 
     def json(self):
         return {"unique_id":self.unique_id,
@@ -149,7 +151,8 @@ class User(db.Model):
                 "reviewInstances":self.reviewInstances,
                 "userRating":self.userRating,
                 "matched_before":self.matched_before,
-                "userTags":self.userTags}
+                "userTags":self.userTags,
+                "school":self.school}
 
 class Messages(db.Model):
     __tablename__ = 'messages'

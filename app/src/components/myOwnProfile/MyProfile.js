@@ -8,8 +8,6 @@ import axios from "axios";
 import ReservationCard from "./UpcomingReservations";
 import GradeIcon from "@material-ui/icons/Grade";
 import HowToRegIcon from "@material-ui/icons/HowToReg";
-import { Link } from "react-router-dom";
-import IconButton from "@material-ui/core/IconButton";
 
 class MyProfile extends Component {
   state = {
@@ -24,7 +22,7 @@ class MyProfile extends Component {
     },
     user_data: {
       name: "Bryce Tan",
-      age: "23",
+      age: "24",
       school: "SMU",
       desc: "Just send it",
     },
