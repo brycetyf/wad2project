@@ -2,9 +2,8 @@
 Please follow the following instructions if you are running on a Mac machine.
 
 ## Installing dependencies (commands to run)
-npm install axios
-npm install @material-ui/core
-npm install react-router-dom
+1) cd app
+2) npm install
 
 ## Bootstrapping the database with the required data
 1) Go to phpMyAdmin
@@ -23,9 +22,8 @@ cd ~/app && npm start
 Please follow the following instructions if you are on a Windows machine.
 
 ## Installing dependencies (commands to run)
-npm install axios
-npm install @material-ui/core
-npm install react-router-dom
+1) cd app
+2) npm install
 
 ## Bootstrapping the database with the required data
 1) Go to phpMyAdmin
