@@ -12,7 +12,7 @@ function Chats({ matched_users }) {
         <Chat
           name={m.name}
           message={m.message}
-          timestamp={m.lastonline}
+          timestamp={m.match_time}
           profilePic={m.url}
           key={m.unique_id}
         />

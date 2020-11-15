@@ -58,9 +58,9 @@ function Header({
       ) : userVetting ? (
         <IconButton>
           <Link to="/vet_reviews" onMouseOver={() => update_messages()}>
-            <Badge color="secondary" overlap="circle" badgeContent=" ">
-              <RateReviewIcon className="header__icon" fontSize="large" />
-            </Badge>
+            {/* <Badge color="secondary" overlap="circle" badgeContent=" "> */}
+            <RateReviewIcon className="header__icon" fontSize="large" />
+            {/* </Badge> */}
           </Link>
         </IconButton>
       ) : (
