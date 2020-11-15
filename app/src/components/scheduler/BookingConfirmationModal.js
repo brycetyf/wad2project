@@ -2,6 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Modal } from "@material-ui/core/";
 import axios from "axios";
+import { Link } from "react-router-dom"; 
 
 function getModalStyle() {
   return {
@@ -116,30 +117,32 @@ function BookingConfirmationModal({
             <Button onClick={handleClose} color="primary">
               Go Back
             </Button>
-            <Button
-              onClick={() => {
-                {
-                  handleClose();
-                }
-                {
-                  sendBooking(
-                    restaurant.name,
-                    restaurant.location.coordinates.longitude,
-                    restaurant.location.coordinates.latitude,
-                    restaurant.images[0].url,
-                    restaurant.phoneNumber,
-                    booking_date,
-                    booking_time,
-                    partner_name,
-                    partner_url
-                  );
-                }
-              }}
-              color="primary"
-              autoFocus
-            >
-              Confirm
-            </Button>
+            <Link to="/">
+              <Button
+                onClick={() => {
+                  {
+                    handleClose();
+                  }
+                  {
+                    sendBooking(
+                      restaurant.name,
+                      restaurant.location.coordinates.longitude,
+                      restaurant.location.coordinates.latitude,
+                      restaurant.images[0].url,
+                      restaurant.phoneNumber,
+                      booking_date,
+                      booking_time,
+                      partner_name,
+                      partner_url
+                    );
+                  }
+                }}
+                color="primary"
+                autoFocus
+              >
+                Confirm
+              </Button>
+            </Link>
           </div>
         </div>
       </Modal>
